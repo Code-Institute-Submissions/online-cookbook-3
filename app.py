@@ -16,8 +16,9 @@ def all_recipes():
     
 @app.route('/add_recipe')
 def add_recipe():
-    return render_template("addrecipe.html")
-
+    return render_template("addrecipe.html",
+    allergens=mongo.db.allergens.find())
+    
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'), 
         port=int(os.environ.get('PORT')),

@@ -5,29 +5,29 @@
         <form action="" method="POST" class="col s12">
             <div class="row">
                 <div class="input-field col s12 m6">
-                <input placeholder="Chocolate Chip Cookie" id="recipe_title" type="text" class="validate">
+                <input placeholder="Chocolate Chip Cookie" id="recipe_title" name="recipe_title" type="text" class="validate">
                 <label for="recipe_title">Title</label>
                 </div>
                 <div class="input-field col s12 m6">
-                <input placeholder="Samantha Brooke" id="author_name" type="text" class="validate">
+                <input placeholder="Samantha Brooke" id="author_name" name="author_name" type="text" class="validate">
                 <label for="author_name">Author</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                <input placeholder="http://ukcdn.ar-cdn.com/recipes/port250/a1679e08-be84-4877-b275-aefdc2f570fc.jpg" id="recipe_image_url" type="text" class="validate">
+                <input placeholder="http://ukcdn.ar-cdn.com/recipes/port250/a1679e08-be84-4877-b275-aefdc2f570fc.jpg" id="recipe_image_url" name="recipe_image_url" type="text" class="validate">
                 <label for="recipe_image_url">Image URL</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                <input placeholder="These are the ultimate chocolate chip cookies...." id="recipe_short_description" type="text" class="validate">
+                <input placeholder="These are the ultimate chocolate chip cookies...." id="recipe_short_description" name="recipe_short_description" type="text" class="validate">
                 <label for="recipe_short_description">Short Description</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12 m6">
-                    <select id="cuisine_name">
+                    <select id="cuisine_name" name="cuisine_name">
                         <option value="" disabled selected>Choose your option</option>
                         <option value="1">English</option>
                         <option value="2">Chinese</option>
@@ -37,7 +37,7 @@
                     <label>Cuisine</label>
                 </div>
                 <div class="input-field col s12 m6">
-                    <select id="dish_type">
+                    <select id="dish_type" name="dish_type">
                         <option value="" disabled selected>Choose your option</option>
                         <option value="1">Soup</option>
                         <option value="2">Dessert</option>
@@ -49,51 +49,50 @@
             </div>
             <div class="row">
                 <div class="input-field col s12 m6">
-                    <select id="allergen_name">
-                        <option value="" disabled selected>Choose your option</option>
-                        <option value="1">Milk</option>
-                        <option value="2">Eggs</option>
-                        <option value="3">Peanuts</option>
-                        <option value="4">Fish</option>
+                    <select id="allergen_name" name="allergen_name">
+                        <option value="" disabled selected>Choose Allergen</option>
+                        {% for allergen in allergens %}
+                        <option value="{{allergen.allergen_name}}">{{allergen.allergen_name}}</option>
+                        {% endfor %}
                     </select>
                     <label>Allergens</label>
                 </div>
                 <div class="input-field col s12 m6">
-                    <input placeholder="56" id="recipe_upvotes" type="text" class="validate">
+                    <input placeholder="56" id="recipe_upvotes" name="recipe_upvotes" type="text" class="validate">
                     <label for="recipe_upvotes">Upvote(s)</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                <input placeholder="15 mins" id="recipe_prep_time" type="text" class="validate">
+                <input placeholder="15 mins" id="recipe_prep_time" name="recipe_prep_time" type="text" class="validate">
                 <label for="recipe_prep_time">Preparation Time</label>
                 </div>
                 <div class="input-field col s6">
-                <input placeholder="45 mins" id="recipe_cook_time" type="text" class="validate">
+                <input placeholder="45 mins" id="recipe_cook_time" name="recipe_cook_time" type="text" class="validate">
                 <label for="recipe_cook_time">Cooking Time</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                <input placeholder="60 mins" id="total_time" type="text" class="validate">
+                <input placeholder="60 mins" id="total_time" name="total_time" type="text" class="validate">
                 <label for="total_time">Total Time</label>
                 </div>
                 <div class="input-field col s6">
-                <input placeholder="5" id="recipe_serves" type="text" class="validate">
+                <input placeholder="5" id="recipe_serves" name="recipe_serves" type="text" class="validate">
                 <label for="recipe_serves">Servings</label>
                 </div>
             </div>
             <div class="row">
                 <div class="col s12 flow-text">Ingredients</div>
             </div>
-            <div id="recipe_ingredients">
+            <div id="recipe_ingredients" name="recipe_ingredients">
                 <div class="row">
                     <div class="input-field col s10 m11">
                         <input placeholder="100g Sugar" type="text" class="validate">
                         <label>Ingredient(s)</label>
                     </div>
                     <div class="col s2 m1">
-                        <a class="btn-floating btn waves-effect waves-light red" id="add_ingredient"><i class="material-icons">add</i></a>
+                        <a class="btn-floating btn waves-effect waves-light green" id="add_ingredient"><i class="material-icons">add</i></a>
                     </div>
                 </div>
             </div>
@@ -107,7 +106,7 @@
                         <label>Step(s)</label>
                     </div>
                     <div class="col s2 m1">
-                        <a class="btn-floating btn waves-effect waves-light red" id="add_step"><i class="material-icons">add</i></a>
+                        <a class="btn-floating btn waves-effect waves-light green" id="add_step"><i class="material-icons">add</i></a>
                     </div>
                 </div>
             </div>
