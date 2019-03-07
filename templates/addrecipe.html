@@ -4,25 +4,26 @@
     <div class="row">
         <form action="" method="POST" class="col s12">
             <div class="row">
-                <div class="input-field col s12 m6">
+                <div class="input-field col s12">
                 <input placeholder="Chocolate Chip Cookie" id="recipe_title" name="recipe_title" type="text" class="validate">
                 <label for="recipe_title">Title</label>
-                </div>
-                <div class="input-field col s12 m6">
-                <input placeholder="Samantha Brooke" id="author_name" name="author_name" type="text" class="validate">
-                <label for="author_name">Author</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s12">
-                <input placeholder="http://ukcdn.ar-cdn.com/recipes/port250/a1679e08-be84-4877-b275-aefdc2f570fc.jpg" id="recipe_image_url" name="recipe_image_url" type="text" class="validate">
-                <label for="recipe_image_url">Image URL</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
                 <input placeholder="These are the ultimate chocolate chip cookies...." id="recipe_short_description" name="recipe_short_description" type="text" class="validate">
                 <label for="recipe_short_description">Short Description</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="file-field input-field col s6">
+                    <div class="btn ">
+                        <span>File</span>
+                        <input type="file">
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input placeholder="Upload an image" class="file-path validate" type="text">
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -35,6 +36,12 @@
                     </select>
                     <label>Cuisine</label>
                 </div>
+                <div class="input-field col s12 m6" >
+                    <label>Other</label>
+                    <input placeholder="Enter Cuisine name" id="add_cuisine" name="add_cuisine" type="text" class="validate">
+                </div>
+            </div>
+            <div class="row">
                 <div class="input-field col s12 m6">
                     <select id="dish_type" name="dish_type">
                         <option value="" disabled selected>Choose Dish Type</option>
@@ -43,6 +50,10 @@
                         {% endfor %}
                     </select>
                     <label>Dish Type</label>
+                </div>
+                <div class="input-field col s12 m6" >
+                    <label>Other</label>
+                    <input placeholder="Enter Dish name" id="add_dish" name="add_dish" type="text" class="validate">
                 </div>
             </div>
             <div class="row">
@@ -55,24 +66,24 @@
                     </select>
                     <label>Allergens</label>
                 </div>
-                <div class="input-field col s12 m6">
-                    <input placeholder="56" id="recipe_upvotes" name="recipe_upvotes" type="text" class="validate">
-                    <label for="recipe_upvotes">Upvote(s)</label>
+                <div class="input-field col s12 m6" >
+                    <label>Other</label>
+                    <input placeholder="Enter Allergen name" id="add_allergen" name="add_allergen" type="text" class="validate">
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                <input placeholder="15 mins" id="recipe_prep_time" name="recipe_prep_time" type="text" class="validate">
+                <input placeholder="in minutes" id="recipe_prep_time" name="recipe_prep_time" type="text" class="validate">
                 <label for="recipe_prep_time">Preparation Time</label>
                 </div>
                 <div class="input-field col s6">
-                <input placeholder="45 mins" id="recipe_cook_time" name="recipe_cook_time" type="text" class="validate">
+                <input placeholder="in minutes" id="recipe_cook_time" name="recipe_cook_time" type="text" class="validate">
                 <label for="recipe_cook_time">Cooking Time</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                <input placeholder="60 mins" id="total_time" name="total_time" type="text" class="validate">
+                <input placeholder="in minutes" id="total_time" name="total_time" type="text" class="validate">
                 <label for="total_time">Total Time</label>
                 </div>
                 <div class="input-field col s6">

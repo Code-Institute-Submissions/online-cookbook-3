@@ -21,7 +21,10 @@ nav .brand-logo {
     margin: 50px auto;
     background-color: #cedbe0;
 }
-
+/*---------------------------------------------------------------- Add Recipe */
+.new-dish, .new-cuisine, .new-allergen {
+    display: none;
+}
 /*------------------------------------------------------------- Media Queries */
 @media screen and (min-width: 600px) {
     nav .brand-logo {

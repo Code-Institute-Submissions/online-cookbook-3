@@ -22,6 +22,7 @@ def recipe_form():
     cuisines=mongo.db.cuisines.find(),
     dishes=mongo.db.dishes.find())
 
+
     
 
     
