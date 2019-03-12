@@ -2,7 +2,7 @@
 <h4 class="heading">Add Recipe</h4>
 <div class="container">
     <div class="row">
-        <form action="" method="POST" class="col s12">
+        <form action="{{url_for('insert_recipe')}}" method="POST" class="col s12">
             <div class="row">
                 <div class="input-field col s12">
                 <input placeholder="Chocolate Chip Cookie" id="recipe_title" name="recipe_title" type="text" class="validate">
@@ -11,20 +11,15 @@
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                <input placeholder="These are the ultimate chocolate chip cookies...." id="recipe_short_description" name="recipe_short_description" type="text" class="validate">
-                <label for="recipe_short_description">Short Description</label>
+                    <textarea placeholder="These are the ultimate chocolate chip cookies...." id="recipe_short_description" name="recipe_short_description" class="materialize-textarea"></textarea>
+                    <label for="recipe_short_description">Short Description</label>
                 </div>
             </div>
             <div class="row">
-                <div class="file-field input-field col s6">
-                    <div class="btn ">
-                        <span>File</span>
-                        <input type="file">
-                    </div>
-                    <div class="file-path-wrapper">
-                        <input placeholder="Upload an image" class="file-path validate" type="text">
-                    </div>
-                </div>
+                <div class="input-field col s12">
+                <input placeholder="Enter image url" id="recipe_image_url" name="recipe_image_url" type="text" class="validate">
+                <label for="recipe_image_url">Image URL</label>
+            </div>
             </div>
             <div class="row">
                 <div class="input-field col s12 m6">
@@ -34,10 +29,10 @@
                         <option value="{{cuisine.cuisine_name}}">{{cuisine.cuisine_name}}</option>
                         {% endfor %}
                     </select>
-                    <label>Cuisine</label>
+                    <label for="cuisine_name">Cuisine</label>
                 </div>
                 <div class="input-field col s12 m6" >
-                    <label>Other</label>
+                    <label for="add_cuisine">Other</label>
                     <input placeholder="Enter Cuisine name" id="add_cuisine" name="add_cuisine" type="text" class="validate">
                 </div>
             </div>
@@ -49,10 +44,10 @@
                         <option value="{{dish.dish_type}}">{{dish.dish_type}}</option>
                         {% endfor %}
                     </select>
-                    <label>Dish Type</label>
+                    <label for="dish_type">Dish Type</label>
                 </div>
                 <div class="input-field col s12 m6" >
-                    <label>Other</label>
+                    <label for="add_dish">Other</label>
                     <input placeholder="Enter Dish name" id="add_dish" name="add_dish" type="text" class="validate">
                 </div>
             </div>
@@ -64,10 +59,10 @@
                         <option value="{{allergen.allergen_name}}">{{allergen.allergen_name}}</option>
                         {% endfor %}
                     </select>
-                    <label>Allergens</label>
+                    <label for="allergen_name">Allergens</label>
                 </div>
                 <div class="input-field col s12 m6" >
-                    <label>Other</label>
+                    <label for="add_allergen">Other</label>
                     <input placeholder="Enter Allergen name" id="add_allergen" name="add_allergen" type="text" class="validate">
                 </div>
             </div>
@@ -94,11 +89,20 @@
             <div class="row">
                 <div class="col s12 flow-text">Ingredients</div>
             </div>
-            <div id="recipe_ingredients" name="recipe_ingredients">
+            <div id="ingredients">
                 <div class="row">
                     <div class="input-field col s10 m11">
-                        <input placeholder="100g Sugar" type="text" class="validate">
-                        <label>Ingredient(s)</label>
+                        <input placeholder="100g Sugar" id="recipe_ingredients" name="recipe_ingredients[0]" type="text" class="validate">
+                        <label for="recipe_ingredients">Ingredient(s)</label>
+                    </div>
+                    <div class="col s2 m1">
+                        <a class="btn-floating btn waves-effect waves-light green" id="add_ingredient"><i class="material-icons">add</i></a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s10 m11">
+                        <input placeholder="100g Sugar" id="recipe_ingredients" name="recipe_ingredients[1]" type="text" class="validate">
+                        <label for="recipe_ingredients">Ingredient(s)</label>
                     </div>
                     <div class="col s2 m1">
                         <a class="btn-floating btn waves-effect waves-light green" id="add_ingredient"><i class="material-icons">add</i></a>
@@ -108,11 +112,11 @@
             <div class="row">
                 <div class="col s12 flow-text">Method</div>
             </div>
-            <div id="recipe_steps">
+            <div id="steps">
                 <div class="row">
                     <div class="input-field col s10 m11">
-                        <input placeholder="Preheat oven to 350ºF. ..." type="text" class="validate">
-                        <label>Step(s)</label>
+                        <textarea placeholder="Preheat oven to 350ºF. ..." id="recipe_steps" name="recipe_steps" class="materialize-textarea"></textarea>
+                        <label for="recipe_steps">Step(s)</label>
                     </div>
                     <div class="col s2 m1">
                         <a class="btn-floating btn waves-effect waves-light green" id="add_step"><i class="material-icons">add</i></a>
@@ -120,7 +124,7 @@
                 </div>
             </div>
             <div class="row">
-                <button class="col s12 btn waves-effect waves-light" type="submit" name="action">Save Recipe</button>
+                <button class="col s12 btn waves-effect waves-light" type="submit">Save Recipe</button>
             </div>
         </form>
     </div>
