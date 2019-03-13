@@ -52,18 +52,14 @@
                 </div>
             </div>
             <div class="row">
-                <div class="input-field col s12 m6">
-                    <select id="allergen_name" name="allergen_name">
+                <div class="input-field col s12">
+                    <select id="allergen_name" name="allergen_name" multiple>
                         <option value="" disabled selected>Choose Allergen</option>
                         {% for allergen in allergens %}
                         <option value="{{allergen.allergen_name}}">{{allergen.allergen_name}}</option>
                         {% endfor %}
                     </select>
                     <label for="allergen_name">Allergens</label>
-                </div>
-                <div class="input-field col s12 m6" >
-                    <label for="add_allergen">Other</label>
-                    <input placeholder="Enter Allergen name" id="add_allergen" name="allergen_name" type="text" class="validate">
                 </div>
             </div>
             <div class="row">
@@ -92,7 +88,7 @@
             <div id="ingredients">
                 <div class="row">
                     <div class="input-field col s10 m11">
-                        <input placeholder="100g Sugar" id="recipe_ingredients" name="ing1" type="text" class="validate">
+                        <input placeholder="100g Sugar" id="recipe_ingredients" name="ingred" type="text" class="validate">
                         <label for="recipe_ingredients">Ingredient(s)</label>
                     </div>
                     <div class="col s2 m1">
@@ -106,7 +102,7 @@
             <div id="steps">
                 <div class="row">
                     <div class="input-field col s10 m11">
-                        <textarea placeholder="Preheat oven to 350ºF. ..." id="recipe_steps" name="step1" class="materialize-textarea"></textarea>
+                        <textarea placeholder="Preheat oven to 350ºF. ..." id="recipe_steps" name="steps" class="materialize-textarea"></textarea>
                         <label for="recipe_steps">Step(s)</label>
                     </div>
                     <div class="col s2 m1">
