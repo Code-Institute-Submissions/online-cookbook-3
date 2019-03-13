@@ -23,7 +23,7 @@
                 </ul>
                 <ul class="side-nav" id="mobile-demo">
                     <li><a href="#" class="nav-item"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="url_for('add_recipe')" class="nav-item"><i class="fas fa-plus-circle"></i> Add recipe</a></li>
+                    <li><a href={{url_for('add_recipe')}} class="nav-item"><i class="fas fa-plus-circle"></i> Add recipe</a></li>
                     <li><a href="#" class="nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
             </div>
@@ -39,22 +39,18 @@
         $(document).ready(function(){
             $(".button-collapse").sideNav();
             $('select').material_select();
-            
+            var i = 1;
             var delete_icon = '<i class="material-icons">delete</i></a></div></div>';
-            var ingredient_field = `<div class="row new-ingredient"> <div class="input-field col s11">
-                    <input placeholder="50g butter" type="text" name="recipe_ingredients[2]" class="validate">
+
+            // add and remove ingredient
+            $("#add_ingredient").click(function() {
+                i++;
+                var ingredient_field = `<div class="row new-ingredient"> <div class="input-field col s11">
+                    <input type="text" name="ing${i}" class="validate">
                     <label>Ingredient(s)</label></div>
                     <div class="col s1"><a class="btn-floating btn waves-effect waves-light red" id="delete_ingredient"> 
                    ${delete_icon}`;
-            
-            var step_field = `<div class="row new-step"> <div class="input-field col s11">
-                    <input placeholder="In a medium bowl.." name="recipe_steps" type="text" class="validate">
-                    <label>Step(s)</label></div>
-                    <div class="col s1"><a class="btn-floating btn waves-effect waves-light red" id="delete_step"> 
-                    ${delete_icon}`;
-            
-            // add and remove ingredient
-            $("#add_ingredient").click(function() {
+                console.log(ingredient_field);
                 $("#ingredients").append(ingredient_field);
                 Materialize.updateTextFields();
             });
@@ -64,6 +60,12 @@
             
             // add and remove step
             $("#add_step").click(function() {
+                i++;
+                var step_field = `<div class="row new-step"> <div class="input-field col s11">
+                    <input type="text" name="step${i}" class="validate">
+                    <label>Step(s)</label></div>
+                    <div class="col s1"><a class="btn-floating btn waves-effect waves-light red" id="delete_step"> 
+                    ${delete_icon}`;
                 $("#steps").append(step_field);
                 Materialize.updateTextFields();
             });

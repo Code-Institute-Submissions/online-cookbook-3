@@ -33,7 +33,7 @@
                 </div>
                 <div class="input-field col s12 m6" >
                     <label for="add_cuisine">Other</label>
-                    <input placeholder="Enter Cuisine name" id="add_cuisine" name="add_cuisine" type="text" class="validate">
+                    <input placeholder="Enter Cuisine name" id="add_cuisine" name="cuisine_name" type="text" class="validate">
                 </div>
             </div>
             <div class="row">
@@ -48,7 +48,7 @@
                 </div>
                 <div class="input-field col s12 m6" >
                     <label for="add_dish">Other</label>
-                    <input placeholder="Enter Dish name" id="add_dish" name="add_dish" type="text" class="validate">
+                    <input placeholder="Enter Dish name" id="add_dish" name="dish_type" type="text" class="validate">
                 </div>
             </div>
             <div class="row">
@@ -63,7 +63,7 @@
                 </div>
                 <div class="input-field col s12 m6" >
                     <label for="add_allergen">Other</label>
-                    <input placeholder="Enter Allergen name" id="add_allergen" name="add_allergen" type="text" class="validate">
+                    <input placeholder="Enter Allergen name" id="add_allergen" name="allergen_name" type="text" class="validate">
                 </div>
             </div>
             <div class="row">
@@ -92,16 +92,7 @@
             <div id="ingredients">
                 <div class="row">
                     <div class="input-field col s10 m11">
-                        <input placeholder="100g Sugar" id="recipe_ingredients" name="recipe_ingredients[0]" type="text" class="validate">
-                        <label for="recipe_ingredients">Ingredient(s)</label>
-                    </div>
-                    <div class="col s2 m1">
-                        <a class="btn-floating btn waves-effect waves-light green" id="add_ingredient"><i class="material-icons">add</i></a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s10 m11">
-                        <input placeholder="100g Sugar" id="recipe_ingredients" name="recipe_ingredients[1]" type="text" class="validate">
+                        <input placeholder="100g Sugar" id="recipe_ingredients" name="ing1" type="text" class="validate">
                         <label for="recipe_ingredients">Ingredient(s)</label>
                     </div>
                     <div class="col s2 m1">
@@ -115,7 +106,7 @@
             <div id="steps">
                 <div class="row">
                     <div class="input-field col s10 m11">
-                        <textarea placeholder="Preheat oven to 350ºF. ..." id="recipe_steps" name="recipe_steps" class="materialize-textarea"></textarea>
+                        <textarea placeholder="Preheat oven to 350ºF. ..." id="recipe_steps" name="step1" class="materialize-textarea"></textarea>
                         <label for="recipe_steps">Step(s)</label>
                     </div>
                     <div class="col s2 m1">

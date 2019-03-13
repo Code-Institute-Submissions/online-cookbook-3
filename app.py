@@ -17,13 +17,26 @@ def all_recipes():
 @app.route('/add_recipe')
 def add_recipe():
     return render_template("addrecipe.html")
-
-
+doc= {}
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
-    recipes=mongo.db.recipes
-    recipes.insert_one(request.form.to_dict())
-    return redirect(url_for("all_recipes"))
+    data = request.form.items()
+    all_ingred = [];
+    all_steps = [];
+    for k, v in data: 
+        if k.startswith('ing'):
+            doc["recipe_ingredients"]=all_ingred
+            all_ingred.append(v)
+        elif k.startswith('step'):
+            doc["recipe_steps"]=all_steps
+            all_steps.append(v)
+        else:
+            doc[k]= v  # error message appears for missing values; need an if else statement to handle error
+
+    recipe = doc
+    recipes=mongo.db.recipes 
+    recipes.insert_one(recipe)
+    return redirect(url_for('all_recipes'))
 
     
 if __name__ == '__main__':
