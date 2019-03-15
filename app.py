@@ -113,6 +113,20 @@ def insert_cuisine():
     cuisines.insert_one(cuisine)
     return redirect(url_for('all_cuisines'))
     
+@app.route('/edit_cuisine/<cuisine_id>')
+def edit_cuisine(cuisine_id):
+    cuisine=mongo.db.cuisines.find_one({"_id": ObjectId(cuisine_id)})
+    return render_template('editcuisine.html',
+                            cuisine=cuisine)    
+ 
+@app.route('/update_cuisine/<cuisine_id>', methods=["POST"])
+def update_cuisine(cuisine_id):
+    cuisine =  mongo.db.cuisines
+    cuisine.update( 
+        {'_id': ObjectId(cuisine_id)},
+        {'cuisine_name': request.form.get('cuisine_name')}
+        )
+    return redirect(url_for('all_cuisines'))    
     
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'), 
