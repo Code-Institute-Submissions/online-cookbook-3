@@ -16,14 +16,24 @@
             <div class="nav-wrapper">
                 <a href="#" class="brand-logo">My Cookbook</a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                <ul id="categories1" class="dropdown-content">
+                  <li><a href="{{url_for('all_cuisines')}}">All Cuisines</a></li>
+                  <li><a href="#!">All Dish Types</a></li>
+                </ul>
                 <ul class="right hide-on-med-and-down">
                     <li><a href="{{url_for('all_recipes')}}" class="nav-item"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href={{url_for('add_recipe')}} class="nav-item"><i class="fas fa-plus-circle"></i> Add recipe</a></li>
+                    <li><a href="{{url_for('add_recipe')}}" class="nav-item"><i class="fas fa-plus-circle"></i> Add recipe</a></li>
+                    <li><a class="dropdown-button nav-item" data-activates="categories1"><i class="fas fa-cog"></i> Manage Categories</a></li>
                     <li><a href="#" class="nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
+                <ul id="categories" class="dropdown-content">
+                  <li><a href="{{url_for('all_cuisines')}}">All Cuisines</a></li>
+                  <li><a href="#!">All Dish Types</a></li>
+                </ul>
                 <ul class="side-nav" id="mobile-demo">
-                    <li><a href="#" class="nav-item"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="{{url_for('all_recipes')}}" class="nav-item"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href={{url_for('add_recipe')}} class="nav-item"><i class="fas fa-plus-circle"></i> Add recipe</a></li>
+                    <li><a class="dropdown-button nav-item" data-activates="categories"><i class="fas fa-cog"></i> Manage Categories</a></li>
                     <li><a href="#" class="nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
             </div>
@@ -38,6 +48,7 @@
     <script>
         $(document).ready(function(){
             $(".button-collapse").sideNav();
+            $(".dropdown-button").dropdown();
             $('select').material_select();
             var delete_icon = '<i class="material-icons">delete</i></a></div></div>';
             var ingredient_field = `<div class="row new-ingredient"> <div class="input-field col s11">

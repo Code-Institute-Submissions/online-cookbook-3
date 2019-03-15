@@ -38,8 +38,8 @@ def update_recipe(recipe_id):
         'recipe_title':request.form.get('recipe_title'),
         'recipe_short_description':request.form.get('recipe_short_description'),
         'recipe_image_url': request.form.get('recipe_image_url'),
-        'cuisine_name': request.form.getlist('cuisine_name'),
-        'dish_type':request.form.getlist('dish_type'),
+        'cuisine_name': request.form.get('cuisine_name'),
+        'dish_type':request.form.get('dish_type'),
         'allergen_name':request.form.getlist('allergen_name'),
         'recipe_prep_time':request.form.get('recipe_prep_time'),
         'recipe_cook_time':request.form.get('recipe_cook_time'),
@@ -95,7 +95,10 @@ def insert_dish():
             dishes=mongo.db.dishes
             dishes.insert_one(dish)            
 
-
+@app.route('/all_cuisines')
+def all_cuisines():
+    all_cuisines=mongo.db.cuisines.find()
+    return render_template("allcuisines.html", cuisines=all_cuisines)
     
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'), 

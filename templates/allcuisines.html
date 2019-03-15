@@ -1,0 +1,9 @@
+{% extends 'base.html' %}{% block content %}
+<h4 class="heading">All Cuisines</h4>
+{% for cuisine in cuisines %}
+<h5>Recipe</h5>
+    {{cuisine.cuisine_name}}
+    
+<a href="" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>    
+{% endfor %}
+{% endblock %}
