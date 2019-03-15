@@ -133,6 +133,45 @@ def delete_cuisine(cuisine_id):
     cuisine =  mongo.db.cuisines
     cuisine.remove({'_id': ObjectId(cuisine_id)})
     return redirect(url_for('all_cuisines'))       
+ 
+@app.route('/all_dishes')
+def all_dishes():
+    all_dishes=mongo.db.dishes.find()
+    return render_template("alldishes.html", dishes=all_dishes)
+
+
+@app.route('/add_dish')
+def add_dish():
+    return render_template("adddish.html",
+    dishes=mongo.db.dishes.find())
+
+@app.route('/insert_dish', methods=['POST'])
+def insert_dish():
+    dishes=mongo.db.dishes
+    dish = request.form.to_dict()
+    dishes.insert_one(dish)
+    return redirect(url_for('all_dishes'))
+    
+@app.route('/edit_dish/<dish_id>')
+def edit_dish(dish_id):
+    dish=mongo.db.dishes.find_one({"_id": ObjectId(dish_id)})
+    return render_template('editdish.html',
+                            dish=dish)    
+ 
+@app.route('/update_dish/<dish_id>', methods=["POST"])
+def update_dish(dish_id):
+    dish =  mongo.db.dishes
+    dish.update( 
+        {'_id': ObjectId(dish_id)},
+        {'dish_type': request.form.get('dish_type')}
+        )
+    return redirect(url_for('all_dishes'))  
+
+@app.route('/delete_dish/<dish_id>')
+def delete_dish(dish_id):
+    dish =  mongo.db.dishes
+    dish.remove({'_id': ObjectId(dish_id)})
+    return redirect(url_for('all_dishes')) 
     
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'), 
