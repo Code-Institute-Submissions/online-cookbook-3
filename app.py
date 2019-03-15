@@ -126,7 +126,13 @@ def update_cuisine(cuisine_id):
         {'_id': ObjectId(cuisine_id)},
         {'cuisine_name': request.form.get('cuisine_name')}
         )
-    return redirect(url_for('all_cuisines'))    
+    return redirect(url_for('all_cuisines'))  
+
+@app.route('/delete_cuisine/<cuisine_id>')
+def delete_cuisine(cuisine_id):
+    cuisine =  mongo.db.cuisines
+    cuisine.remove({'_id': ObjectId(cuisine_id)})
+    return redirect(url_for('all_cuisines'))       
     
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'), 
