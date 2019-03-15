@@ -71,11 +71,11 @@ def insert_recipe():
     recipe = doc
     recipes=mongo.db.recipes 
     recipes.insert_one(recipe)
-    insert_cuisine()
-    insert_dish()
+    """insert_cuisine()
+    insert_dish()"""
     return redirect(url_for('all_recipes'))
 
-def insert_cuisine():
+"""def insert_cuisine():
     doc2 ={}
     data = request.form.items()
     for k, v in data:
@@ -83,9 +83,9 @@ def insert_cuisine():
             doc2[k] = v
             cuisine = doc2
             cuisines=mongo.db.cuisines
-            cuisines.insert_one(cuisine)
+            cuisines.insert_one(cuisine)"""
 
-def insert_dish():
+"""def insert_dish():
     doc3 ={}
     data = request.form.items()
     for k, v in data:
@@ -93,12 +93,26 @@ def insert_dish():
             doc3[k] = v
             dish = doc3
             dishes=mongo.db.dishes
-            dishes.insert_one(dish)            
+            dishes.insert_one(dish)"""            
 
 @app.route('/all_cuisines')
 def all_cuisines():
     all_cuisines=mongo.db.cuisines.find()
     return render_template("allcuisines.html", cuisines=all_cuisines)
+
+
+@app.route('/add_cuisine')
+def add_cuisine():
+    return render_template("addcuisine.html",
+    cuisines=mongo.db.cuisines.find())
+
+@app.route('/insert_cuisine', methods=['POST'])
+def insert_cuisine():
+    cuisines=mongo.db.cuisines
+    cuisine = request.form.to_dict()
+    cuisines.insert_one(cuisine)
+    return redirect(url_for('all_cuisines'))
+    
     
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'), 
