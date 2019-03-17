@@ -33,6 +33,10 @@ nav .brand-logo {
     margin: 50px auto;
     background-color: #cedbe0;
 }
+.card .card-title {
+    font-size: 18px;
+}
+
 /*---------------------------------------------------------------- Add Recipe */
 .new-dish, .new-cuisine, .new-allergen {
     display: none;
