@@ -15,6 +15,18 @@ nav .brand-logo {
 .fas {
     font-size: 16px;
 }
+.navbar-fixed { 
+    z-index: 9999; /* To fix side navbar overlay problem - used solution found on "https://github.com/Dogfalo/materialize/issues/4046" */
+} 
+.filters {
+    background-color: white;
+}
+#search {
+    background-color: #f6f6f6;
+}
+.search-icon {
+    color: black !important;
+}
 /*---------------------------------------------------------------------- Home */
 .heading {
     padding: 20px;

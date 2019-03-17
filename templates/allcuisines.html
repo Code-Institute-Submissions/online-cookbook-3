@@ -1,7 +1,7 @@
 {% extends 'base.html' %}{% block content %}
 <h4 class="heading">All Cuisines</h4>
-{% for cuisine in cuisines %}
 <div class="row">
+    {% for cuisine in cuisines %}
     <div class="col s12 m4">
         <div class="card-panel teal">
             <span class="white-text">{{cuisine.cuisine_name}}</span>
@@ -9,8 +9,8 @@
             <a href="{{url_for('delete_cuisine', cuisine_id = cuisine._id)}}" class="btn-floating waves-effect waves-light red"><i class="material-icons">delete</i></a>
         </div>
     </div>
+    {% endfor %}
 </div>
-{% endfor %}
 <div class="row">
     <div class="col s12 m3">
        <a href="{{url_for('add_cuisine')}}" class="waves-effect waves-light btn"><i class="material-icons left">add_box</i>Add Cuisine</a> 

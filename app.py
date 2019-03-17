@@ -59,8 +59,12 @@ def guest_user():
 
 @app.route('/all_recipes')
 def all_recipes():
+    dishes=mongo.db.dishes.find()
     recipes=mongo.db.recipes.find()
-    return render_template("home.html", recipes=recipes)
+    total_recipes=recipes.count()
+    return render_template("home.html", recipes=recipes, dishes=dishes, total_recipes=total_recipes)
+    
+
    
     
 @app.route('/add_recipe')
@@ -119,29 +123,13 @@ def insert_recipe():
     recipe = doc
     recipes=mongo.db.recipes 
     recipes.insert_one(recipe)
-    """insert_cuisine()
-    insert_dish()"""
     return redirect(url_for('all_recipes'))
 
-"""def insert_cuisine():
-    doc2 ={}
-    data = request.form.items()
-    for k, v in data:
-        if k == 'cuisine_name':
-            doc2[k] = v
-            cuisine = doc2
-            cuisines=mongo.db.cuisines
-            cuisines.insert_one(cuisine)"""
-
-"""def insert_dish():
-    doc3 ={}
-    data = request.form.items()
-    for k, v in data:
-        if k == 'dish_type':
-            doc3[k] = v
-            dish = doc3
-            dishes=mongo.db.dishes
-            dishes.insert_one(dish)"""            
+@app.route('/delete_recipe/<recipe_id>')
+def delete_recipe(recipe_id):
+    recipe =  mongo.db.recipes
+    recipe.remove({'_id': ObjectId(recipe_id)})
+    return redirect(url_for('all_recipes')) 
 
 @app.route('/all_cuisines')
 def all_cuisines():
@@ -220,7 +208,14 @@ def delete_dish(dish_id):
     dish =  mongo.db.dishes
     dish.remove({'_id': ObjectId(dish_id)})
     return redirect(url_for('all_dishes')) 
+
+@app.route('/search/<dish_type>')
+def search(dish_type):
+    dish = mongo.db.dishes
+    dish.find({'dish_type':'Soup'})
     
+  
+
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'), 
         port=int(os.environ.get('PORT')),
