@@ -64,8 +64,11 @@ def all_recipes():
     total_recipes=recipes.count()
     return render_template("home.html", recipes=recipes, dishes=dishes, total_recipes=total_recipes)
     
-
-   
+@app.route('/the_recipe/<recipe_id>/<recipe_title>')
+def the_recipe(recipe_id, recipe_title):
+    recipes=mongo.db.recipes
+    return render_template("recipe.html",
+                        recipe = recipes.find_one({'_id': ObjectId(recipe_id),'recipe_title': recipe_title}))
     
 @app.route('/add_recipe')
 def add_recipe():
