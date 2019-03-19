@@ -46,14 +46,13 @@ def login():
     if registered is not None:
         session['username'] = username
         login = True
-        return render_template('home.html', recipes=recipes, login=login)
+        return redirect(url_for('all_recipes'))
     login = False    
     return render_template('index.html', login=login)
 
 @app.route('/guest_user')
 def guest_user():
-    recipes=mongo.db.recipes.find()
-    return render_template('home.html', recipes=recipes)
+    return redirect(url_for('all_recipes'))
 
 @app.route('/login')
 def logout():
@@ -66,20 +65,20 @@ def all_recipes():
     dishes=mongo.db.dishes.find()
     recipes=mongo.db.recipes.find()
     total_recipes=recipes.count()
-    return render_template("home.html", recipes=recipes, dishes=dishes, total_recipes=total_recipes, login=login)
+    return render_template("home.html", recipes=recipes, dishes=dishes, total_recipes=total_recipes)
     
 @app.route('/the_recipe/<recipe_id>/<recipe_title>')
 def the_recipe(recipe_id, recipe_title):
     recipes=mongo.db.recipes
     return render_template("recipe.html",
-                        recipe = recipes.find_one({'_id': ObjectId(recipe_id),'recipe_title': recipe_title}), login=login)
+                        recipe = recipes.find_one({'_id': ObjectId(recipe_id),'recipe_title': recipe_title}))
     
 @app.route('/add_recipe')
 def add_recipe():
     return render_template("addrecipe.html",
     cuisines=mongo.db.cuisines.find(),
     dishes=mongo.db.dishes.find(),
-    allergens=mongo.db.allergens.find(), login=login)
+    allergens=mongo.db.allergens.find())
 
 @app.route('/edit_recipe/<recipe_id>')
 def edit_recipe(recipe_id):
@@ -87,13 +86,14 @@ def edit_recipe(recipe_id):
                         recipe =  mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)}),
                         cuisines = mongo.db.cuisines.find(),
                         dishes = mongo.db.dishes.find(),
-                        allergens = mongo.db.allergens.find(), login=login)
+                        allergens = mongo.db.allergens.find())
 
 @app.route('/update_recipe/<recipe_id>', methods=["POST"])
 def update_recipe(recipe_id):
     recipe =  mongo.db.recipes
     recipe.update( {'_id': ObjectId(recipe_id)},
     {
+        'recipe_author_name': session['username'],
         'recipe_title':request.form.get('recipe_title'),
         'recipe_short_description':request.form.get('recipe_short_description'),
         'recipe_image_url': request.form.get('recipe_image_url'),
@@ -112,7 +112,7 @@ def update_recipe(recipe_id):
    
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
-    doc ={}
+    doc ={'recipe_author_name': session['username']}
     data = request.form.items()
     all_ingred = request.form.getlist('ingred')
     all_steps = request.form.getlist('steps')
@@ -141,13 +141,13 @@ def delete_recipe(recipe_id):
 @app.route('/all_cuisines')
 def all_cuisines():
     all_cuisines=mongo.db.cuisines.find()
-    return render_template("allcuisines.html", cuisines=all_cuisines, login=login)
+    return render_template("allcuisines.html", cuisines=all_cuisines)
 
 
 @app.route('/add_cuisine')
 def add_cuisine():
     return render_template("addcuisine.html",
-    cuisines=mongo.db.cuisines.find(), login=login)
+    cuisines=mongo.db.cuisines.find())
 
 @app.route('/insert_cuisine', methods=['POST'])
 def insert_cuisine():
@@ -160,7 +160,7 @@ def insert_cuisine():
 def edit_cuisine(cuisine_id):
     cuisine=mongo.db.cuisines.find_one({"_id": ObjectId(cuisine_id)})
     return render_template('editcuisine.html',
-                            cuisine=cuisine, login=login)    
+                            cuisine=cuisine)    
  
 @app.route('/update_cuisine/<cuisine_id>', methods=["POST"])
 def update_cuisine(cuisine_id):
@@ -180,13 +180,13 @@ def delete_cuisine(cuisine_id):
 @app.route('/all_dishes')
 def all_dishes():
     all_dishes=mongo.db.dishes.find()
-    return render_template("alldishes.html", dishes=all_dishes, login=login)
+    return render_template("alldishes.html", dishes=all_dishes)
 
 
 @app.route('/add_dish')
 def add_dish():
     return render_template("adddish.html",
-    dishes=mongo.db.dishes.find(), login=login)
+    dishes=mongo.db.dishes.find())
 
 @app.route('/insert_dish', methods=['POST'])
 def insert_dish():
@@ -199,7 +199,7 @@ def insert_dish():
 def edit_dish(dish_id):
     dish=mongo.db.dishes.find_one({"_id": ObjectId(dish_id)})
     return render_template('editdish.html',
-                            dish=dish, login=login)    
+                            dish=dish)    
  
 @app.route('/update_dish/<dish_id>', methods=["POST"])
 def update_dish(dish_id):
