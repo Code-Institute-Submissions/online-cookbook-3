@@ -9,12 +9,6 @@ app.config["MONGO_URI"] = 'mongodb://admin:mariam83@ds125945.mlab.com:25945/reci
 app.config['SECRET_KEY'] = os.urandom(24) 
 mongo = PyMongo(app)
 
-""" Querying MongoDB """
-recipes=mongo.db.recipes.find()
-dishes=mongo.db.dishes.find()
-cuisines=mongo.db.cuisines.find()
-allergens=mongo.db.allergens.find()
-total_recipes=recipes.count()
 
 """ Variables """
 users = mongo.db.users
@@ -30,6 +24,7 @@ def index():
 """ Check data submitted via Registration form """
 @app.route('/register', methods=['POST'])
 def register():
+    users = mongo.db.users
     fullname = request.form.get('fullname')
     username = request.form.get('username')
     password = request.form.get('password')
@@ -48,6 +43,7 @@ def register():
 """ Check data submitted via Login form """
 @app.route('/logout', methods=['POST'])
 def login():
+    users = mongo.db.users
     username = request.form.get('username')
     password = request.form.get('password')
     registered = users.find_one({'username': username, 'password': password})
@@ -72,22 +68,32 @@ def logout():
 """ Home page displaying all uploaded recipes """
 @app.route('/all_recipes')
 def all_recipes():
+    recipes=mongo.db.recipes.find()
+    dishes=mongo.db.dishes.find()
+    total_recipes=recipes.count()
     return render_template("home.html", recipes=recipes, dishes=dishes, total_recipes=total_recipes)
  
 """ Displays detail view of a recipe """    
 @app.route('/the_recipe/<recipe_id>/<recipe_title>')
 def the_recipe(recipe_id, recipe_title):
+    recipes=mongo.db.recipes.find()
     return render_template("recipe.html",
                         recipe = recipes.find_one({'_id': ObjectId(recipe_id),'recipe_title': recipe_title}))
 
 """ Display form to add a recipe """ 
 @app.route('/add_recipe')
 def add_recipe():
+    dishes=mongo.db.dishes.find()
+    cuisines=mongo.db.cuisines.find()
+    allergens=mongo.db.allergens.find()
     return render_template("addrecipe.html", cuisines=cuisines, dishes=dishes, allergens=allergens)
 
 """ Display form to edit the recipe """
 @app.route('/edit_recipe/<recipe_id>')
 def edit_recipe(recipe_id):
+    dishes=mongo.db.dishes.find()
+    cuisines=mongo.db.cuisines.find()
+    allergens=mongo.db.allergens.find()
     return render_template('editrecipe.html',  
                         recipe =  mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)}),
                         cuisines = cuisines, dishes = dishes, allergens = allergens)
@@ -95,6 +101,7 @@ def edit_recipe(recipe_id):
 """ Send form data to update recipe in MongoDB """
 @app.route('/update_recipe/<recipe_id>', methods=["POST"])
 def update_recipe(recipe_id):
+    recipe =  mongo.db.recipes
     recipe.update( {'_id': ObjectId(recipe_id)},
     {
         'recipe_author_name': session['username'],
@@ -132,6 +139,7 @@ def insert_recipe():
             doc[k]= v  
 
     new_recipe = doc
+    recipes=mongo.db.recipes.find()
     recipes.insert_one(new_recipe)
     return redirect(url_for('all_recipes'))
 
@@ -144,17 +152,20 @@ def delete_recipe(recipe_id):
 """ Displays all cuisines in MongoDB """
 @app.route('/all_cuisines')
 def all_cuisines():
+    cuisines=mongo.db.cuisines.find()
     return render_template("allcuisines.html", cuisines=cuisines)
 
 """ Displays form to add new cuisine """
 @app.route('/add_cuisine')
 def add_cuisine():
+    cuisines=mongo.db.cuisines.find()
     return render_template("addcuisine.html", cuisines=cuisines)
 
 """ Adds new cuisine to MongoDB """
 @app.route('/insert_cuisine', methods=['POST'])
 def insert_cuisine():
     cuisine = request.form.to_dict()
+    cuisines=mongo.db.cuisines.find()
     cuisines.insert_one(cuisine)
     return redirect(url_for('all_cuisines'))
  
@@ -180,17 +191,20 @@ def delete_cuisine(cuisine_id):
 """ Displays all dishes in MongoDB """ 
 @app.route('/all_dishes')
 def all_dishes():
+    dishes=mongo.db.dishes.find()
     return render_template("alldishes.html", dishes=dishes)
 
 """ Displays form to add a new dish """
 @app.route('/add_dish')
 def add_dish():
+    dishes=mongo.db.dishes.find()
     return render_template("adddish.html", dishes=dishes)
 
 """ Adds a new dish to MongoDB """
 @app.route('/insert_dish', methods=['POST'])
 def insert_dish():
     dish = request.form.to_dict()
+    dishes=mongo.db.dishes.find()
     dishes.insert_one(dish)
     return redirect(url_for('all_dishes'))
  
@@ -213,8 +227,12 @@ def delete_dish(dish_id):
     dish.remove({'_id': ObjectId(dish_id)})
     return redirect(url_for('all_dishes')) 
 
-
-    
+""" Search by dish types """ 
+@app.route('/search_dish/<dish_type>')
+def search_dish(dish_type):
+    search_result = recipe.find({'dish_type': dish_type})
+    search_count = search_result.count()
+    return render_template('searchdish.html', result = search_result, count = search_count)
   
 
 if __name__ == '__main__':
