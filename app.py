@@ -10,12 +10,6 @@ app.config['SECRET_KEY'] = os.urandom(24)
 mongo = PyMongo(app)
 
 
-""" Variables """
-users = mongo.db.users
-recipe =  mongo.db.recipes
-cuisine =  mongo.db.cuisines
-dish =  mongo.db.dishes
-
 """ Load user login/registration page """
 @app.route('/')
 def index():
@@ -69,16 +63,20 @@ def logout():
 @app.route('/all_recipes')
 def all_recipes():
     recipes=mongo.db.recipes.find()
+    cuisines =  mongo.db.cuisines.find()
     dishes=mongo.db.dishes.find()
     total_recipes=recipes.count()
-    return render_template("home.html", recipes=recipes, dishes=dishes, total_recipes=total_recipes)
+    return render_template("home.html", recipes=recipes, dishes=dishes, cuisines=cuisines, total_recipes=total_recipes)
  
 """ Displays detail view of a recipe """    
 @app.route('/the_recipe/<recipe_id>/<recipe_title>')
 def the_recipe(recipe_id, recipe_title):
-    recipes=mongo.db.recipes.find()
+    recipes=mongo.db.recipes
+    cuisines =  mongo.db.cuisines.find()
+    dishes = mongo.db.dishes.find()
     return render_template("recipe.html",
-                        recipe = recipes.find_one({'_id': ObjectId(recipe_id),'recipe_title': recipe_title}))
+                        recipe = recipes.find_one({'_id': ObjectId(recipe_id),'recipe_title': recipe_title}),
+                        cuisines=cuisines, dishes=dishes)
 
 """ Display form to add a recipe """ 
 @app.route('/add_recipe')
@@ -146,6 +144,7 @@ def insert_recipe():
 """ Removes a recipe from MongoDB """
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
+    recipe = mongo.db.recipes
     recipe.remove({'_id': ObjectId(recipe_id)})
     return redirect(url_for('all_recipes')) 
 
@@ -178,6 +177,7 @@ def edit_cuisine(cuisine_id):
 """ Send form data to update cuisine in MongoDB """ 
 @app.route('/update_cuisine/<cuisine_id>', methods=["POST"])
 def update_cuisine(cuisine_id):
+    cuisine =  mongo.db.cuisines
     cuisine.update({'_id': ObjectId(cuisine_id)},
                    {'cuisine_name': request.form.get('cuisine_name')})
     return redirect(url_for('all_cuisines'))  
@@ -185,10 +185,11 @@ def update_cuisine(cuisine_id):
 """ Removes a cuisine from MongoDB """
 @app.route('/delete_cuisine/<cuisine_id>')
 def delete_cuisine(cuisine_id):
+    cuisine =  mongo.db.cuisines
     cuisine.remove({'_id': ObjectId(cuisine_id)})
     return redirect(url_for('all_cuisines'))       
 
-""" Displays all dishes in MongoDB """ 
+""" Displays all dishes existing in MongoDB """ 
 @app.route('/all_dishes')
 def all_dishes():
     dishes=mongo.db.dishes.find()
@@ -204,19 +205,21 @@ def add_dish():
 @app.route('/insert_dish', methods=['POST'])
 def insert_dish():
     dish = request.form.to_dict()
-    dishes=mongo.db.dishes.find()
+    dishes=mongo.db.dishes
     dishes.insert_one(dish)
     return redirect(url_for('all_dishes'))
  
 """ Displays form to edit a dish """    
 @app.route('/edit_dish/<dish_id>')
 def edit_dish(dish_id):
+    dish =  mongo.db.dishes
     dish.find_one({"_id": ObjectId(dish_id)})
     return render_template('editdish.html', dish=dish)    
 
 """ Send form data to update the dish in MongoDB """ 
 @app.route('/update_dish/<dish_id>', methods=["POST"])
 def update_dish(dish_id):
+    dish =  mongo.db.dishes
     dish.update({'_id': ObjectId(dish_id)},
                 {'dish_type': request.form.get('dish_type')})
     return redirect(url_for('all_dishes'))  
@@ -224,16 +227,32 @@ def update_dish(dish_id):
 """ Remove the dish in MongoDB """ 
 @app.route('/delete_dish/<dish_id>')
 def delete_dish(dish_id):
+    dish =  mongo.db.dishes
     dish.remove({'_id': ObjectId(dish_id)})
     return redirect(url_for('all_dishes')) 
 
-""" Search by dish types """ 
+
+""" Search by Cuisine """  
+@app.route('/search_cuisine/<cuisine_name>')
+def search_cuisine(cuisine_name):
+    cuisines = mongo.db.cuisines.find()
+    dishes = mongo.db.dishes.find()
+    recipes =  mongo.db.recipes
+    cuisine_result = recipes.find({'cuisine_name': cuisine_name})
+    cuisine_count = cuisine_result.count()
+    return render_template('searchcuisine.html', result = cuisine_result, count = cuisine_count, cuisines=cuisines, dishes=dishes)
+
+""" Search by dish types """
 @app.route('/search_dish/<dish_type>')
 def search_dish(dish_type):
-    search_result = recipe.find({'dish_type': dish_type})
-    search_count = search_result.count()
-    return render_template('searchdish.html', result = search_result, count = search_count)
-  
+    dishes = mongo.db.dishes.find()
+    cuisines = mongo.db.cuisines.find()
+    recipes =  mongo.db.recipes
+    dish_result = recipes.find({'dish_type': dish_type})
+    dish_count = dish_result.count()
+    return render_template('searchdish.html', result = dish_result, count = dish_count, dishes=dishes, cuisines=cuisines) 
+
+
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'), 

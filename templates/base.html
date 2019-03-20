@@ -47,7 +47,9 @@
                        {% endfor %}
                     </ul>
                     <ul id="cuisines2" class="dropdown-content">
-                      <li><a href="">Cuisines</a></li>
+                        {% for cuisine in cuisines %} 
+                      <li><a href="{{url_for('search_cuisine', cuisine_name=cuisine.cuisine_name)}}">{{cuisine.cuisine_name}}</a></li>
+                        {% endfor %}
                     </ul>
                     <ul id="authors2" class="dropdown-content">
                       <li><a href="">Authors</a></li>
@@ -75,10 +77,14 @@
         <nav class="filters">
             <div class="nav-wrapper row">
                 <ul id="dishes1" class="dropdown-content">
-                  <li><a href="">Dish types</a></li>
+                  {% for dish in dishes %} 
+                      <li><a href="{{url_for('search_dish', dish_type=dish.dish_type)}}">{{dish.dish_type}}</a></li>
+                  {% endfor %}
                 </ul>
                 <ul id="cuisines1" class="dropdown-content">
-                  <li><a href="">Cuisines</a></li>
+                  {% for cuisine in cuisines %} 
+                      <li><a href="{{url_for('search_cuisine', cuisine_name=cuisine.cuisine_name)}}">{{cuisine.cuisine_name}}</a></li>
+                  {% endfor %}
                 </ul>
                 <ul id="authors1" class="dropdown-content">
                   <li><a href="">Authors</a></li>
