@@ -264,7 +264,7 @@ def search_cuisine(cuisine_name):
     recipes =  mongo.db.recipes
     cuisine_result = recipes.find({'cuisine_name': cuisine_name})
     cuisine_count = cuisine_result.count()
-    return render_template('searchcuisine.html', result = cuisine_result, 
+    return render_template('searchcuisine.html', result = cuisine_result, cuisine_name = cuisine_name,
                             count = cuisine_count, cuisines=cuisines, dishes=dishes, users=users, allergens=allergens)
 
 """ Search by dish types """
@@ -290,7 +290,7 @@ def search_author(author_name):
     recipes =  mongo.db.recipes
     author_result = recipes.find({'recipe_author_name': author_name})
     author_count = author_result.count()
-    return render_template('searchauthor.html', result = author_result, 
+    return render_template('searchauthor.html', result = author_result, author_name=author_name,
                             count = author_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens)
 
 """ Search by allergens """
