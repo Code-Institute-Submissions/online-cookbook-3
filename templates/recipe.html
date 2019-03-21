@@ -13,11 +13,13 @@
                         <i class="material-icons">watch_later</i> Total Time: {{recipe.total_time}} mins<br>
                         <i class="material-icons">local_dining</i> Servings: {{recipe.recipe_serves}}<br>
                     </p>
+                    {% if session.username %}
                     <p>
                         <a href="" class="btn-floating waves-effect waves-light blue"><i class="material-icons">favorite</i></a>
                         <a href="{{url_for('edit_recipe', recipe_id = recipe._id)}}" class="btn-floating waves-effect waves-light orange"><i class="material-icons">edit</i></a>
                         <a href="{{url_for('delete_recipe', recipe_id = recipe._id)}}" class="btn-floating waves-effect waves-light red"><i class="material-icons">delete</i></a> 
                     </p>
+                    {% endif%}
                 </div>
             </div>
         </div>

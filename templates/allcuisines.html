@@ -1,6 +1,7 @@
 {% extends 'base.html' %}{% block content %}
 <h4 class="heading">All Cuisines</h4>
 <div class="row">
+    {% set _stub = cuisines.rewind() %}
     {% for cuisine in cuisines %}
     <div class="col s12 m4">
         <div class="card-panel teal">

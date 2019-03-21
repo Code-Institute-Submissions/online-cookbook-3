@@ -65,8 +65,11 @@ def all_recipes():
     recipes=mongo.db.recipes.find()
     cuisines =  mongo.db.cuisines.find()
     dishes=mongo.db.dishes.find()
+    allergens=mongo.db.allergens.find()
+    users = mongo.db.users.find()
     total_recipes=recipes.count()
-    return render_template("home.html", recipes=recipes, dishes=dishes, cuisines=cuisines, total_recipes=total_recipes)
+    return render_template("home.html", recipes=recipes, dishes=dishes,
+                            cuisines=cuisines, users=users, total_recipes=total_recipes, allergens=allergens)
  
 """ Displays detail view of a recipe """    
 @app.route('/the_recipe/<recipe_id>/<recipe_title>')
@@ -74,27 +77,34 @@ def the_recipe(recipe_id, recipe_title):
     recipes=mongo.db.recipes
     cuisines =  mongo.db.cuisines.find()
     dishes = mongo.db.dishes.find()
+    allergens=mongo.db.allergens.find()
+    users = mongo.db.users.find()
     return render_template("recipe.html",
                         recipe = recipes.find_one({'_id': ObjectId(recipe_id),'recipe_title': recipe_title}),
-                        cuisines=cuisines, dishes=dishes)
+                        cuisines=cuisines, dishes=dishes, allergens=allergens, users=users)
 
 """ Display form to add a recipe """ 
 @app.route('/add_recipe')
 def add_recipe():
+    recipes=mongo.db.recipes.find()
     dishes=mongo.db.dishes.find()
     cuisines=mongo.db.cuisines.find()
     allergens=mongo.db.allergens.find()
-    return render_template("addrecipe.html", cuisines=cuisines, dishes=dishes, allergens=allergens)
+    users = mongo.db.users.find()
+    return render_template("addrecipe.html", cuisines=cuisines, dishes=dishes, 
+                            recipes=recipes, allergens=allergens, users=users)
 
 """ Display form to edit the recipe """
 @app.route('/edit_recipe/<recipe_id>')
 def edit_recipe(recipe_id):
+    recipes=mongo.db.recipes.find()
     dishes=mongo.db.dishes.find()
     cuisines=mongo.db.cuisines.find()
     allergens=mongo.db.allergens.find()
+    users = mongo.db.users.find()
     return render_template('editrecipe.html',  
                         recipe =  mongo.db.recipes.find_one({"_id": ObjectId(recipe_id)}),
-                        cuisines = cuisines, dishes = dishes, allergens = allergens)
+                        cuisines = cuisines, dishes = dishes, allergens = allergens, users=users)
 
 """ Send form data to update recipe in MongoDB """
 @app.route('/update_recipe/<recipe_id>', methods=["POST"])
@@ -137,8 +147,8 @@ def insert_recipe():
             doc[k]= v  
 
     new_recipe = doc
-    recipes=mongo.db.recipes.find()
-    recipes.insert_one(new_recipe)
+    the_recipe=mongo.db.recipes
+    the_recipe.insert_one(new_recipe)
     return redirect(url_for('all_recipes'))
 
 """ Removes a recipe from MongoDB """
@@ -151,20 +161,28 @@ def delete_recipe(recipe_id):
 """ Displays all cuisines in MongoDB """
 @app.route('/all_cuisines')
 def all_cuisines():
-    cuisines=mongo.db.cuisines.find()
-    return render_template("allcuisines.html", cuisines=cuisines)
+    cuisines = mongo.db.cuisines.find()
+    dishes = mongo.db.dishes.find()
+    users = mongo.db.users.find()
+    allergens = mongo.db.allergens.find()
+    return render_template("allcuisines.html", cuisines=cuisines, dishes=dishes,
+                            users=users, allergens=allergens)
 
 """ Displays form to add new cuisine """
 @app.route('/add_cuisine')
 def add_cuisine():
-    cuisines=mongo.db.cuisines.find()
-    return render_template("addcuisine.html", cuisines=cuisines)
+    cuisines = mongo.db.cuisines.find()
+    dishes = mongo.db.dishes.find()
+    users = mongo.db.users.find()
+    allergens = mongo.db.allergens.find()
+    return render_template("addcuisine.html", cuisines=cuisines, dishes=dishes,
+                            users=users, allergens=allergens)
 
 """ Adds new cuisine to MongoDB """
 @app.route('/insert_cuisine', methods=['POST'])
 def insert_cuisine():
     cuisine = request.form.to_dict()
-    cuisines=mongo.db.cuisines.find()
+    cuisines=mongo.db.cuisines
     cuisines.insert_one(cuisine)
     return redirect(url_for('all_cuisines'))
  
@@ -192,8 +210,12 @@ def delete_cuisine(cuisine_id):
 """ Displays all dishes existing in MongoDB """ 
 @app.route('/all_dishes')
 def all_dishes():
-    dishes=mongo.db.dishes.find()
-    return render_template("alldishes.html", dishes=dishes)
+    cuisines = mongo.db.cuisines.find()
+    dishes = mongo.db.dishes.find()
+    users = mongo.db.users.find()
+    allergens = mongo.db.allergens.find()
+    return render_template("alldishes.html", cuisines=cuisines, dishes=dishes,
+                            users=users, allergens=allergens)
 
 """ Displays form to add a new dish """
 @app.route('/add_dish')
@@ -227,8 +249,8 @@ def update_dish(dish_id):
 """ Remove the dish in MongoDB """ 
 @app.route('/delete_dish/<dish_id>')
 def delete_dish(dish_id):
-    dish =  mongo.db.dishes
-    dish.remove({'_id': ObjectId(dish_id)})
+    the_dish =  mongo.db.dishes
+    the_dish.remove({'_id': ObjectId(dish_id)})
     return redirect(url_for('all_dishes')) 
 
 
@@ -237,21 +259,52 @@ def delete_dish(dish_id):
 def search_cuisine(cuisine_name):
     cuisines = mongo.db.cuisines.find()
     dishes = mongo.db.dishes.find()
+    users = mongo.db.users.find()
+    allergens = mongo.db.allergens.find()
     recipes =  mongo.db.recipes
     cuisine_result = recipes.find({'cuisine_name': cuisine_name})
     cuisine_count = cuisine_result.count()
-    return render_template('searchcuisine.html', result = cuisine_result, count = cuisine_count, cuisines=cuisines, dishes=dishes)
+    return render_template('searchcuisine.html', result = cuisine_result, 
+                            count = cuisine_count, cuisines=cuisines, dishes=dishes, users=users, allergens=allergens)
 
 """ Search by dish types """
 @app.route('/search_dish/<dish_type>')
 def search_dish(dish_type):
     dishes = mongo.db.dishes.find()
     cuisines = mongo.db.cuisines.find()
+    users = mongo.db.users.find()
+    allergens = mongo.db.allergens.find()
     recipes =  mongo.db.recipes
     dish_result = recipes.find({'dish_type': dish_type})
     dish_count = dish_result.count()
-    return render_template('searchdish.html', result = dish_result, count = dish_count, dishes=dishes, cuisines=cuisines) 
+    return render_template('searchdish.html', result = dish_result, dish_type=dish_type,
+                            count = dish_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens) 
 
+""" Search by authors """
+@app.route('/search_author/<author_name>')
+def search_author(author_name):
+    dishes = mongo.db.dishes.find()
+    cuisines = mongo.db.cuisines.find()
+    users = mongo.db.users.find()
+    allergens = mongo.db.allergens.find()
+    recipes =  mongo.db.recipes
+    author_result = recipes.find({'recipe_author_name': author_name})
+    author_count = author_result.count()
+    return render_template('searchauthor.html', result = author_result, 
+                            count = author_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens)
+
+""" Search by allergens """
+@app.route('/search_allergen/<allergen_name>')
+def search_allergen(allergen_name):
+    dishes = mongo.db.dishes.find()
+    cuisines = mongo.db.cuisines.find()
+    users = mongo.db.users.find()
+    allergens = mongo.db.allergens.find()
+    recipes =  mongo.db.recipes
+    allergen_result = recipes.find({'allergen_name': allergen_name})
+    allergen_count = allergen_result.count()
+    return render_template('searchallergen.html', result = allergen_result, 
+                            count = allergen_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens)
 
 
 if __name__ == '__main__':

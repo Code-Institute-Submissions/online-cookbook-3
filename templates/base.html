@@ -26,9 +26,9 @@
                     </ul>
                     <ul class="right hide-on-med-and-down">
                         <li><a href="{{url_for('all_recipes')}}" class="nav-item"><i class="fas fa-home"></i> Home</a></li>
+                        {% if session.username %}
                         <li><a href="{{url_for('add_recipe')}}" class="nav-item"><i class="fas fa-plus-circle"></i> Add recipe</a></li>
                         <li><a class="dropdown-button nav-item" data-activates="categories1"><i class="fas fa-cog"></i> Manage Categories</a></li>
-                        {% if session.username %}
                         <li><a href="" class="dropdown-button nav-item" data-activates="user-options1"><i class="fas fa-user"></i> {{session.username}}</a></li> 
                         {% else %}
                         <li><a href="{{url_for('index')}}" class="nav-item"><i class="fas fa-sign-in-alt"></i> Login</a></li>
@@ -52,16 +52,20 @@
                         {% endfor %}
                     </ul>
                     <ul id="authors2" class="dropdown-content">
-                      <li><a href="">Authors</a></li>
+                        {% for user in users %}
+                      <li><a href="{{url_for('search_author', author_name=user.username)}}">{{user.username}}</a></li>
+                        {% endfor %}
                     </ul>
                     <ul id="allergens2" class="dropdown-content">
-                      <li><a href="">Allergens</a></li>
+                      {% for allergen in allergens %}
+                          <li><a href="{{url_for('search_allergen', allergen_name=allergen.allergen_name)}}">{{allergen.allergen_name}}</a></li>
+                      {% endfor %}
                     </ul>
                     <ul class="side-nav" id="mobile-demo">
                         <li><a href="{{url_for('all_recipes')}}" class="nav-item"><i class="fas fa-home"></i> Home</a></li>
+                        {% if session.username %}
                         <li><a href="{{url_for('add_recipe')}}" class="nav-item"><i class="fas fa-plus-circle"></i> Add recipe</a></li>
                         <li><a class="dropdown-button nav-item" data-activates="categories2"><i class="fas fa-cog"></i> Manage Categories</a></li>
-                        {% if session.username %}
                         <li><a href="" class="dropdown-button nav-item" data-activates="user-options2"><i class="fas fa-user"></i> {{session.username}}</a></li> 
                         {% else %}
                         <li><a href="{{url_for('index')}}" class="nav-item"><i class="fas fa-sign-in-alt"></i> Login</a></li>
@@ -76,27 +80,35 @@
         </div>
         <nav class="filters">
             <div class="nav-wrapper row">
-                <ul id="dishes1" class="dropdown-content">
-                  {% for dish in dishes %} 
-                      <li><a href="{{url_for('search_dish', dish_type=dish.dish_type)}}">{{dish.dish_type}}</a></li>
-                  {% endfor %}
-                </ul>
-                <ul id="cuisines1" class="dropdown-content">
-                  {% for cuisine in cuisines %} 
-                      <li><a href="{{url_for('search_cuisine', cuisine_name=cuisine.cuisine_name)}}">{{cuisine.cuisine_name}}</a></li>
-                  {% endfor %}
-                </ul>
-                <ul id="authors1" class="dropdown-content">
-                  <li><a href="">Authors</a></li>
-                </ul>
-                <ul id="allergens1" class="dropdown-content">
-                  <li><a href="">Allergens</a></li>
-                </ul>
                 <ul class="hide-on-med-and-down col l9">
                     <li><a class="dropdown-button waves-effect waves-light btn" data-activates='dishes1'>Dish Types</a></li>
                     <li><a class="dropdown-button waves-effect waves-light btn" data-activates='cuisines1'>Cuisines</a></li>
                     <li><a class="dropdown-button waves-effect waves-light btn" data-activates='authors1'>Authors</a></li>
                     <li><a class="dropdown-button waves-effect waves-light btn" data-activates='allergens1'>Allergens</a></li>
+                </ul>
+                <ul id="dishes1" class="dropdown-content">
+                    {% set _stub = dishes.rewind() %}
+                  {% for dish in dishes %} 
+                      <li><a href="{{url_for('search_dish', dish_type=dish.dish_type)}}">{{dish.dish_type}}</a></li>
+                  {% endfor %}
+                </ul>
+                <ul id="cuisines1" class="dropdown-content">
+                  {% set _stub = cuisines.rewind() %}
+                  {% for cuisine in cuisines %} 
+                      <li><a href="{{url_for('search_cuisine', cuisine_name=cuisine.cuisine_name)}}">{{cuisine.cuisine_name}}</a></li>
+                  {% endfor %}
+                </ul>
+                <ul id="authors1" class="dropdown-content">
+                  {% set _stub = users.rewind() %}
+                  {% for user in users %}
+                      <li><a href="{{url_for('search_author', author_name=user.username)}}">{{user.username}}</a></li>
+                  {% endfor %}
+                </ul>
+                <ul id="allergens1" class="dropdown-content">
+                    {% set _stub = allergens.rewind() %}
+                  {% for allergen in allergens %}
+                      <li><a href="{{url_for('search_allergen', allergen_name=allergen.allergen_name)}}">{{allergen.allergen_name}}</a></li>
+                  {% endfor %}
                 </ul>
                 <form class="col s12 l3">
                     <div class="input-field">

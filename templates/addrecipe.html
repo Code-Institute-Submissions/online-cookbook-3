@@ -25,6 +25,7 @@
                 <div class="input-field col s12">
                     <select id="cuisine_name" name="cuisine_name">
                         <option value="" disabled selected>Choose Cuisine</option>
+                        {% set _stub = cuisines.rewind() %}
                         {% for cuisine in cuisines %}
                         <option value="{{cuisine.cuisine_name}}">{{cuisine.cuisine_name}}</option>
                         {% endfor %}
@@ -36,6 +37,7 @@
                 <div class="input-field col s12">
                     <select id="dish_type" name="dish_type">
                         <option value="" disabled selected>Choose Dish Type</option>
+                        {% set _stub = dishes.rewind() %}
                         {% for dish in dishes %}
                         <option value="{{dish.dish_type}}">{{dish.dish_type}}</option>
                         {% endfor %}
@@ -47,6 +49,7 @@
                 <div class="input-field col s12">
                     <select id="allergen_name" name="allergen_name" multiple>
                         <option value="" disabled selected>Choose Allergen</option>
+                        {% set _stub = allergens.rewind() %}
                         {% for allergen in allergens %}
                         <option value="{{allergen.allergen_name}}">{{allergen.allergen_name}}</option>
                         {% endfor %}
