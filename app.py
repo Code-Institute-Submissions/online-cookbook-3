@@ -306,6 +306,26 @@ def search_allergen(allergen_name):
     return render_template('searchallergen.html', result = allergen_result, allergen_name=allergen_name, 
                             count = allergen_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens)
 
+""" keyword_count = keyword_result.count() """
+""" Search by keyword """
+@app.route('/search_keyword', methods=['POST'])
+def search_keyword():
+    keyword = request.form.get('keyword')
+    dishes = mongo.db.dishes.find()
+    cuisines = mongo.db.cuisines.find()
+    users = mongo.db.users.find()
+    allergens = mongo.db.allergens.find()
+    recipes =  mongo.db.recipes
+    keyword_result = recipes.find({'$or':[
+        {'recipe_title': { '$regex': keyword, '$options': 'i' }},
+        {'recipe_ingredients': { '$regex': keyword, '$options': 'i' }},
+        {'recipe_steps': { '$regex': keyword, '$options': 'i' }},
+        {'recipe_short_description': { '$regex': keyword, '$options': 'i' }}
+        ]})
+    keyword_count = keyword_result.count()
+    return render_template('searchkeyword.html', result = keyword_result, keyword=keyword, 
+                            count = keyword_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens)
+
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'), 
