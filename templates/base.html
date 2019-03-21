@@ -58,7 +58,9 @@
                     </ul>
                     <ul id="allergens2" class="dropdown-content">
                       {% for allergen in allergens %}
+                          {% if allergen.allergen_name != 'No allergens' %}
                           <li><a href="{{url_for('search_allergen', allergen_name=allergen.allergen_name)}}">{{allergen.allergen_name}}</a></li>
+                          {% endif %}
                       {% endfor %}
                     </ul>
                     <ul class="side-nav" id="mobile-demo">
@@ -105,9 +107,11 @@
                   {% endfor %}
                 </ul>
                 <ul id="allergens1" class="dropdown-content">
-                    {% set _stub = allergens.rewind() %}
+                  {% set _stub = allergens.rewind() %}
                   {% for allergen in allergens %}
+                      {% if allergen.allergen_name != 'No allergens' %}
                       <li><a href="{{url_for('search_allergen', allergen_name=allergen.allergen_name)}}">{{allergen.allergen_name}}</a></li>
+                      {% endif %}
                   {% endfor %}
                 </ul>
                 <form class="col s12 l3">
