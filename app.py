@@ -131,7 +131,7 @@ def update_recipe(recipe_id):
 """ Add new recipe data to MongoDB """   
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
-    doc ={'recipe_author_name': session['username']}
+    doc ={'recipe_author_name': session['username'], "upvotes": 0}
     data = request.form.items()
     all_ingred = request.form.getlist('ingred')
     all_steps = request.form.getlist('steps')
@@ -327,6 +327,15 @@ def search_keyword():
     keyword_count = keyword_result.count()
     return render_template('searchkeyword.html', result = keyword_result, keyword=keyword, 
                             count = keyword_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens)
+
+""" Function to upvote a recipe """
+@app.route('/recipe_upvotes/<recipe_id>', methods=["POST"])
+def recipe_upvotes(recipe_id):
+    recipes =  mongo.db.recipes
+    recipes.update(
+        {'_id': ObjectId(recipe_id)},
+        {'$inc':{"upvotes": 1}})
+    return redirect(url_for('all_recipes'))
 
 
 if __name__ == '__main__':
