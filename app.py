@@ -62,7 +62,7 @@ def logout():
 """ Home page displaying all uploaded recipes """
 @app.route('/all_recipes')
 def all_recipes():
-    recipes=mongo.db.recipes.find()
+    recipes=mongo.db.recipes.find().sort([("upvotes", -1)])
     cuisines =  mongo.db.cuisines.find()
     dishes=mongo.db.dishes.find()
     allergens=mongo.db.allergens.find()
@@ -70,7 +70,8 @@ def all_recipes():
     total_recipes=recipes.count()
     return render_template("home.html", recipes=recipes, dishes=dishes,
                             cuisines=cuisines, users=users, total_recipes=total_recipes, allergens=allergens)
- 
+
+
 """ Displays detail view of a recipe """    
 @app.route('/the_recipe/<recipe_id>/<recipe_title>')
 def the_recipe(recipe_id, recipe_title):
@@ -329,13 +330,21 @@ def search_keyword():
                             count = keyword_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens)
 
 """ Function to upvote a recipe """
-@app.route('/recipe_upvotes/<recipe_id>', methods=["POST"])
-def recipe_upvotes(recipe_id):
+@app.route('/recipe_upvotes/<recipe_id>/<author>/<title>/<username>', methods=["POST"])
+def recipe_upvotes(recipe_id, title, author, username):
     recipes =  mongo.db.recipes
-    recipes.update(
-        {'_id': ObjectId(recipe_id)},
-        {'$inc':{"upvotes": 1}})
+    users = mongo.db.users
+    
+    if users.find_one({'$and':[{'username': username},
+    {'upvoted_recipes': (recipe_id, title)}]}) is None and author != username:
+        recipes.update(
+            {'_id': ObjectId(recipe_id)},
+            {'$inc': {"upvotes": 1}})
+        users.update(
+            {'username': username},
+            {'$push': {'upvoted_recipes': (recipe_id, title)}})
     return redirect(url_for('all_recipes'))
+
 
 
 if __name__ == '__main__':
