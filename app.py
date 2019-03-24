@@ -41,7 +41,7 @@ def login():
     users = mongo.db.users
     username = request.form.get('username')
     password = request.form.get('password')
-    registered = users.find_one({'username': username, 'password': password})
+    registered = users.find_one({'username': {'$regex': username, '$options': 'i'}, 'password': password})
     if registered is not None:
         session['username'] = username
         login = True

@@ -110,6 +110,15 @@ nav .brand-logo {
     padding-top: 15px;
     padding-bottom: 10px;
 }
+/*CREDIT: Materailizecss code for sticky footer */
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+main {
+    flex: 1 0 auto;
+}
 /*------------------------------------------------------------- Media Queries */
 @media screen and (min-width: 600px) {
     nav .brand-logo {

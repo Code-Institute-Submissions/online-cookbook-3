@@ -15,7 +15,7 @@
         <div class="navbar-fixed">
             <nav>
                 <div class="nav-wrapper">
-                    <a href="#" class="brand-logo">My Cookbook</a>
+                    <a href="{{url_for('all_recipes')}}" class="brand-logo">My Cookbook</a>
                     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                     <ul id="categories1" class="dropdown-content">
                         <li><a href="{{url_for('all_cuisines')}}">All Cuisines</a></li>
@@ -124,9 +124,10 @@
             </div>
         </nav>
     </header>
+    <main>
     <!-- Block content -->
     {% block content %}{% endblock %}
-    
+    </main>
     <footer class="page-footer footer-copyright center-text">
           <div class="container"> © 2019 My Cookbook. All rights reserved.</div>
     </footer>
