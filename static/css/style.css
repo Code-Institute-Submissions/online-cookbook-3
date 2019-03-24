@@ -29,7 +29,7 @@ nav .brand-logo {
 }
 /*---------------------------------------------------------------------- Home */
 .heading {
-    /*background-color: #cedbe0;*/
+    padding: 10px;
 }
 .card .card-content .card-title {
     font-size: 16px;
