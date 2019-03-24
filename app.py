@@ -191,8 +191,13 @@ def insert_cuisine():
 """ Displays form to edit cuisine """    
 @app.route('/edit_cuisine/<cuisine_id>')
 def edit_cuisine(cuisine_id):
+    cuisines = mongo.db.cuisines.find()
+    dishes = mongo.db.dishes.find()
+    users = mongo.db.users.find()
+    allergens = mongo.db.allergens.find()
     cuisine=mongo.db.cuisines.find_one({"_id": ObjectId(cuisine_id)})
-    return render_template('editcuisine.html', cuisine=cuisine)    
+    return render_template('editcuisine.html', cuisine=cuisine, dishes=dishes, users=users,
+                            cuisines=cuisines, allergens=allergens)    
 
 """ Send form data to update cuisine in MongoDB """ 
 @app.route('/update_cuisine/<cuisine_id>', methods=["POST"])
@@ -236,9 +241,15 @@ def insert_dish():
 """ Displays form to edit a dish """    
 @app.route('/edit_dish/<dish_id>')
 def edit_dish(dish_id):
+    recipes=mongo.db.recipes.find()
+    dishes=mongo.db.dishes.find()
+    cuisines=mongo.db.cuisines.find()
+    allergens=mongo.db.allergens.find()
+    users=mongo.db.users.find()
     dish =  mongo.db.dishes
     dish.find_one({"_id": ObjectId(dish_id)})
-    return render_template('editdish.html', dish=dish)    
+    return render_template('editdish.html', dish=dish, recipes=recipes, dishes=dishes,
+                            users=users, cuisines=cuisines, allergens=allergens)    
 
 """ Send form data to update the dish in MongoDB """ 
 @app.route('/update_dish/<dish_id>', methods=["POST"])

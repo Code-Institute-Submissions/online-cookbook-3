@@ -58,7 +58,7 @@ nav .brand-logo {
     font-size: 24px;
     color: #5e4f31;
 }
-.btn-details {
+.btn-to-recipe {
     width: 100%;
     word-spacing: 2px;
     text-transform: none;
@@ -103,6 +103,11 @@ nav .brand-logo {
     -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
     -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
     box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+}
+/*----------------------------------------------------------- Dishes/Cuisines */
+.name {
+    font-size: 16px;
+    line-height: 2.5;
 }
 /*-------------------------------------------------------------------- Footer */
 .page-footer {
