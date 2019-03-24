@@ -27,7 +27,8 @@ def register():
         users.insert_one({
             'username': username,
             'fullname': fullname,
-            'password': password
+            'password': password,
+            'upvoted_recipes':[]
         })
         success = True
         return render_template('index.html', success = success)
@@ -68,8 +69,8 @@ def all_recipes():
     allergens=mongo.db.allergens.find()
     users = mongo.db.users.find()
     total_recipes=recipes.count()
-    return render_template("home.html", recipes=recipes, dishes=dishes,
-                            cuisines=cuisines, users=users, total_recipes=total_recipes, allergens=allergens)
+    return render_template("home.html", recipes=recipes, dishes=dishes, cuisines=cuisines, 
+                            users=users, total_recipes=total_recipes, allergens=allergens)
 
 
 """ Displays detail view of a recipe """    
@@ -263,7 +264,7 @@ def search_cuisine(cuisine_name):
     users = mongo.db.users.find()
     allergens = mongo.db.allergens.find()
     recipes =  mongo.db.recipes
-    cuisine_result = recipes.find({'cuisine_name': cuisine_name})
+    cuisine_result = recipes.find({'cuisine_name': cuisine_name}).sort([("upvotes", -1)])
     cuisine_count = cuisine_result.count()
     return render_template('searchcuisine.html', result = cuisine_result, cuisine_name = cuisine_name,
                             count = cuisine_count, cuisines=cuisines, dishes=dishes, users=users, allergens=allergens)
@@ -276,7 +277,7 @@ def search_dish(dish_type):
     users = mongo.db.users.find()
     allergens = mongo.db.allergens.find()
     recipes =  mongo.db.recipes
-    dish_result = recipes.find({'dish_type': dish_type})
+    dish_result = recipes.find({'dish_type': dish_type}).sort([("upvotes", -1)])
     dish_count = dish_result.count()
     return render_template('searchdish.html', result = dish_result, dish_type=dish_type,
                             count = dish_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens) 
@@ -289,7 +290,7 @@ def search_author(author_name):
     users = mongo.db.users.find()
     allergens = mongo.db.allergens.find()
     recipes =  mongo.db.recipes
-    author_result = recipes.find({'recipe_author_name': author_name})
+    author_result = recipes.find({'recipe_author_name': author_name}).sort([("upvotes", -1)])
     author_count = author_result.count()
     return render_template('searchauthor.html', result = author_result, author_name=author_name,
                             count = author_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens)
@@ -302,7 +303,7 @@ def search_allergen(allergen_name):
     users = mongo.db.users.find()
     allergens = mongo.db.allergens.find()
     recipes =  mongo.db.recipes
-    allergen_result = recipes.find({'allergen_name':{'$not': {'$eq': allergen_name}}})
+    allergen_result = recipes.find({'allergen_name':{'$not': {'$eq': allergen_name}}}).sort([("upvotes", -1)])
     allergen_count = allergen_result.count()
     return render_template('searchallergen.html', result = allergen_result, allergen_name=allergen_name, 
                             count = allergen_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens)
@@ -324,7 +325,7 @@ def search_keyword():
          ("dish_type", "text"),
          ("recipe_author_name", "text")
        ])
-    keyword_result = recipes.find({"$text": {"$search": keyword}})
+    keyword_result = recipes.find({"$text": {"$search": keyword}}).sort([("upvotes", -1)])
     keyword_count = keyword_result.count()
     return render_template('searchkeyword.html', result = keyword_result, keyword=keyword, 
                             count = keyword_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens)
