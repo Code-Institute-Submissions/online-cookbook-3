@@ -1,3 +1,8 @@
+/*---------------------------------------------------------------- Login Page */
+.divider {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
 /*-------------------------------------------------------------------- Header */
 nav {
     background-color: #4b788e;
@@ -26,6 +31,9 @@ nav .brand-logo {
 }
 .search-icon {
     color: black !important;
+}
+.btn-nav{
+    padding: 0 1rem;  /* to fit search buttons and search bar on one row */
 }
 /*---------------------------------------------------------------------- Home */
 .heading {
