@@ -22,6 +22,7 @@
                         <li><a href="{{url_for('all_dishes')}}">All Dish Types</a></li>
                     </ul>
                     <ul id="user-options1" class="dropdown-content">
+                        <li><a href="{{url_for('my_recipes', username = session.username)}}"><i class="fas fa-book-open"></i> My recipes</li>
                         <li><a href="{{url_for('logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</li>
                     </ul>
                     <ul class="right hide-on-med-and-down">
@@ -39,6 +40,7 @@
                       <li><a href="{{url_for('all_dishes')}}">All Dish Types</a></li>
                     </ul>
                     <ul id="user-options2" class="dropdown-content">
+                      <li><a href="{{url_for('my_recipes', username = session.username)}}"><i class="fas fa-book-open"></i> My recipes</li>
                       <li><a href="{{url_for('logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</li>
                     </ul>
                     <ul id="dishes2" class="dropdown-content">

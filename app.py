@@ -60,6 +60,22 @@ def logout():
     session.clear()
     return render_template('index.html')
 
+""" My recipes page """
+@app.route('/my_recipes/<username>')
+def my_recipes(username):
+    recipes=mongo.db.recipes.find()
+    cuisines =  mongo.db.cuisines.find()
+    dishes=mongo.db.dishes.find()
+    allergens=mongo.db.allergens.find()
+    users = mongo.db.users.find()
+    if username is not None:
+        my_recipes=mongo.db.recipes.find({'recipe_author_name': {'$regex': username, '$options': 'i'}}).sort([("upvotes", -1)])
+        total_my_recipes=my_recipes.count()
+        print(username)
+    return render_template("user.html", recipes=recipes, dishes=dishes, cuisines=cuisines, my_recipes=my_recipes, 
+                            users=users, total_my_recipes=total_my_recipes, allergens=allergens)    
+    
+
 """ Home page displaying all uploaded recipes """
 @app.route('/all_recipes')
 def all_recipes():
