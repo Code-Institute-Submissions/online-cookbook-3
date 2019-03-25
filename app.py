@@ -219,10 +219,23 @@ def edit_cuisine(cuisine_id):
 """ Send form data to update cuisine in MongoDB """ 
 @app.route('/update_cuisine/<cuisine_id>', methods=["POST"])
 def update_cuisine(cuisine_id):
-    cuisine =  mongo.db.cuisines
-    cuisine.update({'_id': ObjectId(cuisine_id)},
-                   {'cuisine_name': request.form.get('cuisine_name')})
-    return redirect(url_for('all_cuisines'))  
+    recipes = mongo.db.recipes.find()
+    cuisines = mongo.db.cuisines.find()
+    dishes = mongo.db.dishes.find()
+    users = mongo.db.users.find()
+    allergens = mongo.db.allergens.find()
+    new_cuisine = request.form.get('cuisine_name')
+    cuisine=mongo.db.cuisines.find_one({"_id": ObjectId(cuisine_id)})
+    distinct_cuisines = mongo.db.recipes.distinct('cuisine_name')
+    if new_cuisine == cuisine['cuisine_name']:
+        return redirect(url_for('all_cuisines'))
+    elif cuisine['cuisine_name'] in distinct_cuisines:
+        edit_cuisine = False
+        return render_template('editcuisine.html', edit_cuisine=edit_cuisine, cuisines=cuisines, dishes=dishes, recipes=recipes,
+                            users=users, allergens=allergens, cuisine=cuisine)
+    else:
+        cuisine.update({'_id': ObjectId(cuisine_id)}, {'cuisine_name': request.form.get('cuisine_name')})
+        return redirect(url_for('all_cuisines'))  
 
 """ Removes a cuisine from MongoDB """
 @app.route('/delete_cuisine/<cuisine_id>')
@@ -277,18 +290,32 @@ def edit_dish(dish_id):
     cuisines=mongo.db.cuisines.find()
     allergens=mongo.db.allergens.find()
     users=mongo.db.users.find()
-    dish =  mongo.db.dishes
-    dish.find_one({"_id": ObjectId(dish_id)})
+    dish = mongo.db.dishes.find_one({"_id": ObjectId(dish_id)})
     return render_template('editdish.html', dish=dish, recipes=recipes, dishes=dishes,
                             users=users, cuisines=cuisines, allergens=allergens)    
 
 """ Send form data to update the dish in MongoDB """ 
 @app.route('/update_dish/<dish_id>', methods=["POST"])
 def update_dish(dish_id):
-    dish =  mongo.db.dishes
-    dish.update({'_id': ObjectId(dish_id)},
-                {'dish_type': request.form.get('dish_type')})
-    return redirect(url_for('all_dishes'))  
+    recipes = mongo.db.recipes.find()
+    cuisines = mongo.db.cuisines.find()
+    dishes = mongo.db.dishes.find()
+    users = mongo.db.users.find()
+    allergens = mongo.db.allergens.find()
+    new_dish = request.form.get('dish_type')
+    distinct_dishes = mongo.db.recipes.distinct('dish_type')
+    dish =  mongo.db.dishes.find_one({'_id': ObjectId(dish_id)})
+    if new_dish == dish['dish_type']:
+        return redirect(url_for('all_dishes'))
+    elif dish['dish_type'] in distinct_dishes:
+        edit_dish = False
+        return render_template('editdish.html', edit_dish=edit_dish, cuisines=cuisines, dishes=dishes, recipes=recipes,
+                            users=users, allergens=allergens, dish=dish)
+    else:
+        dish.update({'_id': ObjectId(dish_id)}, {'dish_type': request.form.get('dish_type')})
+        return redirect(url_for('all_dishes'))  
+
+        
 
 """ Remove the dish in MongoDB """ 
 @app.route('/delete_dish/<dish_id>')
