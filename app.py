@@ -364,8 +364,8 @@ def recipe_upvotes(recipe_id, title, author, username):
     recipes =  mongo.db.recipes
     users = mongo.db.users
     
-    if users.find_one({'$and':[{'username': username},
-    {'upvoted_recipes': (recipe_id, title)}]}) is None and author != username:
+    if users.find_one({'$and':[{'username': {'$regex': username, '$options': 'i'}},
+    {'upvoted_recipes': (recipe_id, title)}]}) is None and author.lower() != username.lower():
         recipes.update(
             {'_id': ObjectId(recipe_id)},
             {'$inc': {"upvotes": 1}})
