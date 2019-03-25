@@ -227,9 +227,23 @@ def update_cuisine(cuisine_id):
 """ Removes a cuisine from MongoDB """
 @app.route('/delete_cuisine/<cuisine_id>')
 def delete_cuisine(cuisine_id):
-    cuisine =  mongo.db.cuisines
-    cuisine.remove({'_id': ObjectId(cuisine_id)})
-    return redirect(url_for('all_cuisines'))       
+    recipes = mongo.db.recipes.find()
+    cuisines = mongo.db.cuisines.find()
+    dishes = mongo.db.dishes.find()
+    users = mongo.db.users.find()
+    allergens = mongo.db.allergens.find()
+    cuisine = mongo.db.cuisines
+    distinct_cuisines = mongo.db.recipes.distinct('cuisine_name')
+    this_cuisine =  mongo.db.cuisines.find_one({'_id': ObjectId(cuisine_id)})
+    if this_cuisine['cuisine_name'] in distinct_cuisines:
+        delete_cuisine = False
+        return render_template('allcuisines.html', delete_cuisine=delete_cuisine, cuisines=cuisines, dishes=dishes, recipes=recipes,
+                            users=users, allergens=allergens)
+    else: 
+        cuisine.remove({'_id': ObjectId(cuisine_id)})
+        return redirect(url_for('all_cuisines'))  
+     
+        
 
 """ Displays all dishes existing in MongoDB """ 
 @app.route('/all_dishes')
@@ -279,9 +293,21 @@ def update_dish(dish_id):
 """ Remove the dish in MongoDB """ 
 @app.route('/delete_dish/<dish_id>')
 def delete_dish(dish_id):
-    the_dish =  mongo.db.dishes
-    the_dish.remove({'_id': ObjectId(dish_id)})
-    return redirect(url_for('all_dishes')) 
+    recipes = mongo.db.recipes.find()
+    cuisines = mongo.db.cuisines.find()
+    dishes = mongo.db.dishes.find()
+    users = mongo.db.users.find()
+    allergens = mongo.db.allergens.find()
+    dish = mongo.db.dishes
+    distinct_dishes = mongo.db.recipes.distinct('dish_type')
+    this_dish =  mongo.db.dishes.find_one({'_id': ObjectId(dish_id)})
+    if this_dish['dish_type'] in distinct_dishes:
+        delete_dish = False
+        return render_template('alldishes.html', delete_dish=delete_dish, cuisines=cuisines, dishes=dishes, recipes=recipes,
+                            users=users, allergens=allergens)
+    else: 
+        dish.remove({'_id': ObjectId(dish_id)})
+        return redirect(url_for('all_dishes'))  
 
 
 """ Search by Cuisine """  
