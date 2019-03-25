@@ -179,12 +179,13 @@ def delete_recipe(recipe_id):
 """ Displays all cuisines in MongoDB """
 @app.route('/all_cuisines')
 def all_cuisines():
+    recipes = mongo.db.recipes.find()
     cuisines = mongo.db.cuisines.find()
     dishes = mongo.db.dishes.find()
     users = mongo.db.users.find()
     allergens = mongo.db.allergens.find()
     return render_template("allcuisines.html", cuisines=cuisines, dishes=dishes,
-                            users=users, allergens=allergens)
+                            recipes=recipes, users=users, allergens=allergens)
 
 """ Displays form to add new cuisine """
 @app.route('/add_cuisine')

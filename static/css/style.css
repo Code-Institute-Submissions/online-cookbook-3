@@ -12,6 +12,9 @@ nav .brand-logo {
     word-spacing: 2px;
     letter-spacing: 1px;
 }
+.nav-item-padding{
+    padding: 0 45px; 
+}
 .nav-item {
     text-transform: uppercase;
     word-spacing: 2px;
