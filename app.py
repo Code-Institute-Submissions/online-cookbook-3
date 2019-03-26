@@ -28,7 +28,8 @@ def register():
             'username': username,
             'fullname': fullname,
             'password': password,
-            'upvoted_recipes':[]
+            'upvoted_recipes':[],
+            'fav_recipes': []
         })
         success = True
         return render_template('index.html', success = success)
@@ -72,8 +73,28 @@ def my_recipes(username):
         my_recipes=mongo.db.recipes.find({'recipe_author_name': {'$regex': username, '$options': 'i'}}).sort([("upvotes", -1)])
         total_my_recipes=my_recipes.count()
         print(username)
-    return render_template("user.html", recipes=recipes, dishes=dishes, cuisines=cuisines, my_recipes=my_recipes, 
+    return render_template("myrecipes.html", recipes=recipes, dishes=dishes, cuisines=cuisines, my_recipes=my_recipes, 
                             users=users, total_my_recipes=total_my_recipes, allergens=allergens)    
+
+""" Favourite recipes page """
+@app.route('/add_fav_recipes/<username>/<recipe_id>/<title>')
+def add_fav_recipe(username, recipe_id, title):
+    if username is not None:
+        mongo.db.users.update({'username': username}, {'$push': {'fav_recipes': [recipe_id, title]}})
+        mongo.db.recipes.update({'_id': ObjectId(recipe_id)}, {'$push': {'fav_by_users': username}})
+        return redirect(url_for('the_recipe', recipe_id=recipe_id, recipe_title= title))
+
+@app.route('/fav_recipes/<username>')
+def fav_recipes(username):
+    recipes=mongo.db.recipes.find()
+    cuisines =  mongo.db.cuisines.find()
+    dishes=mongo.db.dishes.find()
+    allergens=mongo.db.allergens.find()
+    users = mongo.db.users.find()
+    this_user=mongo.db.users.find_one({'username': username})
+    fav_recipe_count = len(this_user['fav_recipes']) 
+    return render_template("favrecipes.html", recipes=recipes, dishes=dishes, cuisines=cuisines, fav_recipe_count = fav_recipe_count,
+                            users=users, allergens=allergens, this_user=this_user)    
     
 
 """ Home page displaying all uploaded recipes """
