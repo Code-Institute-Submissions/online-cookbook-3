@@ -5,6 +5,7 @@
 
 <div class="container">
   <div class="row">
+    <div class="medium-text">Showing {{skip_num + 1}} - {{skip_num + page_count}} of {{keyword}} Results</div>
   <ul class="pagination right">
     {% set num = num|int %}
     {% set last_page = total_pages[-1]|int %}

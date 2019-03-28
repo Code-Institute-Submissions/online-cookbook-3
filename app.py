@@ -111,6 +111,8 @@ def all_recipes(num):
     total_pages = range(1, math.ceil(total_recipes/8) + 1)
     skip_num = 8 * (int(num)-1)
     recipes_per_page = recipes.skip(skip_num).limit(8)
+    if total_recipes < 8:
+        page_count = total_recipes
     if (int(num) * 8) < total_recipes:
         page_count = int(num) * 8
     else:
@@ -381,9 +383,14 @@ def search_cuisine(cuisine_name, num):
     total_pages = range(1, math.ceil(cuisine_count/8) + 1)
     skip_num = 8 * (int(num)-1)
     recipes_per_page = cuisine_result.skip(skip_num).limit(8)
-    page_count = recipes_per_page.count()
+    if cuisine_count < 8:
+        page_count = cuisine_count
+    elif (int(num) * 8) < cuisine_count:
+        page_count = int(num) * 8
+    else:
+        page_count = int(num) * 8 - cuisine_count
     return render_template('searchcuisine.html', recipes_per_page = recipes_per_page, num=num, cuisine_name = cuisine_name,
-                            total_pages=total_pages, page_count=page_count, count = cuisine_count, cuisines=cuisines, dishes=dishes, users=users, allergens=allergens)
+                            skip_num=skip_num, total_pages=total_pages, page_count=page_count, count = cuisine_count, cuisines=cuisines, dishes=dishes, users=users, allergens=allergens)
 
 """ Search by dish types """
 @app.route('/search_dish/<dish_type>/page:<num>')
@@ -398,8 +405,14 @@ def search_dish(dish_type, num):
     total_pages = range(1, math.ceil(dish_count/8) + 1)
     skip_num = 8 * (int(num)-1)
     recipes_per_page = dish_result.skip(skip_num).limit(8)
-    return render_template('searchdish.html', dish_type=dish_type, num=num, total_pages=total_pages,
-                            recipes_per_page=recipes_per_page, count = dish_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens) 
+    if dish_count < 8:
+        page_count = dish_count
+    if (int(num) * 8) < dish_count:
+        page_count = int(num) * 8
+    else:
+        page_count = int(num) * 8 - dish_count
+    return render_template('searchdish.html', dish_type=dish_type, num=num, total_pages=total_pages,page_count=page_count,
+                            skip_num=skip_num, recipes_per_page=recipes_per_page, count = dish_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens) 
 
 """ Search by authors """
 @app.route('/search_author/<author_name>/page:<num>')
@@ -414,8 +427,14 @@ def search_author(author_name, num):
     total_pages = range(1, math.ceil(author_count/8) + 1)
     skip_num = 8 * (int(num)-1)
     recipes_per_page = author_result.skip(skip_num).limit(8)
+    if author_count < 8:
+        page_count = author_count
+    elif (int(num) * 8) < author_count:
+        page_count = int(num) * 8
+    else:
+        page_count = int(num) * 8 - author_count
     return render_template('searchauthor.html', total_pages = total_pages, author_name=author_name, recipes_per_page=recipes_per_page,
-                            num=num, count = author_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens)
+                            skip_num=skip_num, page_count=page_count, num=num, count = author_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens)
 
 """ Search by allergens """
 @app.route('/search_allergen/<allergen_name>/page:<num>')
@@ -430,8 +449,14 @@ def search_allergen(allergen_name, num):
     total_pages = range(1, math.ceil(allergen_count/8) + 1)
     skip_num = 8 * (int(num)-1)
     recipes_per_page = allergen_result.skip(skip_num).limit(8)
+    if allergen_count < 8:
+        page_count = allergen_count
+    elif (int(num) * 8) < allergen_count:
+        page_count = int(num) * 8
+    else:
+        page_count = int(num) * 8 - allergen_count
     return render_template('searchallergen.html', num = num, allergen_name=allergen_name, total_pages = total_pages, 
-                            recipes_per_page=recipes_per_page, count = allergen_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens)
+                            skip_num=skip_num, page_count=page_count, recipes_per_page=recipes_per_page, count = allergen_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens)
 
 
 """ Search by keyword """
@@ -459,8 +484,14 @@ def search_keyword(keyword, num):
     total_pages = range(1, math.ceil(keyword_count/8) + 1)
     skip_num = 8 * (int(num)-1)
     recipes_per_page = keyword_result.skip(skip_num).limit(8)
+    if keyword_count < 8:
+        page_count = keyword_count
+    elif (int(num) * 8) < keyword_count:
+        page_count = int(num) * 8
+    else:
+        page_count = int(num) * 8 - keyword_count
     return render_template('searchkeyword.html', total_pages = total_pages, num=num, keyword=keyword, recipes_per_page=recipes_per_page,
-                            count = keyword_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens)
+                            skip_num=skip_num, page_count=page_count, count = keyword_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens)
 
 """ Function to upvote a recipe """
 @app.route('/recipe_upvotes/<recipe_id>/<author>/<title>/<username>', methods=["POST"])
