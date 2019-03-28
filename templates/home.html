@@ -2,9 +2,27 @@
 
 <h5 class="heading">All Recipes <span class="medium-text">({{total_recipes}})</span></h5>
 <div class="divider"></div>
+<div class="row">
+  <ul class="pagination right">
+    {% set num = num|int %}
+    {% set last_page = total_pages[-1]|int %}
+    {% if last_page > 1  %}
+    <li {% if request.path == url_for('all_recipes', num = 1) %} class="disabled" {% else %} class="waves-effect" {% endif %}>
+      <a href="{{url_for('all_recipes', num = num-1)}}"><i class="material-icons">chevron_left</i></a></li>
+    {% endif %}
+    {% for num in total_pages %}
+     <li {% if request.path == url_for('all_recipes', num = num) %}class="active" {% endif %}><a href="{{url_for('all_recipes', num = num)}}">{{num}}</a></li>
+    {% endfor %}
+    {% if last_page > 1 %}
+    <li {% if request.path == url_for('all_recipes', num = last_page) %} class="disabled" {% else %} class="waves-effect" {% endif %}>
+      <a href="{{url_for('all_recipes', num = num+1)}}"><i class="material-icons">chevron_right</i></a></li>
+    {% endif %}
+    
+  </ul>
+</div>
 
 <div class="row">
-    {% for recipe in recipes %}
+    {% for recipe in recipes_per_page %}
     <div class="card medium col s8 offset-s2 m6 l3">
         <div class="card-image waves-effect waves-block waves-light">
           <img class="activator" height="250" src="{{recipe.recipe_image_url}}">
@@ -12,8 +30,10 @@
         <div class="card-content">
              <span class="card-title activator grey-text text-darken-4">{{recipe.recipe_title}}<i class="material-icons right">more_vert</i></span>
              <span class="small-text">by <strong>{{recipe.recipe_author_name}}</strong></span>
-             <div>
-               {% if session.username %}
+             <div class="card-icons">
+               <div class="left"><i class="material-icons">watch_later</i>{{recipe.total_time}} mins<br></div>
+               <div class="right">
+                 {% if session.username %}
               <form action="{{url_for('recipe_upvotes', recipe_id=recipe._id, title= recipe.recipe_title, author= recipe.recipe_author_name, username=session.username)}}" method="POST">
                 <button class="waves-effect waves-lime btn-upvotes btn-flat" type="submit" name="counter" value={{recipe.upvotes}}>
                   <i class="material-icons upvote-icon">thumb_up</i>  <span class="upvotes">{{recipe.upvotes}}</span></button>
@@ -25,8 +45,9 @@
                 </button>
               </form>
           {% endif %}
+               </div>
              </div>
-          <div class="card-icons s12 m12">
+          <div class="s12 m12">
             <a href="{{url_for('the_recipe', recipe_id = recipe._id, recipe_title = recipe.recipe_title)}}" class="btn btn-to-recipe green">View this recipe <i class="material-icons right">chevron_right</i></a>
           </div>
         </div>
