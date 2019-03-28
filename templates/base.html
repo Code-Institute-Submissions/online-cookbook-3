@@ -52,7 +52,7 @@
                     </ul>
                     <ul id="cuisines2" class="dropdown-content">
                         {% for cuisine in cuisines %} 
-                      <li><a href="{{url_for('search_cuisine', cuisine_name=cuisine.cuisine_name)}}">{{cuisine.cuisine_name}}</a></li>
+                      <li><a href="{{url_for('search_cuisine', cuisine_name=cuisine.cuisine_name, num=1)}}">{{cuisine.cuisine_name}}</a></li>
                         {% endfor %}
                     </ul>
                     <ul id="authors2" class="dropdown-content">
@@ -101,7 +101,7 @@
                 <ul id="cuisines1" class="dropdown-content">
                   {% set _stub = cuisines.rewind() %}
                   {% for cuisine in cuisines %} 
-                      <li><a href="{{url_for('search_cuisine', cuisine_name=cuisine.cuisine_name)}}">{{cuisine.cuisine_name}}</a></li>
+                      <li><a href="{{url_for('search_cuisine', cuisine_name=cuisine.cuisine_name, num=1)}}">{{cuisine.cuisine_name}}</a></li>
                   {% endfor %}
                 </ul>
                 <ul id="authors1" class="dropdown-content">
