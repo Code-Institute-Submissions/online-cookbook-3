@@ -2,37 +2,58 @@
 <h5 class="heading">{{allergen_name}} free recipes <span class="medium-text">({{count}})</span></h5>
 <div class="divider"></div>
 
+<div class="container">
+  <div class="row">
+  <ul class="pagination right">
+    {% set num = num|int %}
+    {% set last_page = total_pages[-1]|int %}
+    {% if last_page > 1  %}
+    <li {% if request.path == url_for('search_allergen', allergen_name=allergen_name, num = 1) %} class="disabled" {% else %} class="waves-effect" {% endif %}>
+      <a href="{{url_for('search_allergen', allergen_name=allergen_name, num = num-1)}}"><i class="material-icons">chevron_left</i></a></li>
+    {% endif %}
+    {% for num in total_pages %}
+     <li {% if request.path == url_for('search_allergen', allergen_name=allergen_name, num = num) %}class="active" {% endif %}><a href="{{url_for('search_allergen', allergen_name=allergen_name, num = num)}}">{{num}}</a></li>
+    {% endfor %}
+    {% if last_page > 1 %}
+    <li {% if request.path == url_for('search_allergen', allergen_name=allergen_name, num = last_page) %} class="disabled" {% else %} class="waves-effect" {% endif %}>
+      <a href="{{url_for('search_allergen', allergen_name=allergen_name, num = num+1)}}"><i class="material-icons">chevron_right</i></a></li>
+    {% endif %}
+    
+  </ul>
+</div>
+</div>
+
 <div class="row">
-    {% for res in result %}
+    {% for recipe in recipes_per_page %}
     <div class="card medium col s8 offset-s2 m6 l3">
         <div class="card-image waves-effect waves-block waves-light">
-          <img class="activator" height="250" src="{{res.recipe_image_url}}">
+          <img class="activator" height="250" src="{{recipe.recipe_image_url}}">
         </div>
         <div class="card-content">
-          <span class="card-title activator grey-text text-darken-4">{{res.recipe_title}}<i class="material-icons right">more_vert</i></span>
-          <span class="small-text">by <strong>{{res.recipe_author_name}}</strong></span>
+          <span class="card-title activator grey-text text-darken-4">{{recipe.recipe_title}}<i class="material-icons right">more_vert</i></span>
+          <span class="small-text">by <strong>{{recipe.recipe_author_name}}</strong></span>
          <div>
              {% if session.username %}
-            <form action="{{url_for('recipe_upvotes', recipe_id=res._id, title= res.recipe_title, author= res.recipe_author_name, username=session.username)}}" method="POST">
-              <button class="waves-effect waves-lime btn-upvotes btn-flat" type="submit" name="counter" value={{res.upvotes}}>
-                <i class="material-icons upvote-icon">thumb_up</i>  <span class="upvotes">{{res.upvotes}}</span></button>
+            <form action="{{url_for('recipe_upvotes', recipe_id=recipe._id, title= recipe.recipe_title, author= recipe.recipe_author_name, username=session.username)}}" method="POST">
+              <button class="waves-effect waves-lime btn-upvotes btn-flat" type="submit" name="counter" value={{recipe.upvotes}}>
+                <i class="material-icons upvote-icon">thumb_up</i>  <span class="upvotes">{{recipe.upvotes}}</span></button>
             </form>
             {% else %}
             <form action="" method="POST">
-              <button class="waves-effect waves-lime btn-upvotes btn-flat disabled" type="submit" name="counter" value={{res.upvotes}}>
-                <i class="material-icons upvote-icon">thumb_up</i>  <span class="upvotes">{{res.upvotes}}</span>
+              <button class="waves-effect waves-lime btn-upvotes btn-flat disabled" type="submit" name="counter" value={{recipe.upvotes}}>
+                <i class="material-icons upvote-icon">thumb_up</i>  <span class="upvotes">{{recipe.upvotes}}</span>
               </button>
             </form>
         {% endif %}
            </div>
           <div class="card-icons s12 m12">
-            <a href="{{url_for('the_recipe', recipe_id = res._id, recipe_title = res.recipe_title)}}" class="btn btn-to-recipe green">View this recipe <i class="material-icons right">chevron_right</i></a>
+            <a href="{{url_for('the_recipe', recipe_id = recipe._id, recipe_title = recipe.recipe_title)}}" class="btn btn-to-recipe green">View this recipe <i class="material-icons right">chevron_right</i></a>
           </div>
         
         </div>
         <div class="card-reveal">
-          <span class="card-title grey-text text-darken-4"><i class="material-icons right">close</i>{{res.recipe_title}}</span>
-          <p>{{res.recipe_short_description}}</p>
+          <span class="card-title grey-text text-darken-4"><i class="material-icons right">close</i>{{recipe.recipe_title}}</span>
+          <p>{{recipe.recipe_short_description}}</p>
         </div>
     </div>
     {% endfor %}

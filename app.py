@@ -55,8 +55,7 @@ def login():
 """ Redirects guest users to website home page """
 @app.route('/guest_user')
 def guest_user():
-    default_page_num= '1'
-    return redirect(url_for('all_recipes', num=default_page_num))
+    return redirect(url_for('all_recipes', num=1))
 
 """ Logout a user by removing username from session """
 @app.route('/login')
@@ -171,8 +170,7 @@ def update_recipe(recipe_id):
         'recipe_ingredients':request.form.getlist('ingred'),
         'recipe_steps':request.form.getlist('steps'),
     })
-    default_page_num = '1'
-    return redirect(url_for('all_recipes', num=default_page_num))
+    return redirect(url_for('all_recipes', num=1))
   
 """ Add new recipe data to MongoDB """   
 @app.route('/insert_recipe', methods=['POST'])
@@ -202,8 +200,7 @@ def insert_recipe():
 def delete_recipe(recipe_id):
     recipe = mongo.db.recipes
     recipe.remove({'_id': ObjectId(recipe_id)})
-    default_page_num='1'
-    return redirect(url_for('all_recipes', num=default_page_num)) 
+    return redirect(url_for('all_recipes', num=1)) 
 
 """ Displays all cuisines in MongoDB """
 @app.route('/all_cuisines')
@@ -380,8 +377,8 @@ def search_cuisine(cuisine_name):
                             count = cuisine_count, cuisines=cuisines, dishes=dishes, users=users, allergens=allergens)
 
 """ Search by dish types """
-@app.route('/search_dish/<dish_type>')
-def search_dish(dish_type):
+@app.route('/search_dish/<dish_type>/page:<num>')
+def search_dish(dish_type, num):
     dishes = mongo.db.dishes.find()
     cuisines = mongo.db.cuisines.find()
     users = mongo.db.users.find()
@@ -389,12 +386,15 @@ def search_dish(dish_type):
     recipes =  mongo.db.recipes
     dish_result = recipes.find({'dish_type': dish_type}).sort([("upvotes", -1)])
     dish_count = dish_result.count()
-    return render_template('searchdish.html', result = dish_result, dish_type=dish_type,
-                            count = dish_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens) 
+    total_pages = range(1, math.ceil(dish_count/8) + 1)
+    skip_num = 8 * (int(num)-1)
+    recipes_per_page = dish_result.skip(skip_num).limit(8)
+    return render_template('searchdish.html', dish_type=dish_type, num=num, total_pages=total_pages,
+                            recipes_per_page=recipes_per_page, count = dish_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens) 
 
 """ Search by authors """
-@app.route('/search_author/<author_name>')
-def search_author(author_name):
+@app.route('/search_author/<author_name>/page:<num>')
+def search_author(author_name, num):
     dishes = mongo.db.dishes.find()
     cuisines = mongo.db.cuisines.find()
     users = mongo.db.users.find()
@@ -402,12 +402,15 @@ def search_author(author_name):
     recipes =  mongo.db.recipes
     author_result = recipes.find({'recipe_author_name': author_name}).sort([("upvotes", -1)])
     author_count = author_result.count()
-    return render_template('searchauthor.html', result = author_result, author_name=author_name,
-                            count = author_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens)
+    total_pages = range(1, math.ceil(author_count/8) + 1)
+    skip_num = 8 * (int(num)-1)
+    recipes_per_page = author_result.skip(skip_num).limit(8)
+    return render_template('searchauthor.html', total_pages = total_pages, author_name=author_name, recipes_per_page=recipes_per_page,
+                            num=num, count = author_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens)
 
 """ Search by allergens """
-@app.route('/search_allergen/<allergen_name>')
-def search_allergen(allergen_name):
+@app.route('/search_allergen/<allergen_name>/page:<num>')
+def search_allergen(allergen_name, num):
     dishes = mongo.db.dishes.find()
     cuisines = mongo.db.cuisines.find()
     users = mongo.db.users.find()
@@ -415,14 +418,21 @@ def search_allergen(allergen_name):
     recipes =  mongo.db.recipes
     allergen_result = recipes.find({'allergen_name':{'$not': {'$eq': allergen_name}}}).sort([("upvotes", -1)])
     allergen_count = allergen_result.count()
-    return render_template('searchallergen.html', result = allergen_result, allergen_name=allergen_name, 
-                            count = allergen_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens)
+    total_pages = range(1, math.ceil(allergen_count/8) + 1)
+    skip_num = 8 * (int(num)-1)
+    recipes_per_page = allergen_result.skip(skip_num).limit(8)
+    return render_template('searchallergen.html', num = num, allergen_name=allergen_name, total_pages = total_pages, 
+                            recipes_per_page=recipes_per_page, count = allergen_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens)
 
 
 """ Search by keyword """
 @app.route('/search_keyword', methods=['POST'])
-def search_keyword():
+def insert_keyword():
     keyword = request.form.get('keyword')
+    return redirect(url_for('search_keyword', num=1, keyword=keyword) ) 
+    
+@app.route('/search_keyword/<keyword>/page:<num>')
+def search_keyword(keyword, num):
     dishes = mongo.db.dishes.find()
     cuisines = mongo.db.cuisines.find()
     users = mongo.db.users.find()
@@ -437,7 +447,10 @@ def search_keyword():
        ])
     keyword_result = recipes.find({"$text": {"$search": keyword}}).sort([("upvotes", -1)])
     keyword_count = keyword_result.count()
-    return render_template('searchkeyword.html', result = keyword_result, keyword=keyword, 
+    total_pages = range(1, math.ceil(keyword_count/8) + 1)
+    skip_num = 8 * (int(num)-1)
+    recipes_per_page = keyword_result.skip(skip_num).limit(8)
+    return render_template('searchkeyword.html', total_pages = total_pages, num=num, keyword=keyword, recipes_per_page=recipes_per_page,
                             count = keyword_count, dishes=dishes, cuisines=cuisines, users=users, allergens=allergens)
 
 """ Function to upvote a recipe """

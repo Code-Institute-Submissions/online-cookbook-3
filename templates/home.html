@@ -2,7 +2,8 @@
 
 <h5 class="heading">All Recipes <span class="medium-text">({{total_recipes}})</span></h5>
 <div class="divider"></div>
-<div class="row">
+<div class="container">
+  <div class="row">
   <ul class="pagination right">
     {% set num = num|int %}
     {% set last_page = total_pages[-1]|int %}
@@ -19,6 +20,7 @@
     {% endif %}
     
   </ul>
+</div>
 </div>
 
 <div class="row">
