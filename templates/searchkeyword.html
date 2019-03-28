@@ -9,15 +9,15 @@
     {% set num = num|int %}
     {% set last_page = total_pages[-1]|int %}
     {% if last_page > 1  %}
-    <li {% if request.path == url_for('search_keyword', keyword=keyword, num = 1) %} class="disabled" {% else %} class="waves-effect" {% endif %}>
+    <li {% if request.path.replace(' ','%20') == url_for('search_keyword', keyword=keyword, num = 1) %} class="disabled" {% else %} class="waves-effect" {% endif %}>
       <a href="{{url_for('search_keyword', keyword=keyword, num = num-1)}}"><i class="material-icons">chevron_left</i></a></li>
     {% endif %}
     {% for num in total_pages %}
-     <li {% if request.path == url_for('search_keyword', keyword=keyword, num = num) %}class="active" {% endif %}>
+     <li {% if request.path.replace(' ','%20') == url_for('search_keyword', keyword=keyword, num = num) %}class="active" {% endif %}>
        <a href="{{url_for('search_keyword',keyword=keyword, num = num)}}">{{num}}</a></li>
     {% endfor %}
     {% if last_page > 1 %}
-    <li {% if request.path == url_for('search_keyword', keyword=keyword, num = last_page) %} class="disabled" {% else %} class="waves-effect" {% endif %}>
+    <li {% if request.path.replace(' ','%20') == url_for('search_keyword', keyword=keyword, num = last_page) %} class="disabled" {% else %} class="waves-effect" {% endif %}>
       <a href="{{url_for('search_keyword',keyword=keyword, num = num+1)}}"><i class="material-icons">chevron_right</i></a></li>
     {% endif %}
     
