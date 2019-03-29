@@ -12,12 +12,7 @@
   {% endif %}
   <ul class="pagination right">
     {% set num = num|int %}
-    {% if total_pages %}
-      {% set last_page = total_pages[-1]|int %} 
-    {% else %}
-      {% set last_page = 0|int %}
-      {% set total_pages = 0|int %}
-    {% endif %}
+    {% if total_pages %}{% set last_page = total_pages[-1]|int %}{% else %}{% set last_page = 0|int %}{% set total_pages = 0|int %}{% endif %}
     {% if last_page > 1  %}
     <li {% if request.path.replace(' ','%20') == url_for('search_author', author_name=author_name, num = 1) %} class="disabled" {% else %} class="waves-effect" {% endif %}>
       <a href="{{url_for('search_author', author_name=author_name, num = num-1)}}"><i class="material-icons">chevron_left</i></a></li>
