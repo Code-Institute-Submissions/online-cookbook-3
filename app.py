@@ -407,7 +407,7 @@ def search_dish(dish_type, num):
     recipes_per_page = dish_result.skip(skip_num).limit(8)
     if dish_count < 8:
         page_count = dish_count
-    if (int(num) * 8) < dish_count:
+    elif (int(num) * 8) < dish_count:
         page_count = int(num) * 8
     else:
         page_count = int(num) * 8 - dish_count
