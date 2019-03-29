@@ -1,3 +1,8 @@
+/*----------------------------------------------------------------Materialize */
+.disabled {
+    pointer-events: none !important; /* Bug fixed in materialize css class disabled which still worked on click. source: https://github.com/Dogfalo/materialize/issues/3835 */
+}
+
 /*---------------------------------------------------------------- Login Page */
 .divider {
     margin-bottom: 20px;
