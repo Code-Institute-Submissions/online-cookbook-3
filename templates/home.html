@@ -1,11 +1,6 @@
 {% extends 'base.html' %}{% block content %}
 
-<div class="parallax-container">
-      <div class="parallax">
-        <img src="{{ url_for('static', filename='images/banner.jpg') }}">
-        <h4 class="banner-heading">All Recipes</h4>
-      </div>
-</div>
+<h4 class="center heading">All Recipes</h4>
   <div class="row">
     <ul class="col s12 m6">
       {% if total_recipes == 0 %}
@@ -36,7 +31,7 @@
   </ul>
 </div>
 
-
+<div class="divider"></div>
 <div class="row">
     {% for recipe in recipes_per_page %}
     <div class="card medium col s8 offset-s2 m6 l3">
@@ -52,14 +47,14 @@
                  {% if session.username %}
                 <form id="upvote-form" action="{{url_for('recipe_upvotes', recipe_id=recipe._id, title= recipe.recipe_title, author= recipe.recipe_author_name, username=session.username)}}" method="POST">
                   <button class="btn-upvote waves-effect waves-blue btn-flat" type="submit" name="counter" value={{recipe.upvotes}}>
-                  <i class="material-icons tooltipped" data-position="bottom" data-tooltip="Upvote me">thumb_up</i>
+                  <i class="material-icons brown-text tooltipped" data-position="bottom" data-tooltip="Upvote me">thumb_up</i>
                   </button>
                 </form>
                 <div class="upvotes">{{recipe.upvotes}}</div>
               {% else %}
                 <form>
                   <button class="btn-upvote waves-effect waves-lime btn-flat disabled" type="submit" name="counter" value={{recipe.upvotes}}>
-                  <i class="material-icons tooltipped" data-position="bottom" data-tooltip="Upvote me">thumb_up</i>
+                  <i class="material-icons deep-orange-text text-darken-4 tooltipped" data-position="bottom" data-tooltip="Upvote me">thumb_up</i>
                   </button>
                 </form>
                 <div class="upvotes">{{recipe.upvotes}}</div>
@@ -68,11 +63,11 @@
                <div class="col s6 right-align">
                  {% if session.username %}
                     {% if session.username in recipe.fav_by_users %}
-                    <i class="material-icons red-text text-accent-4 tooltipped" data-position="bottom" data-tooltip="Added to favourite recipes">favorite</i>
-                    <div>Save</div>
+                    <i class="material-icons red-text text-accent-4 tooltipped" data-position="bottom" data-tooltip="Added to favourite recipes">favorite_border</i>
+                    <div>Saved</div>
                     {% else %}
                     <a href="{{url_for('add_fav_recipe', username = session.username, recipe_id=recipe._id, title = recipe.recipe_title)}}">
-                        <i class="material-icons red-text text-accent-4 tooltipped" data-position="bottom" data-tooltip="Add to favourites">favorite</i>
+                        <i class="material-icons red-text text-accent-4 tooltipped" data-position="bottom" data-tooltip="Add to favourites">favorite_border</i>
                     </a>
                     <div>Save</div>
                     {% endif %}
