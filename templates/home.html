@@ -2,9 +2,8 @@
 
 <h5 class="heading">All Recipes </h5>
 <div class="divider"></div>
-<div class="container">
   <div class="row">
-    <ul class="left">
+    <ul class="col s12 m6">
       {% if total_recipes == 0 %}
       <li>Showing {{skip_num}} - {{skip_num + page_count}} of {{total_recipes}} Results</li>
       {% else %}
@@ -12,7 +11,7 @@
       {% endif %}
     </ul>  
       
-  <ul class="pagination right">
+  <ul class="pagination col s12 m6 right-align">
     {% set num = num|int %}
     {% if total_pages %}{% set last_page = total_pages[-1]|int %}{% else %}{% set last_page = 0|int %}{% set total_pages = 0|int %}{% endif %}
     {% if last_page > 1  %}
@@ -32,7 +31,7 @@
     
   </ul>
 </div>
-</div>
+
 
 <div class="row">
     {% for recipe in recipes_per_page %}
@@ -61,7 +60,7 @@
                </div>
              </div>
           <div class="s12 m12">
-            <a href="{{url_for('the_recipe', recipe_id = recipe._id, recipe_title = recipe.recipe_title)}}" class="btn btn-to-recipe green">View this recipe <i class="material-icons right">chevron_right</i></a>
+            <a href="{{url_for('the_recipe', recipe_id = recipe._id, recipe_title = recipe.recipe_title)}}" class="btn btn-to-recipe">View this recipe <i class="material-icons right">chevron_right</i></a>
           </div>
         </div>
         <div class="card-reveal">

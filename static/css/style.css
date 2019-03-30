@@ -1,3 +1,24 @@
+@import url('https://fonts.googleapis.com/css?family=Aladin|Exo|Roboto');
+
+/*---------------------------------------------------------------------- Body */
+.fas {
+    padding-right: 5px;
+}
+.fa-user {
+    padding-right: 10px;
+}
+.btn {
+    background-color: #4ec5c1;
+}
+.btn-flat {
+    color: #ec576B;
+}
+.dropdown-content li>a {
+    color: #37474f;
+}
+.capitalize {
+    text-transform: capitalize;
+}
 /*----------------------------------------------------------------Materialize */
 .disabled {
     pointer-events: none !important; /* Bug fixed in materialize css class disabled which still worked on click. source: https://github.com/Dogfalo/materialize/issues/3835 */
@@ -10,17 +31,22 @@
 }
 /*------------------------------------------------------------------- Header */
 nav {
-    background-color: #4b788e;
+    /*background-color: #4b788e;*/
+    background-color: black;
 }
 nav .brand-logo {
     font-size: 25px;
     word-spacing: 2px;
     letter-spacing: 1px;
+    padding-left: 10px;
+    font-family: 'Aladin', cursive;
 }
 .nav-item {
     text-transform: uppercase;
     word-spacing: 2px;
     letter-spacing: 1px;
+    padding: 0 35px;
+    color: #eceff1;
 }
 .fas {
     font-size: 16px;
@@ -38,11 +64,16 @@ nav .brand-logo {
     color: black !important;
 }
 .btn-nav{
-    padding: 0 1rem;  /* to fit search buttons and search bar on one row */
+    padding: 0 0.5rem;  /* to fit search buttons and search bar on one row */
 }
+
 /*---------------------------------------------------------------------- Home */
+.custom-container {
+    width: 85%;
+}
 .heading {
     padding: 15px;
+    font-family: 'Exo', sans-serif;
 }
 .card .card-content .card-title {
     font-size: 16px;
@@ -75,6 +106,7 @@ nav .brand-logo {
     width: 100%;
     word-spacing: 2px;
     text-transform: none;
+    color: #263238;
 }
 .btn-upvotes {
     padding:0;
@@ -106,9 +138,6 @@ nav .brand-logo {
 .list-item-height {
     margin-top: 15px;
 }
-.center-text {
-    text-align: center;
-}
 .recipe-image {
     border-radius: 10px;
     width: 100%;
@@ -127,6 +156,8 @@ nav .brand-logo {
     background-color: #4b788e;
     padding-top: 15px;
     padding-bottom: 10px;
+    margin-top: 20px;
+    color: #eceff1;
 }
 /*CREDIT: Materailizecss code for sticky footer */
 body {
