@@ -45,22 +45,38 @@
         </div>
         <div class="card-content">
              <span class="card-title activator grey-text text-darken-4">{{recipe.recipe_title}}<i class="material-icons right">more_vert</i></span>
-             <span class="small-text">by <strong class="pink-text">{{recipe.recipe_author_name}}</strong></span>
+             <span class="small-text">by <strong class="blue-grey-text text-darken-1">{{recipe.recipe_author_name}}</strong></span>
              <div class="card-icons">
-               <div class="left"><i class="material-icons">watch_later</i>{{recipe.total_time}} mins<br></div>
-               <div class="right">
+          
+               <div class="col s6 left-align">
                  {% if session.username %}
-              <form action="{{url_for('recipe_upvotes', recipe_id=recipe._id, title= recipe.recipe_title, author= recipe.recipe_author_name, username=session.username)}}" method="POST">
-                <button class="waves-effect waves-lime btn-upvotes btn-flat" type="submit" name="counter" value={{recipe.upvotes}}>
-                  <i class="material-icons upvote-icon">thumb_up</i>  <span class="upvotes">{{recipe.upvotes}}</span></button>
-              </form>
+                <form id="upvote-form" action="{{url_for('recipe_upvotes', recipe_id=recipe._id, title= recipe.recipe_title, author= recipe.recipe_author_name, username=session.username)}}" method="POST">
+                  <button class="btn-upvote waves-effect waves-blue btn-flat" type="submit" name="counter" value={{recipe.upvotes}}>
+                  <i class="material-icons tooltipped" data-position="bottom" data-tooltip="Upvote me">thumb_up</i>
+                  </button>
+                </form>
+                <div class="upvotes">{{recipe.upvotes}}</div>
               {% else %}
-              <form action="" method="POST">
-                <button class="waves-effect waves-lime btn-upvotes btn-flat disabled" type="submit" name="counter" value={{recipe.upvotes}}>
-                  <i class="material-icons upvote-icon">thumb_up</i>  <span class="upvotes">{{recipe.upvotes}}</span>
-                </button>
-              </form>
-          {% endif %}
+                <form>
+                  <button class="btn-upvote waves-effect waves-lime btn-flat disabled" type="submit" name="counter" value={{recipe.upvotes}}>
+                  <i class="material-icons tooltipped" data-position="bottom" data-tooltip="Upvote me">thumb_up</i>
+                  </button>
+                </form>
+                <div class="upvotes">{{recipe.upvotes}}</div>
+              {% endif %}
+               </div>
+               <div class="col s6 right-align">
+                 {% if session.username %}
+                    {% if session.username in recipe.fav_by_users %}
+                    <i class="material-icons red-text text-accent-4 tooltipped" data-position="bottom" data-tooltip="Added to favourite recipes">favorite</i>
+                    <div>Save</div>
+                    {% else %}
+                    <a href="{{url_for('add_fav_recipe', username = session.username, recipe_id=recipe._id, title = recipe.recipe_title)}}">
+                        <i class="material-icons red-text text-accent-4 tooltipped" data-position="bottom" data-tooltip="Add to favourites">favorite</i>
+                    </a>
+                    <div>Save</div>
+                    {% endif %}
+                  {% endif %}
                </div>
              </div>
           <div class="s12 m12">
