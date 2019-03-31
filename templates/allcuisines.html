@@ -12,12 +12,12 @@
     {% set _stub = cuisines.rewind() %}
     {% for cuisine in cuisines %}
     <div class="col s12 m4">
-        <div class="card-panel  light-blue lighten-4 row">
+        <div class="card-panel blue-grey lighten-5 row">
             <div class="col s6 ">
                 <span class="name">{{cuisine.cuisine_name}}</span>
             </div>
             <div class="col s3 ">
-                <a href="{{url_for('edit_cuisine', cuisine_id = cuisine._id)}}" class="waves-effect waves-light orange-text"><i class="material-icons">edit</i></a>
+                <a href="{{url_for('edit_cuisine', cuisine_id = cuisine._id)}}" class="waves-effect waves-light yellow-text text-darken-4"><i class="material-icons">edit</i></a>
              </div>
             <div class="col s3 ">   
                 <a href="{{url_for('delete_cuisine', cuisine_id = cuisine._id)}}" class="waves-effect waves-light red-text"><i class="material-icons">delete</i></a>
@@ -27,7 +27,7 @@
     {% endfor %}
 </div>
 <div class="row">
-    <div class="col s12 m3">
+    <div class="col s12 m4 offset-m4 center-align">
        <a href="{{url_for('add_cuisine')}}" class="waves-effect waves-light btn"><i class="material-icons left">add_box</i>Add Cuisine</a> 
     </div>
 </div>
