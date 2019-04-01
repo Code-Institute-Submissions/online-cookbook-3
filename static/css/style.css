@@ -1,15 +1,7 @@
 /*------------------------------------------------------------- -Google Fonts */
 
-@import url('https://fonts.googleapis.com/css?family=Aladin|Exo|Roboto');
+@import url('https://fonts.googleapis.com/css?family=Aladin|Exo');
 
-/*---------------------------------------------------------------- Index.html */
-.form-tabs {
-    margin-bottom: 40px;
-}
-.container-spacing {
-    margin-top: 70px;
-    margin-bottom: 70px;
-}
 /*------------------------------------------------------------- Reusable code */
 /*----------- Headings */
 .heading {
@@ -32,10 +24,67 @@
     background-color: #4ec5c1;
     color: #eceff1;
     word-spacing: 5px;
-    margin-top: 20px;
     width: 125px;
 }
 
+
+/*---------------------------------------------------------------- index.html */
+.tabs-spacing {
+    margin-bottom: 40px;
+}
+.container-spacing {
+    margin-top: 70px;
+    margin-bottom: 70px;
+}
+.btn-spacing {
+    margin-top: 20px;
+}
+/*---------------------------------------------------------------- home.html */
+.results-display {
+    margin-bottom: 0;
+}
+.upvotes {
+    padding-left: 3px;
+    transform: translateY(-30%);
+}
+.fav-icon {
+    transform: translateY(30%);
+}
+.heading-spacing {
+    margin-top: 30px;
+}
+.btn-recipe-card {
+    width: 100%;
+    word-spacing: 2px;
+    text-transform: none;
+    color: #263238;
+}
+.btn-upvote {
+    padding: 0;
+}
+.card-image {
+    height: 250px;
+    overflow: hidden;
+    background-color: #f5f5f5;
+}
+.card .card-content .card-icons {
+    margin-top: 10px;
+}
+.card .card-content .card-title {
+    font-size: 16px;
+    margin-bottom: 0;
+}
+.card .card-content {
+    padding: 0;
+}
+.small-text {
+    font-size: 12px;
+    word-spacing: 2px;
+}
+.medium-text {
+    font-size: 18px;
+    word-spacing: 2px;
+}
 /*----------------------------------------------------------------------------*/
 .fas {
     padding-right: 5px;
@@ -54,11 +103,8 @@
     pointer-events: none !important; /* Bug fixed in materialize css class disabled which still worked on click. source: https://github.com/Dogfalo/materialize/issues/3835 */
 }
 
-/*---------------------------------------------------------------- Login Page */
-.divider {
-    margin-bottom: 20px;
-    margin-top: 20px;
-}
+
+
 /*------------------------------------------------------------------- Header */
 nav {
     background-color: black;
@@ -96,48 +142,6 @@ nav .brand-logo {
     padding: 0 0.5rem;  /* to fit search buttons and search bar on one row */
     color: #ec576B;
 }
-.btn-upvote {
-    padding: 0;
-}
-#upvote-form{
-    margin-top: -5px;
-}
-/*---------------------------------------------------------------------- Home */
-.card .card-content .card-icons {
-    margin-top: 15px;
-}
-.upvotes {
-    padding-left: 3px;
-}
-.parallax-container {
-   height: 225px;
-   position: relative;
-}
-
-.card .card-content .card-title {
-    font-size: 16px;
-    margin-bottom: 0;
-}
-.small-text {
-    font-size: 12px;
-    word-spacing: 2px;
-}
-.medium-text {
-    font-size: 18px;
-    word-spacing: 2px;
-}
-.card .card-content {
-    padding: 0;
-}
-
-.btn-to-recipe {
-    width: 100%;
-    word-spacing: 2px;
-    text-transform: none;
-    color: #263238;
-}
-
-
 /*---------------------------------------------------------------- Add Recipe */
 .new-dish, .new-cuisine, .new-allergen {
     display: none;
