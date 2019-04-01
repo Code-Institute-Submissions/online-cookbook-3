@@ -86,13 +86,21 @@ def my_recipes(username, num):
                             total_pages=total_pages, num=num, skip_num=skip_num, page_count=page_count,recipes_per_page=recipes_per_page, 
                             users=users, total_my_recipes=total_my_recipes, allergens=allergens)    
 
-""" Favourite recipes page """
+""" Add favourite recipes page """
 @app.route('/add_fav_recipes/<username>/<recipe_id>/<title>')
 def add_fav_recipe(username, recipe_id, title):
     if username is not None:
         mongo.db.users.update({'username': username}, {'$push': {'fav_recipes': [recipe_id, title]}})
         mongo.db.recipes.update({'_id': ObjectId(recipe_id)}, {'$push': {'fav_by_users': username}})
-        return redirect(url_for('the_recipe', recipe_id=recipe_id, recipe_title= title))
+        return redirect(url_for('fav_recipes', username=username, num=1))
+
+""" Remove favourite recipes page """
+@app.route('/remove_fav_recipes/<username>/<recipe_id>/<title>')
+def remove_fav_recipe(username, recipe_id, title):
+    if username is not None:
+        mongo.db.users.update({'username': username}, {'$pull': {'fav_recipes': [recipe_id, title]}})
+        mongo.db.recipes.update({'_id': ObjectId(recipe_id)}, {'$pull': {'fav_by_users': username}})
+        return redirect(url_for('fav_recipes', username=username, num=1))       
 
 @app.route('/fav_recipes/<username>/page:<num>')
 def fav_recipes(username, num):

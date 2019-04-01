@@ -81,8 +81,9 @@
             <div class="col s6 right-align">
             {% if session.username %}
               {% if session.username in recipe.fav_by_users %}
-                <i class="fav-icon material-icons red-text text-accent-4 tooltipped" data-position="bottom" data-tooltip="Added to favourite recipes">favorite_border</i>
-                <div>Saved</div>
+                <a href="{{url_for('remove_fav_recipe', username = session.username, recipe_id=recipe._id, title = recipe.recipe_title)}}">
+                  <i class="fav-icon material-icons red-text text-accent-4 tooltipped" data-position="bottom" data-tooltip="Added to favourite recipes">favorite_border</i>
+                </a>
               {% else %}
               <a href="{{url_for('add_fav_recipe', username = session.username, recipe_id=recipe._id, title = recipe.recipe_title)}}">
                 <i class="fav-icon material-icons red-text text-accent-4 tooltipped" data-position="bottom" data-tooltip="Add to favourites">favorite_border</i>
