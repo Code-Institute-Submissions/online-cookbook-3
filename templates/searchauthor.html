@@ -1,70 +1,112 @@
 {% extends 'base.html' %}{% block content %}
+<!-- Heading -->
+<h4 class="heading center heading-spacing">Recipes by {{author_name}} </h4>
 
-<h5 class="heading">Recipes by {{author_name}} </h5>
-<div class="divider"></div>
-  <div class="row">
+<div class="row results-display">
+  
+  <!-- Result Summary -->
   <ul class="col s12 m6">
-      {% if count == 0 %}
+    {% if count == 0 %}
       <li>Showing {{skip_num}} - {{skip_num + page_count}} of {{count}} Results</li>
-      {% else %}
+    {% else %}
       <li>Showing {{skip_num + 1}} - {{skip_num + page_count}} of {{count}} Results</li>
-      {% endif %}
-    </ul>
+    {% endif %}
+  </ul>
+  <!-- Pagination --> 
   <ul class="pagination col s12 m6 right-align">
     {% set num = num|int %}
-    {% if total_pages %}{% set last_page = total_pages[-1]|int %}{% else %}{% set last_page = 0|int %}{% set total_pages = 0|int %}{% endif %}
-    {% if last_page > 1  %}
-    <li {% if request.path.replace(' ','%20') == url_for('search_author', author_name=author_name, num = 1) %} class="disabled" {% else %} class="waves-effect" {% endif %}>
-      <a href="{{url_for('search_author', author_name=author_name, num = num-1)}}"><i class="material-icons">chevron_left</i></a></li>
-    {% endif %}
-    {% if total_pages != 0 %}
-      {% for num in total_pages %}
-       <li {% if request.path.replace(' ','%20') == url_for('search_author', author_name=author_name, num = num) %}class="active" {% endif %}><a href="{{url_for('search_author', author_name=author_name, num = num)}}">{{num}}</a></li>
-      {% endfor %}
-    {% endif %}
-    {% if last_page > 1 %}
-    <li {% if request.path.replace(' ','%20') == url_for('search_author', author_name=author_name, num = last_page) %} class="disabled" {% else %} class="waves-effect" {% endif %}>
-      <a href="{{url_for('search_author', author_name=author_name, num = num+1)}}"><i class="material-icons">chevron_right</i></a></li>
+    
+    {% if total_pages %}
+      {% set last_page = total_pages[-1]|int %}
+    {% else %}
+      {% set last_page = 0|int %}{% set total_pages = 0|int %}
     {% endif %}
     
+    {% if last_page > 1  %}
+      <li {% if request.path.replace(' ','%20') == url_for('search_author', author_name=author_name, num = 1) %} class="disabled" {% else %} class="waves-effect" {% endif %}>
+        <a href="{{url_for('search_author', author_name=author_name, num = num-1)}}"><i class="material-icons">chevron_left</i></a>
+      </li> 
+    {% endif %}
+    
+    {% if total_pages != 0 %}
+      {% for num in total_pages %}
+        <li {% if request.path.replace(' ','%20') == url_for('search_author', author_name=author_name, num = num) %}class="active" {% endif %}>
+          <a href="{{url_for('search_author', author_name=author_name, num = num)}}">{{num}}</a>
+        </li>
+      {% endfor %}
+    {% endif %}
+    
+    {% if last_page > 1 %}
+      <li {% if request.path.replace(' ','%20') == url_for('search_author', author_name=author_name, num = last_page) %} class="disabled" {% else %} class="waves-effect" {% endif %}>
+        <a href="{{url_for('search_author', author_name=author_name, num = num+1)}}"><i class="material-icons">chevron_right</i></a>
+      </li>
+    {% endif %}
   </ul>
 </div>
+<div class="divider"></div>
 
-
+<!-- Recipes display -->
 <div class="row">
     {% for recipe in recipes_per_page %}
     <div class="card medium col s8 offset-s2 m6 l3">
+        <!-- Image -->
         <div class="card-image waves-effect waves-block waves-light">
-          <img class="activator" height="250" src="{{recipe.recipe_image_url}}">
+          <img class="activator responsive-img" src="{{recipe.recipe_image_url}}" alt="dish image">
         </div>
+        <!-- Content -->
         <div class="card-content">
+          <!-- Title/Author -->
           <span class="card-title activator grey-text text-darken-4">{{recipe.recipe_title}}<i class="material-icons right">more_vert</i></span>
           <span class="small-text">by <strong>{{recipe.recipe_author_name}}</strong></span>
           <div>
-             {% if session.username %}
-            <form action="{{url_for('recipe_upvotes', recipe_id=recipe._id, title= recipe.recipe_title, author= recipe.recipe_author_name, username=session.username)}}" method="POST"> 
-              <button class="waves-effect waves-lime btn-upvotes btn-flat" type="submit" name="counter" value={{recipe.upvotes}}>
-                <i class="material-icons upvote-icon">thumb_up</i>  <span class="upvotes">{{recipe.upvotes}}</span></button>
-            </form>
-            {% else %}
-            <form action="" method="POST">
-              <button class="waves-effect waves-lime btn-upvotes btn-flat disabled" type="submit" name="counter" value={{recipe.upvotes}}>
-                <i class="material-icons upvote-icon">thumb_up</i>  <span class="upvotes">{{recipe.upvotes}}</span>
-              </button>
-            </form>
-        {% endif %}
-           </div>
-          <div class="card-icons s12 m12">
-            <a href="{{url_for('the_recipe', recipe_id = recipe._id, recipe_title = recipe.recipe_title)}}" class="btn btn-to-recipe green">View this recipe <i class="material-icons right">chevron_right</i></a>
+        <!-- Upvotes/Favourites -->
+        <div class="card-icons">
+          <div class="col s6 left-align">
+            {% if session.username %}
+              <form action="{{url_for('recipe_upvotes', recipe_id=recipe._id, title= recipe.recipe_title, author= recipe.recipe_author_name, username=session.username)}}" method="POST">
+                <button class="btn-upvote waves-effect waves-blue btn-flat" type="submit" name="counter" value={{recipe.upvotes}}>
+                  <i class="material-icons brown-text tooltipped" data-position="bottom" data-tooltip="Upvote me">thumb_up</i>
+                </button>
+              </form>
+              <div class="upvotes">{{recipe.upvotes}}</div>
+              {% else %}
+              <form>
+                <button class="btn-upvote waves-effect waves-lime btn-flat disabled" type="submit" name="counter" value={{recipe.upvotes}}>
+                  <i class="material-icons deep-orange-text text-darken-4 tooltipped" data-position="bottom" data-tooltip="Upvote me">thumb_up</i>
+                </button>
+              </form>
+              <div class="upvotes">{{recipe.upvotes}}</div>
+            {% endif %}
+            </div>
+            <div class="col s6 right-align">
+            {% if session.username %}
+              {% if session.username in recipe.fav_by_users %}
+                <i class="fav-icon material-icons red-text text-accent-4 tooltipped" data-position="bottom" data-tooltip="Added to favourite recipes">favorite_border</i>
+                <div>Saved</div>
+              {% else %}
+              <a href="{{url_for('add_fav_recipe', username = session.username, recipe_id=recipe._id, title = recipe.recipe_title)}}">
+                <i class="fav-icon material-icons red-text text-accent-4 tooltipped" data-position="bottom" data-tooltip="Add to favourites">favorite_border</i>
+              </a>
+              <div>Save</div>
+              {% endif %}
+            {% endif %}
+            </div>
+          </div>
+          <!-- Link to recipe details -->
+          <div class="s12 m12">
+            <a href="{{url_for('the_recipe', recipe_id = recipe._id, recipe_title = recipe.recipe_title)}}" class="btn btn-recipe-card">View this recipe <i class="material-icons right">chevron_right</i></a>
           </div>
         </div>
+        <!-- Short recipe description -->
         <div class="card-reveal">
-          <span class="card-title grey-text text-darken-4"><i class="material-icons right">close</i>{{recipe.recipe_title}}</span>
+          <span class="card-title grey-text text-darken-4">
+            <i class="material-icons right">close</i>{{recipe.recipe_title}}
+          </span>
           <p>{{recipe.recipe_short_description}}</p>
         </div>
+      </div>
     </div>
-    {% endfor %}
+  {% endfor %}
 </div>
-
 
 {% endblock %}

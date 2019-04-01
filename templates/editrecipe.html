@@ -1,26 +1,37 @@
 {% extends 'base.html' %}{% block content %}
-<h4 class="heading">Edit Recipe</h4>
+<!-- Heading -->
+<h4 class="center heading heading-spacing">Edit Recipe</h4>
+<!-- Recipe form container -->
 <div class="container">
-    <div class="row">
-        <form action="{{url_for('update_recipe', recipe_id =recipe._id)}}" method="POST" class="col s12">
+    <div class="section">
+    <!-- Instructions -->
+        <p class="left">Edit recipe below.<br>
+            <span class="small-text red-text text-darken-4">All fields are required.</span>
+        </p>
+        <!-- Recipe form -->
+        <form action="{{url_for('update_recipe', recipe_id =recipe._id)}}" method="POST" class="recipe-form">
+            <!-- Title -->
             <div class="row">
                 <div class="input-field col s12">
-                <input placeholder="Chocolate Chip Cookie" id="recipe_title" name="recipe_title" type="text" class="validate" value="{{recipe.recipe_title}}" required>
-                <label for="recipe_title">Title</label>
+                    <input placeholder="Chocolate Chip Cookie" id="recipe_title" name="recipe_title" type="text" class="validate" value="{{recipe.recipe_title}}" required>
+                    <label for="recipe_title">Title</label>
                 </div>
             </div>
+            <!-- Short description -->
             <div class="row">
                 <div class="input-field col s12">
                     <textarea placeholder="These are the ultimate chocolate chip cookies...." id="recipe_short_description" name="recipe_short_description" class="materialize-textarea" required>{{recipe.recipe_short_description}}</textarea>
                     <label for="recipe_short_description">Short Description</label>
                 </div>
             </div>
+            <!-- Image -->
             <div class="row">
                 <div class="input-field col s12">
-                <input placeholder="Enter image url" id="recipe_image_url" name="recipe_image_url" type="text" class="validate" value="{{recipe.recipe_image_url}}" required>
-                <label for="recipe_image_url">Image URL</label>
+                    <input placeholder="Enter image url" id="recipe_image_url" name="recipe_image_url" type="text" class="validate" value="{{recipe.recipe_image_url}}" required>
+                    <label for="recipe_image_url">Image URL</label>
+                </div>
             </div>
-            </div>
+            <!-- Cuisines -->
             <div class="row">
                 <div class="input-field col s12">
                     <select id="cuisine_name" name="cuisine_name" required>
@@ -37,6 +48,7 @@
                     <label for="cuisine_name">Cuisine</label>
                 </div>
             </div>
+            <!-- Dishes -->
             <div class="row">
                 <div class="input-field col s12">
                     <select id="dish_type" name="dish_type" required>
@@ -53,10 +65,11 @@
                     <label for="dish_type">Dish Type</label>
                 </div>
             </div>
+            <!-- Allergens -->
             <div class="row">
                 <div class="input-field col s12">
                     <select id="allergen_name" name="allergen_name" multiple required>
-                        <option value="" disabled selected>Choose Allergen</option>
+                        <option value="Choose Allergen" disabled selected>Choose Allergen</option>
                         {% set _stub = allergens.rewind() %}
                         {% for allergen in allergens %}
                             {% if allergen.allergen_name in recipe.allergen_name %}
@@ -70,25 +83,30 @@
                 </div>
             </div>
             <div class="row">
+            <!-- Prep Time -->
                 <div class="input-field col s6">
-                <input placeholder="in minutes" id="recipe_prep_time" name="recipe_prep_time" type="text" class="validate" value="{{recipe.recipe_prep_time}}" required>
-                <label for="recipe_prep_time">Preparation Time (mins)</label>
+                    <input placeholder="in minutes" id="recipe_prep_time" name="recipe_prep_time" type="text" class="validate" value="{{recipe.recipe_prep_time}}" required>
+                    <label for="recipe_prep_time">Preparation Time (mins)</label>
                 </div>
+            <!-- Cook Time -->
                 <div class="input-field col s6">
-                <input placeholder="in minutes" id="recipe_cook_time" name="recipe_cook_time" type="text" class="validate" value="{{recipe.recipe_cook_time}}" required>
-                <label for="recipe_cook_time">Cooking Time (mins)</label>
+                    <input placeholder="in minutes" id="recipe_cook_time" name="recipe_cook_time" type="text" class="validate" value="{{recipe.recipe_cook_time}}" required>
+                    <label for="recipe_cook_time">Cooking Time (mins)</label>
                 </div>
             </div>
             <div class="row">
+            <!-- Total Time -->
                 <div class="input-field col s6">
-                <input placeholder="in minutes" id="total_time" name="total_time" type="text" class="validate" value="{{recipe.total_time}}" required>
-                <label for="total_time">Total Time (mins)</label>
+                    <input placeholder="in minutes" id="total_time" name="total_time" type="text" class="validate" value="{{recipe.total_time}}" required>
+                    <label for="total_time">Total Time (mins)</label>
                 </div>
+                <!-- Servings -->
                 <div class="input-field col s6">
-                <input placeholder="5" id="recipe_serves" name="recipe_serves" type="text" class="validate" value="{{recipe.recipe_serves}}" required>
-                <label for="recipe_serves">Servings</label>
+                    <input placeholder="5" id="recipe_serves" name="recipe_serves" type="text" class="validate" value="{{recipe.recipe_serves}}" required>
+                    <label for="recipe_serves">Servings</label>
                 </div>
             </div>
+            <!-- Ingredients -->
             <div class="row">
                 <div class="col s12 flow-text">Ingredients</div>
             </div>
@@ -101,7 +119,7 @@
                             <label for="recipe_ingredients">Ingredient(s)</label>
                         </div>
                         <div class="col s2 m1">
-                            <a class="btn-floating btn waves-effect waves-light green" id="add_ingredient"><i class="material-icons">add</i></a>
+                            <a class="btn-floating waves-effect waves-light green accent-4" id="add_ingredient"><i class="material-icons">add</i></a>
                         </div>
                     </div>
                     {% else %}
@@ -111,12 +129,13 @@
                             <label>Ingredient(s)</label>
                         </div>
                         <div class="col s1">
-                            <a class="btn-floating btn waves-effect waves-light red" id="delete_ingredient"><i class="material-icons">delete</i></a>
+                            <a class="btn-floating waves-effect waves-light red" id="delete_ingredient"><i class="material-icons">delete</i></a>
                         </div>
                     </div>    
                     {% endif %}
                 {% endfor %}
             </div>
+            <!-- Method -->
             <div class="row">
                 <div class="col s12 flow-text">Method</div>
             </div>
@@ -129,7 +148,7 @@
                             <label for="recipe_steps">Step(s)</label>
                         </div>
                         <div class="col s2 m1">
-                            <a class="btn-floating btn waves-effect waves-light green" id="add_step"><i class="material-icons">add</i></a>
+                            <a class="btn-floating waves-effect waves-light green accent-4" id="add_step"><i class="material-icons">add</i></a>
                         </div>
                     </div>
                     {% else %}
@@ -139,14 +158,15 @@
                             <label for="recipe_steps">Step(s)</label>
                         </div>
                         <div class="col s1">
-                            <a class="btn-floating btn waves-effect waves-light red" id="delete_step"><i class="material-icons">delete</i></a>
+                            <a class="btn-floating waves-effect waves-light red" id="delete_step"><i class="material-icons">delete</i></a>
                         </div>
                     </div>
                     {% endif %}
                 {% endfor %}
             </div>
+            <!-- Submit button -->
             <div class="row">
-                <button class="col s12 btn waves-effect waves-light" type="submit">Save Recipe</button>
+                <button class="col s12 btn medium-text waves-effect waves-light" type="submit">Save Recipe</button>
             </div>
         </form>
     </div>

@@ -50,7 +50,7 @@
 <!-- Recipes display --> 
 <div class="row">
     {% for recipe in recipes %}
-     {% if this_user.username in recipe.fav_by_users %}
+      {% if this_user.username in recipe.fav_by_users %}
       <div class="card medium col s8 offset-s2 m6 l3">
         <!-- Image -->
         <div class="card-image waves-effect waves-block waves-light">
@@ -65,7 +65,7 @@
           <!-- Upvotes/Favourites -->
           <div class="card-icons">
             <div class="col s6 left-align">
-            {% if session.username %}
+              {% if session.username %}
               <form action="{{url_for('recipe_upvotes', recipe_id=recipe._id, title= recipe.recipe_title, author= recipe.recipe_author_name, username=session.username)}}" method="POST">
                 <button class="btn-upvote waves-effect waves-blue btn-flat" type="submit" name="counter" value={{recipe.upvotes}}>
                   <i class="material-icons brown-text tooltipped" data-position="bottom" data-tooltip="Upvote me">thumb_up</i>
