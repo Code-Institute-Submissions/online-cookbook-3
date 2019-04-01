@@ -153,16 +153,16 @@
             $(".button-collapse").sideNav();
             $('select').material_select();
             var delete_icon = '<i class="material-icons">delete</i></a></div></div>';
-            var ingredient_field = `<div class="row new-ingredient"> <div class="input-field col s11">
-                    <input type="text" name="ingred" class="validate" required placeholder="">
+            var ingredient_field = `<div class="row new-ingredient"> <div class="input-field col s10 m11">
+                    <input type="text" name="ingred" class="validate">
                     <label>Ingredient(s)</label></div>
-                    <div class="col s1"><a class="btn-floating btn waves-effect waves-light red" id="delete_ingredient"> 
+                    <div class="col s2 m1"><a class="btn-floating waves-effect waves-light red" id="delete_ingredient"> 
                    ${delete_icon}`;
-            var step_field = `<div class="row new-step"> <div class="input-field col s11">
-                    <textarea id="recipe_steps" name="steps" class="materialize-textarea" required placeholder=""></textarea>
-                    <label for="recipe_steps">Step(s)</label>
-                    <div class="col s1"><a class="btn-floating btn waves-effect waves-light red" id="delete_step"> 
-                    ${delete_icon}`;
+            var step_field = `<div class="row new-step"> <div class="input-field col s10 m11">
+                    <textarea name="steps" class="materialize-textarea" class="validate"></textarea>
+                    <label>Step(s)</label></div>
+                    <div class="col s2 m1"><a class="btn-floating waves-effect waves-light red" id="delete_step"> 
+                   ${delete_icon}`;
             
             // add and remove ingredient
             $("#add_ingredient").click(function() {
@@ -181,7 +181,6 @@
             $("body").on("click","#delete_step", function() {
                 $(this).parents(".new-step").remove();
             });
-             $('.parallax').parallax();
         });
     </script>
 </body>
