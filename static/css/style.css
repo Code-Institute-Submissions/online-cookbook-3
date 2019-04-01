@@ -37,6 +37,12 @@
     word-spacing: 5px;
     width: 125px;
 }
+.btn-spacing {
+    margin-top: 20px;
+}
+.btn-width {
+    width: 225px;
+}
 /*----- Text */
 .small-text {
     font-size: 12px;
@@ -54,9 +60,6 @@
 .container-spacing {
     margin-top: 70px;
     margin-bottom: 70px;
-}
-.btn-spacing {
-    margin-top: 20px;
 }
 /*---------------------------------------------------------------- home.html */
 .results-display {
@@ -97,10 +100,7 @@
 .recipe-form {
     margin-top: 100px;
 }
-/*---------------------------------------------------------- allcuisines.html */
-.btn-width {
-    width: 225px;
-}
+
 /*----------------------------------------------------------------------------*/
 .fas {
     padding-right: 5px;

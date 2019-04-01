@@ -1,35 +1,50 @@
 {% extends 'base.html' %}{% block content %}
 
-<h4 class="center heading">All Dish Types</h4>
+<!-- Heading -->
+<h4 class="center heading heading-spacing">All Dish Types</h4>
 
-
+<!-- Alert messages -->
 {% if delete_dish == False %}
-<div class="container center">
-    <h5 class="red-text text-darken-4">Oops, there is an error!</h5>
-    <p>Sorry this category name cannot be deleted. A category name can only me deleted if it contains no recipe.</p>
-</div>
+    <div class="container center">
+        <h5 class="red-text text-darken-4">Oops, there is an error!</h5>
+        <p>Sorry this category name cannot be deleted. A category name can only me deleted if it contains no recipe.</p>
+    </div>
 {% endif %}
+
+<!-- Dish names container -->
 <div class="row">
     {% set _stub = dishes.rewind() %}
     {% for dish in dishes %}
-    <div class="col s12 m4">
-        <div class="card-panel blue-grey lighten-5 row">
-            <div class="col s6 ">
-                <span class="name">{{dish.dish_type}}</span>
-            </div>
-            <div class="col s3 ">
-                <a href="{{url_for('edit_dish', dish_id = dish._id)}}" class="waves-effect waves-light yellow-text text-darken-4"><i class="material-icons">edit</i></a>
-             </div>
-            <div class="col s3 ">   
-                <a href="{{url_for('delete_dish', dish_id = dish._id)}}" class="waves-effect waves-light red-text"><i class="material-icons">delete</i></a>
+        <div class="col s12 m4">
+            <!-- Dish name -->
+            <div class="card-panel blue-grey lighten-5 row">
+                <div class="col s6 ">
+                    <span class="name">{{dish.dish_type}}</span>
+                </div>
+            <!-- Edit dish -->
+                <div class="col s3 ">
+                    <a href="{{url_for('edit_dish', dish_id = dish._id)}}" class="waves-effect waves-light yellow-text text-darken-4">
+                        <i class="material-icons">edit</i>
+                    </a>
+                 </div>
+            <!-- Delete dish -->
+                <div class="col s3 ">   
+                    <a href="{{url_for('delete_dish', dish_id = dish._id)}}" class="waves-effect waves-light red-text">
+                        <i class="material-icons">delete</i>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
     {% endfor %}
 </div>
+
+<!-- New dish submission link -->
 <div class="row">
     <div class="col s12 m4 offset-m4 center-align">
-       <a href="{{url_for('add_dish')}}" class="waves-effect waves-light btn"><i class="material-icons left">add_box</i>Add Dish</a> 
+        <a href="{{url_for('add_dish')}}" class="waves-effect waves-light btn btn-width medium-text btn-spacing">
+           <i class="material-icons left">add_box</i>Add Dish
+        </a> 
     </div>
 </div>
+
 {% endblock %}
