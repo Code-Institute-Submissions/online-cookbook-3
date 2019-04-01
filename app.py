@@ -94,16 +94,26 @@ def add_fav_recipe(username, recipe_id, title):
         mongo.db.recipes.update({'_id': ObjectId(recipe_id)}, {'$push': {'fav_by_users': username}})
         return redirect(url_for('the_recipe', recipe_id=recipe_id, recipe_title= title))
 
-@app.route('/fav_recipes/<username>')
-def fav_recipes(username):
-    recipes=mongo.db.recipes.find()
+@app.route('/fav_recipes/<username>/page:<num>')
+def fav_recipes(username, num):
+    recipes=mongo.db.recipes.find().sort([("upvotes", -1)])
     cuisines =  mongo.db.cuisines.find()
     dishes=mongo.db.dishes.find()
     allergens=mongo.db.allergens.find()
     users = mongo.db.users.find()
     this_user=mongo.db.users.find_one({'username': username})
     fav_recipe_count = len(this_user['fav_recipes']) 
+    fav_recipes = mongo.db.recipes.find({'fav_recipes': username})
+    total_pages = range(1, math.ceil(fav_recipe_count/8) + 1)
+    skip_num = 8 * (int(num)-1)
+    if fav_recipe_count < 8:
+        page_count = fav_recipe_count
+    elif (int(num) * 8) < fav_recipe_count:
+        page_count = int(num) * 8
+    else:
+        page_count = int(num) * 8 - fav_recipe_count
     return render_template("favrecipes.html", recipes=recipes, dishes=dishes, cuisines=cuisines, fav_recipe_count = fav_recipe_count,
+                            total_pages=total_pages, num=num, skip_num=skip_num, page_count=page_count, 
                             users=users, allergens=allergens, this_user=this_user)    
     
 
