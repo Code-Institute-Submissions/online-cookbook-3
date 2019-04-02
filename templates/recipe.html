@@ -6,28 +6,26 @@
             <div class="row">
                 <div class="col s8 offset-s2 m5"><img class="recipe-image" src="{{recipe.recipe_image_url}}"></div>
                 <div class="col s8 offset-s2 m7">
+                    <h5 class="small-heading">{{recipe.recipe_title}}
                     {% if session.username %}
                         {% if session.username in recipe.fav_by_users %}
-                        <h5 class="small-heading">{{recipe.recipe_title}}
                             <a href="{{url_for('remove_fav_recipe', username = session.username, recipe_id=recipe._id, title = recipe.recipe_title)}}">
                                 <i class="fav-icon material-icons red-text text-accent-4 tooltipped" data-position="bottom" data-tooltip="Added to favourite recipes">favorite_border</i>
                             </a>
-                        </h5>
                         {% else %}
-                        <h5 class="small-heading">{{recipe.recipe_title}}
                             <a href="{{url_for('add_fav_recipe', username = session.username, recipe_id=recipe._id, title = recipe.recipe_title)}}">
                                 <i class="material-icons right red-text text-accent-4 tooltipped" data-position="bottom" data-tooltip="Add to favourites">favorite_border</i>
                             </a>
-                        </h5>
                         {% endif %}
-                    {% endif %}
+                        {% endif %}
+                        </h5>
                     <p>
                         <i class="material-icons">schedule</i> Preparation Time: {{recipe.recipe_prep_time}} mins<br>
                         <i class="material-icons">schedule</i> Cook Time: {{recipe.recipe_cook_time}} mins<br>
                         <i class="material-icons">watch_later</i> Total Time: {{recipe.total_time}} mins<br>
                         <i class="material-icons">local_dining</i> Servings: {{recipe.recipe_serves}}<br>
                     </p>
-                    {% if session.username %}
+                    {% if session.username == recipe.recipe_author_name %}
                     <p>
                         <a href="{{url_for('edit_recipe', recipe_id = recipe._id)}}" class="btn-floating waves-effect waves-light orange tooltipped" data-position="bottom" data-tooltip="Edit recipe"><i class="material-icons">edit</i></a>
                         <a href="{{url_for('delete_recipe', recipe_id = recipe._id)}}" class="btn-floating waves-effect waves-light red tooltipped" data-position="bottom" data-tooltip="Delete recipe"><i class="material-icons">delete</i></a> 

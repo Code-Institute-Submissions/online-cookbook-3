@@ -6,12 +6,14 @@ from bson.objectid import ObjectId
 
 app = Flask(__name__)
 app.config["MONGO_DBNAME"] = 'online cookbook'
-app.config["MONGO_URI"] = 'mongodb://admin:mariam83@ds125945.mlab.com:25945/recipes'
+app.config["MONGO_URI"] = 'mongodb://admin1:pB1SqahV@ds125945.mlab.com:25945/recipes'
 app.config['SECRET_KEY'] = os.urandom(24) 
 mongo = PyMongo(app)
 
+""" Variables """
+users = mongo.db.users
 
-""" Load user login/registration page """
+""" Login page """
 @app.route('/')
 def index():
     return render_template("index.html")
@@ -19,11 +21,10 @@ def index():
 """ Check data submitted via Registration form """
 @app.route('/register', methods=['POST'])
 def register():
-    users = mongo.db.users
     fullname = request.form.get('fullname')
     username = request.form.get('username')
     password = request.form.get('password')
-    registered = users.find_one({'username': username})
+    registered = users.find_one({'username': {'$regex': username, '$options': 'i'}})
     if registered is None:
         users.insert_one({
             'username': username,
@@ -40,7 +41,6 @@ def register():
 """ Check data submitted via Login form """
 @app.route('/logout', methods=['POST'])
 def login():
-    users = mongo.db.users
     username = request.form.get('username')
     password = request.form.get('password')
     registered = users.find_one({'username': {'$regex': username, '$options': 'i'}, 'password': password})
@@ -533,7 +533,7 @@ def recipe_upvotes(recipe_id, title, author, username):
         users.update(
             {'username': username},
             {'$push': {'upvoted_recipes': (recipe_id, title)}})
-    return redirect(url_for('all_recipes'))
+    return redirect(url_for('all_recipes', num=1))
 
 
         

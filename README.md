@@ -32,6 +32,34 @@ The website is designed using following technologies:
 - Pencil
 
 ## Testing
+All tests were carried out manually. Testing process was as follows:
+##### Login Page
+###### Logo
+* Click on logo and verify that page refreshes.
+
+###### Guest User
+* Click on *CONTINUE*  button and verify that website home page appears.
+
+###### Sign In
+* Click on *SIGN IN* button with all or some incomplete fields and verify that 
+  an error message (next to the first incomplete field) appears stating, 'Please 
+  fill in this field'. Form does not get submitted unless all input fields are filled.
+* Enter incorrect username or/and password, click on *SIGN IN* button and verify 
+  that error message appears stating, 'Login failed. Incorrect username or/and 
+  password. Please try again.'
+* Enter correct username (case-insensitive) and password (case-sensitive), click
+  on *SIGN IN* button and verify that website home page appears
+
+###### Sign Up
+* Click on *SIGN UP* button with all or some incomplete fields and verify that 
+  an error message (next to the first incomplete field) appears stating, 'Please 
+  fill in this field'. Form does not get submitted unless all input fields are filled.
+* Enter existing username (case-insensitive), any full name and password, click 
+  on *SIGN UP* button and verify that error message appears stating, 'Sorry that
+  username already exists. Please use a different username.'
+* Enter new username, any full name and password, click on *SIGN UP* button and 
+  verify that error message appears stating, 'You are successfully registered. 
+  Please login below.'
 
 ##### Dev Tools
 ##### HTML and CSS validator
