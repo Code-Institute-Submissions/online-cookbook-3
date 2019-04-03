@@ -203,7 +203,7 @@ def update_recipe(recipe_id):
         'recipe_ingredients':request.form.getlist('ingred'),
         'recipe_steps':request.form.getlist('steps'),
     })
-    return redirect(url_for('all_recipes', num=1))
+    return redirect(url_for('my_recipes', username=session['username'], num=1))
   
 """ Add new recipe data to MongoDB """   
 @app.route('/insert_recipe', methods=['POST'])
@@ -226,14 +226,14 @@ def insert_recipe():
     new_recipe = doc
     the_recipe=mongo.db.recipes
     the_recipe.insert_one(new_recipe)
-    return redirect(url_for('all_recipes'))
+    return redirect(url_for('all_recipes', num=1))
 
 """ Removes a recipe from MongoDB """
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
     recipe = mongo.db.recipes
     recipe.remove({'_id': ObjectId(recipe_id)})
-    return redirect(url_for('all_recipes', num=1)) 
+    return redirect(url_for('my_recipes', username= session['username'], num=1)) 
 
 """ Displays all cuisines in MongoDB """
 @app.route('/all_cuisines')
@@ -293,7 +293,7 @@ def update_cuisine(cuisine_id):
         return render_template('editcuisine.html', edit_cuisine=edit_cuisine, cuisines=cuisines, dishes=dishes, recipes=recipes,
                             users=users, allergens=allergens, cuisine=cuisine)
     else:
-        cuisine.update({'_id': ObjectId(cuisine_id)}, {'cuisine_name': request.form.get('cuisine_name')})
+        mongo.db.cuisines.update({'_id': ObjectId(cuisine_id)}, {'cuisine_name': request.form.get('cuisine_name')})
         return redirect(url_for('all_cuisines'))  
 
 """ Removes a cuisine from MongoDB """
@@ -371,7 +371,7 @@ def update_dish(dish_id):
         return render_template('editdish.html', edit_dish=edit_dish, cuisines=cuisines, dishes=dishes, recipes=recipes,
                             users=users, allergens=allergens, dish=dish)
     else:
-        dish.update({'_id': ObjectId(dish_id)}, {'dish_type': request.form.get('dish_type')})
+        mongo.db.dishes.update({'_id': ObjectId(dish_id)}, {'dish_type': request.form.get('dish_type')})
         return redirect(url_for('all_dishes'))  
 
         

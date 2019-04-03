@@ -136,16 +136,50 @@ All tests were carried out manually. Testing process was as follows:
 * Click on *View this Recipe* and verify that webpage with all recipe details appear.
 
 
-###### Sign Up
-* Click on **SIGN UP** button with all or some incomplete fields and verify that 
+##### Add Recipe Page (Registered users only)
+* Click on **Save recipe** button with all or some incomplete fields and verify that 
   an error message (next to the first incomplete field) appears stating, 'Please 
   fill in this field'. Form does not get submitted unless all input fields are filled.
-* Enter existing username (case-insensitive), any full name and password, click 
-  on **SIGN UP** button and verify that error message appears stating, 'Sorry that
-  username already exists. Please use a different username.'
-* Enter new username, any full name and password, click on **SIGN UP** button and 
-  verify that error message appears stating, 'You are successfully registered. 
-  Please login below.'
+* Click on *add* icon and verify that an input field for ingredient or method step
+  appears with *delete* icon. 
+* Click on *delete* icon and verify that the input field next to it is removed.
+* Verify that at least one ingredient or method step is required to submit the form.
+* Enter image in a format other than url and verify that the form is not submitted
+  unless correct url format is entered.
+* Click on **Save recipe** button and verify that user is redirected to home page.
+
+##### Manage Categories (Registered users only)
+###### All Cuisines/ All Dish Types 
+* Click on *Edit* icon and verify that the respective edit page (*Edit Cuisine* or 
+  *Edit Dish Type* ) form appears with the saved value in the input field.
+* Try editing the saved cuisine name or dish type that has at least one recipe 
+  linked to it, click *save changes* and verify that *error* message will appear 
+  stating 'Oops, there is an error! Sorry this category name cannot be edited. A 
+  category name can only be edited if it contains no recipe.'
+* Try editing the Cuisine with no recipe linked to it, click *save changes* and 
+  verify that it is successfully edited.
+* Click *Delete* icon and verify that if at least one recipe is linked to it, 
+  an *error* message will appear stating 'Oops, there is an error! Sorry this 
+  category name cannot be deleted. A category name can only be deleted if it 
+  contains no recipe.'
+* Click *Delete* icon and verify that if at no recipe is linked to it and verify 
+  that it is successfully deleted.
+
+##### Recipe Details Page 
+* Click on 'View this Recipe' button on any recipe card (either on home page or 
+  any other webpage with recipe cards) and verify that *Edit* and *Delete* icon 
+  only appears if user is the author of recipe. 
+* Click on *Edit* icon and verify that *Edit recipe* form page appears. Verify 
+  that all input fields are filled with the previously saved values.
+* Click on *Save changes* and verify that (if all tests detailed above in 
+  **Add Recipe Page** are satisfied) then recipe is successfully changed and user
+  is redirected to *My Recipes* page.
+* Click on *Delete* icon and verify that recipe is deleted and user is redirected to
+  *My Recipes* page.
+
+###### Favourite Recipes
+
+###### Logout
 
 ##### Dev Tools
 ##### HTML and CSS validator

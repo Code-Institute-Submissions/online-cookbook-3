@@ -83,6 +83,7 @@
                 <a href="{{url_for('remove_fav_recipe', username = session.username, recipe_id=recipe._id, title = recipe.recipe_title)}}">
                   <i class="fav-icon material-icons red-text text-accent-4 tooltipped" data-position="bottom" data-tooltip="Added to favourite recipes">favorite_border</i>
                 </a>
+                <div>Saved</div>
               {% else %}
               <a href="{{url_for('add_fav_recipe', username = session.username, recipe_id=recipe._id, title = recipe.recipe_title)}}">
                 <i class="fav-icon material-icons red-text text-accent-4 tooltipped" data-position="bottom" data-tooltip="Add to favourites">favorite_border</i>
