@@ -1,6 +1,13 @@
 {% extends 'base.html' %}{% block content %}
 <!-- Heading -->
 <h4 class="heading center heading-spacing">Add Dish Type</h4>
+<!-- Alert messages -->
+{% if new_dish == False %}
+    <div class="container center">
+        <h5 class="red-text text-darken-4">Oops, there is an error!</h5>
+        <p>Sorry this category name already exists. Please try a new category name.</p>
+    </div>
+{% endif %}
 <!-- Add form container -->
 <div class="container container-width container-spacing">
     <div class="row">

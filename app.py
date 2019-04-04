@@ -292,9 +292,15 @@ def add_dish():
 """ Adds a new dish to MongoDB """
 @app.route('/insert_dish', methods=['POST'])
 def insert_dish():
-    dish = request.form.to_dict()
-    dishes.insert_one(dish)
-    return redirect(url_for('all_dishes'))
+    the_dish = request.form.get('dish_type')
+    if dishes.find_one({'dish_type': {'$regex': the_dish, '$options': 'i'}}) is None:
+        new_dish = {'dish_type': the_dish}
+        dishes.insert_one(new_dish)
+        return redirect(url_for('all_dishes'))
+    else: 
+        new_dish = False
+        return render_template('adddish.html', new_dish = new_dish, cuisines=cuisines.find(), 
+                dishes=dishes.find(), users=users.find(), allergens=allergens.find())
  
 """ Displays form to edit a dish """    
 @app.route('/edit_dish/<dish_id>')
