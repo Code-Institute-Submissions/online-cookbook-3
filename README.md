@@ -177,9 +177,6 @@ All tests were carried out manually. Testing process was as follows:
 * Click on *Delete* icon and verify that recipe is deleted and user is redirected to
   *My Recipes* page.
 
-###### Favourite Recipes
-
-###### Logout
 
 ##### Dev Tools
 ##### HTML and CSS validator

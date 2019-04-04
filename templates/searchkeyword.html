@@ -57,25 +57,21 @@
         <!-- Title/Author -->
         <span class="card-title activator grey-text text-darken-4">{{recipe.recipe_title}}<i class="material-icons right">more_vert</i></span>
         <span class="small-text">by <strong>{{recipe.recipe_author_name}}</strong></span>
-        <div>
         <!-- Upvotes/Favourites -->
         <div class="card-icons">
           <div class="col s6 left-align">
-            {% if session.username %}
               <form action="{{url_for('recipe_upvotes', recipe_id=recipe._id, title= recipe.recipe_title, author= recipe.recipe_author_name, username=session.username)}}" method="POST">
+                {% if session.username %}
                 <button class="btn-upvote waves-effect waves-blue btn-flat" type="submit" name="counter" value={{recipe.upvotes}}>
                   <i class="material-icons brown-text tooltipped" data-position="bottom" data-tooltip="Upvote me">thumb_up</i>
                 </button>
-              </form>
-              <div class="upvotes">{{recipe.upvotes}}</div>
               {% else %}
-              <form>
                 <button class="btn-upvote waves-effect waves-lime btn-flat disabled" type="submit" name="counter" value={{recipe.upvotes}}>
                   <i class="material-icons deep-orange-text text-darken-4 tooltipped" data-position="bottom" data-tooltip="Upvote me">thumb_up</i>
                 </button>
+                {% endif %}
               </form>
               <div class="upvotes">{{recipe.upvotes}}</div>
-            {% endif %}
             </div>
             <div class="col s6 right-align">
             {% if session.username %}
@@ -106,7 +102,6 @@
           <p>{{recipe.recipe_short_description}}</p>
         </div>
       </div>
-    </div>
   {% endfor %}
 </div>
 

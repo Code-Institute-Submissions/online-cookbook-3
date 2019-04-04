@@ -1,12 +1,21 @@
 {% extends 'base.html' %}{% block content %}
-<h4 class="heading">Add Cuisine</h4>
-<div class="container">
+<!-- Heading -->
+<h4 class="heading center heading-spacing">Add Cuisine</h4>
+<!-- Alert messages -->
+{% if new_cuisine == False %}
+    <div class="container center">
+        <h5 class="red-text text-darken-4">Oops, there is an error!</h5>
+        <p>Sorry this category name already exists. Please try a new category name.</p>
+    </div>
+{% endif %}
+<!-- Add form container -->
+<div class="container container-width container-spacing">
     <div class="row">
         <form action="{{url_for('insert_cuisine')}}" method="POST" class="col s12">
             <div class="row">
                 <div class="input-field col s12">
-                <input placeholder="Enter cuisine name" name="cuisine_name" type="text" class="validate" required>
-                <label for="recipe_title">New Cuisine</label>
+                    <input placeholder="Enter cuisine name" name="cuisine_name" type="text" class="validate" required>
+                    <label for="recipe_title">New Cuisine</label>
                 </div>
             </div>
             <div class="row">
