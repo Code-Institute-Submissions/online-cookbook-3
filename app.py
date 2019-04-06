@@ -181,9 +181,11 @@ def edit_recipe(recipe_id):
 """ Send form data to update recipe in MongoDB """
 @app.route('/update_recipe/<recipe_id>/<upvotes>', methods=["POST"])
 def update_recipe(recipe_id, upvotes):
+    this_recipe=recipes.find({'_id': ObjectId(recipe_id)})
     recipes.update( {'_id': ObjectId(recipe_id)},
     {
-        'upvotes': int(upvotes), 
+        'upvoted_by_users': this_recipe.upvoted_by_users,
+        'upvotes': this_recipe.upvotes, 
         'recipe_author_name': session['username'],
         'recipe_title':request.form.get('recipe_title'),
         'recipe_short_description':request.form.get('recipe_short_description'),
@@ -203,7 +205,7 @@ def update_recipe(recipe_id, upvotes):
 """ Insert new recipe to recipes collection in MongoDB """   
 @app.route('/insert_recipe', methods=['POST'])
 def insert_recipe():
-    doc ={'recipe_author_name': session['username'], "upvotes": 0}
+    doc ={'recipe_author_name': session['username'], "upvotes": 0, "upvoted_by_users":[]}
     data = request.form.items()
     all_ingred = request.form.getlist('ingred')
     all_steps = request.form.getlist('steps')
@@ -483,7 +485,10 @@ def recipe_upvotes(recipe_id, title, author, username):
     {'upvoted_recipes': (recipe_id, title)}]}) is None and author.lower() != username.lower():
         recipes.update(
             {'_id': ObjectId(recipe_id)},
-            {'$inc': {"upvotes": 1}})
+            {
+                '$push': {"upvoted_by_users": username},
+                '$inc': {"upvotes": 1}
+            })
         users.update(
             {'username': username},
             {'$push': {'upvoted_recipes': (recipe_id, title)}})
