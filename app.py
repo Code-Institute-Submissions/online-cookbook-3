@@ -231,8 +231,14 @@ def delete_recipe(recipe_id):
 """ Displays all cuisines in MongoDB """
 @app.route('/all_cuisines')
 def all_cuisines():
+    all_cuisines=[]
+    for cuisine in cuisines.find():
+        cuisine_count = recipes.find({'cuisine_name': cuisine['cuisine_name']}).count()
+        all_cuisines.append({cuisine['cuisine_name'] : cuisine_count})
+        print(all_cuisines)
     return render_template("allcuisines.html", cuisines=cuisines.find().sort([("cuisine_name", 1)]), 
-            dishes=dishes.find(), recipes=recipes.find(), users=users.find(), allergens=allergens.find())
+            dishes=dishes.find(), recipes=recipes.find(), users=users.find(), allergens=allergens.find(),
+            all_cuisines=all_cuisines)
 
 """ Displays form to add new cuisine """
 @app.route('/add_cuisine')
@@ -356,6 +362,7 @@ def delete_dish(dish_id):
     else: 
         dishes.remove({'_id': ObjectId(dish_id)})
         return redirect(url_for('all_dishes'))  
+
 
 
 """ Search by Cuisine """  

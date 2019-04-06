@@ -14,12 +14,14 @@
 <!-- Cuisine names container -->
 <div class="row">
     {% set _stub = cuisines.rewind() %}
-    {% for cuisine in cuisines %}
+    {% for cuisine in all_cuisines %}
         <div class="col s12 m4">
             <!-- Cuisine name -->
             <div class="card-panel blue-grey lighten-5 row">
                 <div class="col s6">
-                    <span class="name">{{cuisine.cuisine_name}}</span>
+                    {% for k,v in cuisine.items() %}
+                    <span class="name">{{k}} ({{v}})</span>
+                    {% endfor %}
                 </div>
             <!-- Edit cuisine -->
                 <div class="col s2 offset-s2">
