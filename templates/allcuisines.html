@@ -3,27 +3,32 @@
 <!-- Heading -->
 <h4 class="heading center heading-spacing">All Cuisines</h4>
 
-<!-- Alert messages -->
-<!--{% if delete_cuisine == False %}
-    <div class="container center">
-        <h5 class="red-text text-darken-4">Oops, there is an error!</h5>
-        <p>Sorry this category name cannot be deleted. A category name can only me deleted if it contains no recipe.</p>
-    </div>
-{% endif %}-->
-
 <!-- Cuisine names container -->
 <div class="row">
     {% set _stub = cuisines.rewind() %}
     {% for cuisine in all_cuisines %}
+        {% for k,v in cuisine.items() %}
         <div class="col s12 m4">
             <!-- Cuisine name -->
             <div class="card-panel blue-grey lighten-5 row">
                 <div class="col s6">
-                    {% for k,v in cuisine.items() %}
                     <span class="name">{{k}} ({{v}})</span>
-                    {% endfor %}
                 </div>
+                {% if v != 0 %}
             <!-- Edit cuisine -->
+                <div class="col s2 offset-s2">
+                    <a href="{{url_for('edit_cuisine', cuisine_id = cuisine._id)}}" class="disabled waves-effect waves-light grey-text">
+                        <i class="material-icons">edit</i>
+                    </a>
+                 </div>
+            <!-- Delete cuisine -->
+                <div class="col s2">   
+                    <a href="{{url_for('delete_cuisine', cuisine_id = cuisine._id)}}" class="disabled waves-effect waves-light grey-text">
+                        <i class="material-icons">delete</i>
+                    </a>
+                </div>
+                {% else %}
+                <!-- Edit cuisine -->
                 <div class="col s2 offset-s2">
                     <a href="{{url_for('edit_cuisine', cuisine_id = cuisine._id)}}" class="waves-effect waves-light yellow-text text-darken-4">
                         <i class="material-icons">edit</i>
@@ -35,8 +40,10 @@
                         <i class="material-icons">delete</i>
                     </a>
                 </div>
+                {% endif %}
             </div>
         </div>
+        {% endfor %}
     {% endfor %}
 </div>
 

@@ -235,7 +235,6 @@ def all_cuisines():
     for cuisine in cuisines.find():
         cuisine_count = recipes.find({'cuisine_name': cuisine['cuisine_name']}).count()
         all_cuisines.append({cuisine['cuisine_name'] : cuisine_count})
-        print(all_cuisines)
     return render_template("allcuisines.html", cuisines=cuisines.find().sort([("cuisine_name", 1)]), 
             dishes=dishes.find(), recipes=recipes.find(), users=users.find(), allergens=allergens.find(),
             all_cuisines=all_cuisines)
@@ -301,7 +300,11 @@ def delete_cuisine(cuisine_id):
 """ Displays all dishes existing in MongoDB """ 
 @app.route('/all_dishes')
 def all_dishes():
-    return render_template("alldishes.html", cuisines=cuisines.find(), 
+    all_dishes=[]
+    for dish in dishes.find():
+        dish_count = recipes.find({'dish_type': dish['dish_type']}).count()
+        all_dishes.append({dish['dish_type'] : dish_count})
+    return render_template("alldishes.html", cuisines=cuisines.find(), all_dishes=all_dishes,
             dishes=dishes.find().sort([("dish_type", 1)]), users=users.find(), allergens=allergens.find())
 
 """ Displays form to add a new dish """
