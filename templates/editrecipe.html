@@ -9,7 +9,7 @@
             <span class="small-text red-text text-darken-4">All fields are required.</span>
         </p>
         <!-- Recipe form -->
-        <form action="{{url_for('update_recipe', recipe_id =recipe._id)}}" method="POST" class="recipe-form">
+        <form action="{{url_for('update_recipe', recipe_id =recipe._id, upvotes=recipe.upvotes)}}" method="POST" class="recipe-form">
             <!-- Title -->
             <div class="row">
                 <div class="input-field col s12">

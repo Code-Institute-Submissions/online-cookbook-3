@@ -10,11 +10,11 @@
                     {% if session.username %}
                         {% if session.username in recipe.fav_by_users %}
                             <a href="{{url_for('remove_fav_recipe', username = session.username, recipe_id=recipe._id, title = recipe.recipe_title)}}">
-                                <i class="fav-icon material-icons red-text text-accent-4 tooltipped" data-position="bottom" data-tooltip="Added to favourite recipes">favorite_border</i>
+                                <i class="fav-icon material-icons red-text text-accent-4 tooltipped" data-position="bottom" data-tooltip="Added to favourite recipes">favorite</i>
                             </a>
                         {% else %}
                             <a href="{{url_for('add_fav_recipe', username = session.username, recipe_id=recipe._id, title = recipe.recipe_title)}}">
-                                <i class="material-icons right red-text text-accent-4 tooltipped" data-position="bottom" data-tooltip="Add to favourites">favorite_border</i>
+                                <i class="material-icons right red-text text-accent-4 tooltipped" data-position="bottom" data-tooltip="Add to favourites">favorite</i>
                             </a>
                         {% endif %}
                         {% endif %}

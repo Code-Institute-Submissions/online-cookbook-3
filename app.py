@@ -6,7 +6,7 @@ from bson.objectid import ObjectId
 
 app = Flask(__name__)
 app.config["MONGO_DBNAME"] = 'online cookbook'
-app.config["MONGO_URI"] = 'mongodb://admin1:pB1SqahV@ds125945.mlab.com:25945/recipes'
+app.config["MONGO_URI"] =  os.environ.get("MONGO_URI", 'mongodb://localhost')
 app.config['SECRET_KEY'] = os.urandom(24) 
 mongo = PyMongo(app)
 
@@ -21,6 +21,16 @@ allergens = mongo.db.allergens
 @app.route('/')
 def index():
     return render_template("index.html")
+
+@app.route('/signin')
+def signin():
+    signin = True
+    return render_template("index.html", signin=signin)
+
+@app.route('/signup')
+def signup():
+    signin = False
+    return render_template("index.html", signin=signin)    
 
 """ Check data submitted via Registration form """
 @app.route('/register', methods=['POST'])
@@ -78,16 +88,18 @@ def my_recipes(username, num):
         total_my_recipes=my_recipes.count()
     total_pages = range(1, math.ceil(total_my_recipes/8) + 1)
     skip_num = 8 * (int(num)-1)
+    recipes_per_page = my_recipes.skip(skip_num).limit(8).sort([("upvotes", -1)])
     if total_my_recipes <= 8:
         page_count = total_my_recipes
     elif (int(num) * 8) < total_my_recipes:
         page_count = int(num) * 8
     else:
-        page_count = int(num) * 8 - total_my_recipes
+        page_count = total_my_recipes - skip_num
     return render_template("myrecipes.html", recipes=recipes.find(), dishes=dishes.find(), 
                     cuisines=cuisines.find(), allergens=allergens.find(), my_recipes=my_recipes, 
                     users=users.find(), total_pages=total_pages, num=num, skip_num=skip_num, 
-                    page_count=page_count, total_my_recipes=total_my_recipes)    
+                    page_count=page_count, total_my_recipes=total_my_recipes,
+                    recipes_per_page=recipes_per_page)    
 
 """ Add favourite recipes page """
 @app.route('/add_fav_recipes/<username>/<recipe_id>/<title>')
@@ -109,19 +121,21 @@ def remove_fav_recipe(username, recipe_id, title):
 def fav_recipes(username, num):
     this_user=users.find_one({'username': username})
     fav_recipe_count = len(this_user['fav_recipes']) 
-    fav_recipes = recipes.find({'fav_recipes': username})
+    fav_recipes = recipes.find({'fav_by_users': username})
     total_pages = range(1, math.ceil(fav_recipe_count/8) + 1)
     skip_num = 8 * (int(num)-1)
+    recipes_per_page = fav_recipes.skip(skip_num).limit(8).sort([("upvotes", -1)])
     if fav_recipe_count <= 8:
         page_count = fav_recipe_count
     elif (int(num) * 8) < fav_recipe_count:
         page_count = int(num) * 8
     else:
-        page_count = int(num) * 8 - fav_recipe_count
-    return render_template("favrecipes.html", recipes=recipes.find().sort([("upvotes", -1)]), 
+        page_count = fav_recipe_count - skip_num
+    return render_template("favrecipes.html", recipes=recipes.find(), 
             dishes=dishes.find(), cuisines=cuisines.find(), fav_recipe_count = fav_recipe_count,
             total_pages=total_pages, num=num, skip_num=skip_num, page_count=page_count, 
-            users=users.find(), allergens=allergens.find(), this_user=this_user)    
+            users=users.find(), allergens=allergens.find(), this_user=this_user, 
+            recipes_per_page=recipes_per_page)    
     
 
 """ Home page displaying all uploaded recipes """
@@ -130,14 +144,14 @@ def all_recipes(num):
     total_recipes=recipes.find().count()
     total_pages = range(1, math.ceil(total_recipes/8) + 1)
     skip_num = 8 * (int(num)-1)
-    recipes_per_page = recipes.find().skip(skip_num).limit(8)
+    recipes_per_page = recipes.find().skip(skip_num).limit(8).sort([("upvotes", -1)])
     if total_recipes <= 8:
         page_count = total_recipes
     elif (int(num) * 8) < total_recipes:
         page_count = int(num) * 8
     else:
-        page_count = int(num) * 8 - total_recipes
-    return render_template("home.html", recipes=recipes.find().sort([("upvotes", -1)]),
+        page_count = total_recipes - skip_num 
+    return render_template("home.html", recipes=recipes.find(),
             dishes=dishes.find(), cuisines=cuisines.find(), users=users.find(), 
             allergens=allergens.find(), total_pages=total_pages, skip_num=skip_num, 
             num=num, page_count=page_count, recipes_per_page=recipes_per_page, 
@@ -165,10 +179,11 @@ def edit_recipe(recipe_id):
             users=users.find())
 
 """ Send form data to update recipe in MongoDB """
-@app.route('/update_recipe/<recipe_id>', methods=["POST"])
-def update_recipe(recipe_id):
+@app.route('/update_recipe/<recipe_id>/<upvotes>', methods=["POST"])
+def update_recipe(recipe_id, upvotes):
     recipes.update( {'_id': ObjectId(recipe_id)},
     {
+        'upvotes': int(upvotes), 
         'recipe_author_name': session['username'],
         'recipe_title':request.form.get('recipe_title'),
         'recipe_short_description':request.form.get('recipe_short_description'),
@@ -216,8 +231,8 @@ def delete_recipe(recipe_id):
 """ Displays all cuisines in MongoDB """
 @app.route('/all_cuisines')
 def all_cuisines():
-    return render_template("allcuisines.html", cuisines=cuisines.find(), dishes=dishes.find(),
-            recipes=recipes.find(), users=users.find(), allergens=allergens.find())
+    return render_template("allcuisines.html", cuisines=cuisines.find().sort([("cuisine_name", 1)]), 
+            dishes=dishes.find(), recipes=recipes.find(), users=users.find(), allergens=allergens.find())
 
 """ Displays form to add new cuisine """
 @app.route('/add_cuisine')
@@ -281,7 +296,7 @@ def delete_cuisine(cuisine_id):
 @app.route('/all_dishes')
 def all_dishes():
     return render_template("alldishes.html", cuisines=cuisines.find(), 
-            dishes=dishes.find(), users=users.find(), allergens=allergens.find())
+            dishes=dishes.find().sort([("dish_type", 1)]), users=users.find(), allergens=allergens.find())
 
 """ Displays form to add a new dish """
 @app.route('/add_dish')
@@ -321,7 +336,7 @@ def update_dish(dish_id):
         edit_dish = False
         return render_template('editdish.html', edit_dish=edit_dish, dish=dish,
                 cuisines=cuisines.find(), dishes=dishes.find(), recipes=recipes.find(),
-                allergens=allergens.find())
+                allergens=allergens.find(), users=users.find())
     else:
         dishes.update({'_id': ObjectId(dish_id)}, {'dish_type': request.form.get('dish_type')})
         return redirect(url_for('all_dishes'))  
@@ -356,7 +371,7 @@ def search_cuisine(cuisine_name, num):
     elif (int(num) * 8) < cuisine_count:
         page_count = int(num) * 8
     else:
-        page_count = int(num) * 8 - cuisine_count
+        page_count = cuisine_count - skip_num
     return render_template('searchcuisine.html', recipes_per_page = recipes_per_page, 
             num=num, cuisine_name = cuisine_name,  skip_num=skip_num, total_pages=total_pages, 
             page_count=page_count, count = cuisine_count, cuisines=cuisines.find(), 
@@ -375,7 +390,7 @@ def search_dish(dish_type, num):
     elif (int(num) * 8) < dish_count:
         page_count = int(num) * 8
     else:
-        page_count = int(num) * 8 - dish_count
+        page_count = dish_count - skip_num
     return render_template('searchdish.html', dish_type=dish_type, num=num, 
             total_pages=total_pages, page_count=page_count, skip_num=skip_num, 
             recipes_per_page=recipes_per_page, count = dish_count, dishes=dishes.find(), 
@@ -394,7 +409,7 @@ def search_author(author_name, num):
     elif (int(num) * 8) < author_count:
         page_count = int(num) * 8
     else:
-        page_count = int(num) * 8 - author_count
+        page_count = author_count - skip_num
     return render_template('searchauthor.html', total_pages=total_pages, 
             author_name=author_name, recipes_per_page=recipes_per_page, num=num, 
             skip_num=skip_num, page_count=page_count, count = author_count, 
@@ -414,7 +429,7 @@ def search_allergen(allergen_name, num):
     elif (int(num) * 8) < allergen_count:
         page_count = int(num) * 8
     else:
-        page_count = int(num) * 8 - allergen_count
+        page_count = allergen_count - skip_num
     return render_template('searchallergen.html', num=num, allergen_name=allergen_name, 
             total_pages = total_pages, skip_num=skip_num, page_count=page_count, 
             recipes_per_page=recipes_per_page, count=allergen_count, dishes=dishes.find(), 
@@ -445,7 +460,7 @@ def search_keyword(keyword, num):
     elif (int(num) * 8) < keyword_count:
         page_count = int(num) * 8
     else:
-        page_count = int(num) * 8 - keyword_count
+        page_count = keyword_count - skip_num
     return render_template('searchkeyword.html', total_pages = total_pages, num=num, 
             keyword=keyword, recipes_per_page=recipes_per_page, skip_num=skip_num, 
             page_count=page_count, count = keyword_count, dishes=dishes.find(), 

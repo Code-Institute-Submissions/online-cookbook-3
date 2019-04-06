@@ -43,7 +43,8 @@
                         <li><a href="#" class="dropdown-button nav-item" data-activates="categories1"> Manage Categories</a></li>
                         <li><a href="#" class="dropdown-button nav-item user-dropdown" data-activates="user-options1"><i class="fas fa-user lime-text"></i><span class="capitalize">Welcome,</span><span class="lime-text"> {{session.username}}</span></a></li> 
                         {% else %}
-                        <li><a href="{{url_for('index')}}" class="nav-item"> Login</a></li>
+                        <li><a href="{{url_for('signin')}}" class="nav-item">Sign in </a></li>
+                        <li><a href="{{url_for('signup')}}" class="nav-item">Sign up</a></li>
                         {% endif %}
                     </ul>
                     <ul id="dishes2" class="dropdown-content">
@@ -77,7 +78,8 @@
                         <li><a href="{{url_for('add_recipe')}}" class="nav-item">Add recipe</a></li>
                         <li><a href="#!" class="dropdown-button nav-item" data-activates="categories2">Manage Categories</a></li>
                         {% else %}
-                        <li><a href="{{url_for('index')}}" class="nav-item">Login</a></li>
+                        <li><a href="{{url_for('signin')}}" class="nav-item">Sign in </a></li>
+                        <li><a href="{{url_for('signup')}}" class="nav-item">Sign up</a></li>
                         {% endif %}
                         <li><a class="dropdown-button waves-effect waves-light pink-text text-lighten-2" data-activates="dishes2">Dish Types <i class="material-icons right  pink-text text-lighten-2">arrow_drop_down</i></a></li>
                         <li><a class="dropdown-button waves-effect waves-light pink-text text-lighten-2" data-activates="cuisines2">Cuisines <i class="material-icons right pink-text text-lighten-2">arrow_drop_down</i></a></li>
@@ -154,12 +156,12 @@
             $('select').material_select();
             var delete_icon = '<i class="material-icons">delete</i></a></div></div>';
             var ingredient_field = `<div class="row new-ingredient"> <div class="input-field col s10 m11">
-                    <input type="text" name="ingred" class="validate">
+                    <input type="text" name="ingred" class="validate" required>
                     <label>Ingredient(s)</label></div>
                     <div class="col s2 m1"><a class="btn-floating waves-effect waves-light red" id="delete_ingredient"> 
                    ${delete_icon}`;
             var step_field = `<div class="row new-step"> <div class="input-field col s10 m11">
-                    <textarea name="steps" class="materialize-textarea" class="validate"></textarea>
+                    <textarea name="steps" class="materialize-textarea" class="validate" required></textarea>
                     <label>Step(s)</label></div>
                     <div class="col s2 m1"><a class="btn-floating waves-effect waves-light red" id="delete_step"> 
                    ${delete_icon}`;

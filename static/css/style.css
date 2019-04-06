@@ -72,6 +72,9 @@
 .fav-icon {
     transform: translateY(30%);
 }
+.fav-icon-center {
+    padding-right: 13px;
+}
 .btn-recipe-card {
     width: 100%;
     word-spacing: 2px;

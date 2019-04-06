@@ -4,12 +4,12 @@
 <h4 class="center heading heading-spacing">All Dish Types</h4>
 
 <!-- Alert messages -->
-{% if delete_dish == False %}
+<!--{% if delete_dish == False %}
     <div class="container center">
         <h5 class="red-text text-darken-4">Oops, there is an error!</h5>
         <p>Sorry this category name cannot be deleted. A category name can only me deleted if it contains no recipe.</p>
     </div>
-{% endif %}
+{% endif %}-->
 
 <!-- Dish names container -->
 <div class="row">
@@ -23,6 +23,7 @@
                 </div>
             <!-- Edit dish -->
                 <div class="col s3 ">
+                    
                     <a href="{{url_for('edit_dish', dish_id = dish._id)}}" class="waves-effect waves-light yellow-text text-darken-4">
                         <i class="material-icons">edit</i>
                     </a>
