@@ -107,7 +107,7 @@ def add_fav_recipe(username, recipe_id, title):
     if username is not None:
         users.update({'username': username}, {'$push': {'fav_recipes': [recipe_id, title]}})
         recipes.update({'_id': ObjectId(recipe_id)}, {'$push': {'fav_by_users': username}})
-        return redirect(url_for('fav_recipes', username=username, num=1))
+        return redirect(request.referrer)
 
 """ Remove favourite recipes page """
 @app.route('/remove_fav_recipes/<username>/<recipe_id>/<title>')
@@ -115,7 +115,7 @@ def remove_fav_recipe(username, recipe_id, title):
     if username is not None:
         users.update({'username': username}, {'$pull': {'fav_recipes': [recipe_id, title]}})
         recipes.update({'_id': ObjectId(recipe_id)}, {'$pull': {'fav_by_users': username}})
-        return redirect(url_for('fav_recipes', username=username, num=1))       
+        return redirect(request.referrer)       
 
 @app.route('/fav_recipes/<username>/page:<num>')
 def fav_recipes(username, num):
@@ -142,15 +142,15 @@ def fav_recipes(username, num):
 @app.route('/all_recipes/page:<num>')
 def all_recipes(num):
     total_recipes=recipes.find().count()
-    total_pages = range(1, math.ceil(total_recipes/8) + 1)
-    skip_num = 8 * (int(num)-1)
-    recipes_per_page = recipes.find().skip(skip_num).limit(8).sort([("upvotes", -1)])
-    if total_recipes <= 8:
+    total_pages = range(1, math.ceil(total_recipes/5) + 1)
+    skip_num = 5 * (int(num)-1)
+    recipes_per_page = recipes.find().skip(skip_num).limit(5).sort([("upvotes", -1)])
+    if total_recipes <= 5:
         page_count = total_recipes
-    elif (int(num) * 8) < total_recipes:
-        page_count = int(num) * 8
+    elif (skip_num + 5) <= total_recipes:
+        page_count = skip_num + 5
     else:
-        page_count = total_recipes - skip_num 
+        page_count = total_recipes
     return render_template("home.html", recipes=recipes.find(),
             dishes=dishes.find(), cuisines=cuisines.find(), users=users.find(), 
             allergens=allergens.find(), total_pages=total_pages, skip_num=skip_num, 
@@ -479,7 +479,7 @@ def search_keyword(keyword, num):
             cuisines=cuisines.find(), users=users.find(), allergens=allergens.find())
 
 """ Function to upvote a recipe """
-@app.route('/recipe_upvotes/<recipe_id>/<author>/<title>/<username>', methods=["POST"])
+@app.route('/recipe_upvotes/<recipe_id>/<author>/<title>/<username>', methods=["GET", "POST"])
 def recipe_upvotes(recipe_id, title, author, username):
     if users.find_one({'$and':[{'username': {'$regex': username, '$options': 'i'}},
     {'upvoted_recipes': (recipe_id, title)}]}) is None and author.lower() != username.lower():
@@ -492,7 +492,8 @@ def recipe_upvotes(recipe_id, title, author, username):
         users.update(
             {'username': username},
             {'$push': {'upvoted_recipes': (recipe_id, title)}})
-    return redirect(url_for('all_recipes', num=1))
+        
+    return redirect(request.referrer)
 
 
         
