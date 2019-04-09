@@ -237,8 +237,8 @@ def all_cuisines():
     for cuisine in cuisines.find():
         cuisine_count = recipes.find({'cuisine_name': cuisine['cuisine_name']}).count()
         all_cuisines.append({cuisine['cuisine_name'] : cuisine_count})
-    return render_template("allcuisines.html", cuisines=cuisines.find().sort([("cuisine_name", 1)]), 
-            dishes=dishes.find(), recipes=recipes.find(), users=users.find(), allergens=allergens.find(),
+    return render_template("allcuisines.html", cuisines=cuisines.find(), dishes=dishes.find(), 
+           recipes=recipes.find(), users=users.find(), allergens=allergens.find(),
             all_cuisines=all_cuisines)
 
 """ Displays form to add new cuisine """
@@ -307,7 +307,7 @@ def all_dishes():
         dish_count = recipes.find({'dish_type': dish['dish_type']}).count()
         all_dishes.append({dish['dish_type'] : dish_count})
     return render_template("alldishes.html", cuisines=cuisines.find(), all_dishes=all_dishes,
-            dishes=dishes.find().sort([("dish_type", 1)]), users=users.find(), allergens=allergens.find())
+            dishes=dishes.find(), users=users.find(), allergens=allergens.find())
 
 """ Displays form to add a new dish """
 @app.route('/add_dish')
