@@ -21,7 +21,8 @@
     {% if session.username %}
     <div class="row section section-padding">
         <div class="col s3 center">
-            {% if session.username in recipe.fav_by_users %}
+            {% if session.username %}
+                {% if session.username.lower() in recipe.fav_by_users %}
               <a href="{{url_for('remove_fav_recipe', username = session.username, recipe_id=recipe._id, title = recipe.recipe_title)}}">
                 <i class="material-icons icons red-text text-accent-1 tooltipped" data-position="bottom" data-tooltip="Remove from favourites">favorite</i>
               </a>
@@ -31,6 +32,7 @@
                 <i class="material-icons icons red-text text-accent-4 tooltipped" data-position="bottom" data-tooltip="Add to favourites">favorite</i>
               </a>
               <div class="grey-text text-darken-1">Add</div>
+            {% endif %}
           {% endif %}
         </div>
         
@@ -52,32 +54,29 @@
         </div>
         <div class="col s3 center valign-wrapper">
             {% if session.username %}
-                 {% if session.username in recipe.upvoted_by_users %}
-                 <form class="tooltipped" data-position="bottom" data-tooltip="Already upvoted">
-                 <button class="disabled btn-flat" type="submit" name="counter" value={{recipe.upvotes}}>
-                  <i class="material-icons icons upvote-icon grey-text text-darken-1">thumb_up</i>
-                  </button>
-                  <div class="upvote-num grey-text text-darken-1">{{recipe.upvotes}}</div>
-                  </form>
-                  
+                {% if session.username.lower() in recipe.upvoted_by_users %}
+                     <form class="tooltipped" data-position="bottom" data-tooltip="Already upvoted">
+                     <button class="disabled btn-flat" type="submit" name="counter" value={{recipe.upvotes}}>
+                      <i class="material-icons icons upvote-icon grey-text text-darken-1">thumb_up</i>
+                      </button>
+                      <div class="upvote-num grey-text text-darken-1">{{recipe.upvotes}}</div>
+                      </form>
                   {% else %}
-                   <form action="{{url_for('recipe_upvotes', recipe_id=recipe._id, title= recipe.recipe_title, author= recipe.recipe_author_name, username=session.username)}}" method="POST">
-                  <button class="btn-flat" type="submit" name="counter" value={{recipe.upvotes}}>
-                  <i class="material-icons icons upvote-icon brown-text text-darken-3 tooltipped" data-position="bottom" data-tooltip="Upvote this recipe">thumb_up</i>
-                  </button>
-                  <div class="upvote-num grey-text text-darken-1">{{recipe.upvotes}}</div>
-                  </form>
-                  
+                       <form action="{{url_for('recipe_upvotes', recipe_id=recipe._id, title= recipe.recipe_title, author= recipe.recipe_author_name, username=session.username)}}" method="POST">
+                      <button class="btn-flat" type="submit" name="counter" value={{recipe.upvotes}}>
+                      <i class="material-icons icons upvote-icon brown-text text-darken-3 tooltipped" data-position="bottom" data-tooltip="Upvote this recipe">thumb_up</i>
+                      </button>
+                      <div class="upvote-num grey-text text-darken-1">{{recipe.upvotes}}</div>
+                      </form>
                   {% endif %}
-                  {% else %}
+            {% else %}
                   <form>
                     <button class="btn-flat disabled" type="submit" name="counter" value={{recipe.upvotes}}>
                     <i class="material-icons icons upvote-icon grey-text">thumb_up</i>
                   </button>
                   <div class="upvote-num grey-text text-darken-1">{{recipe.upvotes}}</div>
                   </form>
-                  
-              {% endif %}
+          {% endif %}
         </div>
     </div>
     {% endif %}

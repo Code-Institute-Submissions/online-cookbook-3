@@ -105,23 +105,23 @@ def my_recipes(username, num):
 @app.route('/add_fav_recipes/<username>/<recipe_id>/<title>')
 def add_fav_recipe(username, recipe_id, title):
     if username is not None:
-        users.update({'username': username}, {'$push': {'fav_recipes': [recipe_id, title]}})
-        recipes.update({'_id': ObjectId(recipe_id)}, {'$push': {'fav_by_users': username}})
+        users.update({'username': {'$regex': username, '$options': 'i'}}, {'$push': {'fav_recipes': [recipe_id, title]}})
+        recipes.update({'_id': ObjectId(recipe_id)}, {'$push': {'fav_by_users': username.lower()}})
         return redirect(request.referrer)
 
 """ Remove favourite recipes page """
 @app.route('/remove_fav_recipes/<username>/<recipe_id>/<title>')
 def remove_fav_recipe(username, recipe_id, title):
     if username is not None:
-        users.update({'username': username}, {'$pull': {'fav_recipes': [recipe_id, title]}})
-        recipes.update({'_id': ObjectId(recipe_id)}, {'$pull': {'fav_by_users': username}})
+        users.update({'username':{'$regex': username, '$options': 'i'}}, {'$pull': {'fav_recipes': [recipe_id, title]}})
+        recipes.update({'_id': ObjectId(recipe_id)}, {'$pull': {'fav_by_users': {'$regex': username, '$options': 'i'}}})
         return redirect(request.referrer)       
 
 @app.route('/fav_recipes/<username>/page:<num>')
 def fav_recipes(username, num):
-    this_user=users.find_one({'username': username})
+    this_user=users.find_one({'username': {'$regex': username, '$options': 'i'}})
     fav_recipe_count = len(this_user['fav_recipes']) 
-    fav_recipes = recipes.find({'fav_by_users': username})
+    fav_recipes = recipes.find({'fav_by_users': username.lower()})
     total_pages = range(1, math.ceil(fav_recipe_count/8) + 1)
     skip_num = 8 * (int(num)-1)
     recipes_per_page = fav_recipes.skip(skip_num).limit(8).sort([("upvotes", -1)])
@@ -486,11 +486,11 @@ def recipe_upvotes(recipe_id, title, author, username):
         recipes.update(
             {'_id': ObjectId(recipe_id)},
             {
-                '$push': {"upvoted_by_users": username},
+                '$push': {"upvoted_by_users": username.lower()},
                 '$inc': {"upvotes": 1}
             })
         users.update(
-            {'username': username},
+            {'username': {'$regex': username, '$options': 'i'}},
             {'$push': {'upvoted_recipes': (recipe_id, title)}})
         
     return redirect(request.referrer)
