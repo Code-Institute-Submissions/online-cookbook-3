@@ -164,6 +164,30 @@ nav .brand-logo {
 }
 
 /*----------------------------------------------------------------  Recipe */
+/*.upvotes {
+    padding-left: 3px;
+    transform: translateY(-30%);
+}
+.fav-icon {
+    transform: translateY(30%);
+}
+.fav-icon-center {
+    padding-right: 13px;
+}*/
+.upvote-form {
+    display: inline-block;
+}
+.upvote-num {
+    transform: translateY(-10%);
+    font-size: 17px;
+}
+.icons {
+    font-size: 30px;
+}
+.btn-flat .upvote-icon {
+    font-size: 26px;
+    padding-left: 3px;
+}
 .icon-height {
     transform: translateY(30%);
     padding-right: 10px;
