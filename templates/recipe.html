@@ -19,7 +19,7 @@
         </div>
     </div>
     {% if session.username %}
-    <div class="row section section-padding lime lighten-5">
+    <div class="row section section-padding">
         <div class="col s3 center">
             {% if session.username in recipe.fav_by_users %}
               <a href="{{url_for('remove_fav_recipe', username = session.username, recipe_id=recipe._id, title = recipe.recipe_title)}}">
