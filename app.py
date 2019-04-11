@@ -1,5 +1,4 @@
-import os
-import math
+import os, math
 from flask import Flask, render_template, redirect, url_for, request, session
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId

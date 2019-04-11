@@ -1,7 +1,7 @@
 # Online Cookbook
 This website is my third Milestone project in Full Stack web developer course run by Code Institute. 
 It is designed to serve as an online recipe book for the users where they can view, favourite and upvote other recipes. Moreover, they can
-add their own recipe.
+add, edit and delete their own recipes.
 
 ## UX
 #### User Stories
