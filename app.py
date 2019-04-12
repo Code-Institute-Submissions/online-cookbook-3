@@ -410,7 +410,7 @@ def search_dish(dish_type, num):
 """ Search by authors """
 @app.route('/search_author/<author_name>/page:<num>')
 def search_author(author_name, num):
-    author_result = recipes.find({'recipe_author_name': author_name}).sort([("upvotes", -1)])
+    author_result = recipes.find({'recipe_author_name': {'$regex': author_name, '$options': 'i'}}).sort([("upvotes", -1)])
     author_count = author_result.count()
     total_pages = range(1, math.ceil(author_count/8) + 1)
     skip_num = 8 * (int(num)-1)
