@@ -261,9 +261,9 @@ def insert_cuisine():
                 allergens=allergens.find())
  
 """ Displays form to edit cuisine """    
-@app.route('/edit_cuisine/<cuisine_id>')
-def edit_cuisine(cuisine_id):
-    cuisine=cuisines.find_one({"_id": ObjectId(cuisine_id)})
+@app.route('/edit_cuisine/<cuis_name>')
+def edit_cuisine(cuis_name):
+    cuisine=cuisines.find_one({'cuisine_name': cuis_name})
     return render_template('editcuisine.html', cuisines=cuisines.find(), dishes=dishes.find(), 
             users=users.find(), allergens=allergens.find(), cuisine=cuisine)    
 
@@ -285,17 +285,17 @@ def update_cuisine(cuisine_id):
         return redirect(url_for('all_cuisines'))  
 
 """ Removes a cuisine from MongoDB """
-@app.route('/delete_cuisine/<cuisine_id>')
-def delete_cuisine(cuisine_id):
+@app.route('/delete_cuisine/<cuis_name>')
+def delete_cuisine(cuis_name):
     distinct_cuisines = recipes.distinct('cuisine_name')
-    this_cuisine = cuisines.find_one({'_id': ObjectId(cuisine_id)})
+    this_cuisine = cuisines.find_one({'cuisine_name': cuis_name})
     if this_cuisine['cuisine_name'] in distinct_cuisines:
         delete_cuisine = False
         return render_template('allcuisines.html', delete_cuisine=delete_cuisine, 
                 dishes=dishes.find(), cuisines=cuisines.find(), users=users.find(),
                 allergens=allergens.find())
     else: 
-        cuisines.remove({'_id': ObjectId(cuisine_id)})
+        cuisines.remove({'cuisine_name': cuis_name})
         return redirect(url_for('all_cuisines'))  
      
 """ Displays all dishes existing in MongoDB """ 
@@ -328,11 +328,11 @@ def insert_dish():
                 dishes=dishes.find(), users=users.find(), allergens=allergens.find())
  
 """ Displays form to edit a dish """    
-@app.route('/edit_dish/<dish_id>')
-def edit_dish(dish_id):
+@app.route('/edit_dish/<dish_type>')
+def edit_dish(dish_type):
     return render_template('editdish.html', dishes=dishes.find(), recipes=recipes.find(), 
             users=users.find(), cuisines=cuisines.find(), allergens=allergens.find(),
-            dish = dishes.find_one({"_id": ObjectId(dish_id)}), )    
+            dish = dishes.find_one({"dish_type": dish_type}), )    
 
 """ Send form data to update the dish in MongoDB """ 
 @app.route('/update_dish/<dish_id>', methods=["POST"])
@@ -354,17 +354,17 @@ def update_dish(dish_id):
         
 
 """ Remove the dish in MongoDB """ 
-@app.route('/delete_dish/<dish_id>')
-def delete_dish(dish_id):
+@app.route('/delete_dish/<dish_type>')
+def delete_dish(dish_type):
     distinct_dishes = recipes.distinct('dish_type')
-    this_dish = dishes.find_one({'_id': ObjectId(dish_id)})
+    this_dish = dishes.find_one({'dish_type': dish_type})
     if this_dish['dish_type'] in distinct_dishes:
         delete_dish = False
         return render_template('alldishes.html', delete_dish=delete_dish, 
                 cuisines=cuisines.find(), dishes=dishes.find(), recipes=recipes.find(),
                 users=users.find(), allergens=allergens.find())
     else: 
-        dishes.remove({'_id': ObjectId(dish_id)})
+        dishes.remove({'dish_type': dish_type})
         return redirect(url_for('all_dishes'))  
 
 

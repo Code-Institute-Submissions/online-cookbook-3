@@ -1,6 +1,7 @@
 # Online Cookbook
-This website is my third Milestone project in Full Stack web developer course run by Code Institute. 
-It is designed to serve as an online recipe book for the users where they can view, favourite and upvote other recipes. Moreover, they can
+This website is my third Milestone project in Full Stack web developer course run by [Code Institute](https://codeinstitute.net/). 
+
+It is designed to serve as an online recipe book for the users where they can view, favourite and upvote recipes. Moreover, they can
 add, edit and delete their own recipes.
 
 ## Database Schema
@@ -9,8 +10,10 @@ two factors:
 * information to display on the website
 * queries required to display that information
 
-Some queries were easy to foresee and others came into light later on during the process of development. 
-As a result, the database kept evolving over time. For example, it was decided to change the look of *favourite* 
+Some queries were easy to foresee and others came into light during the development process. 
+As a result, the database kept evolving over time. 
+
+For example, it was decided to change the look of *favourite* 
 and *thumbs up* icon for the users who have already favourited or upvoted a recipe. As a result of this need, 
 fields like 'fav_by_users' and 'upvoted_by_users' were added to the database.
 
@@ -19,7 +22,7 @@ Final database schema diagram can be found in the folder **Database Schema > dbs
 The final database schema consists of five collections recipes, users, allergens, cuisines and dishes. Details
 of each field is given below:
 
-###### Recipes
+##### Recipes
 
     Recipes collection includes following fields:
     
@@ -35,13 +38,13 @@ of each field is given below:
     * allergen_name (List of all the allergens contained in the recipe)
     * cuisine_name (Cuisine name e.g. English)
     * dish_type (Type of dish e.g. Starter)
-    * recipe_ingredients (List of all ingredients with their measurements required for recipe)
+    * recipe_ingredients (List of all ingredients with their measurements required for the recipe)
     * recipe_steps (List of all steps for making the recipe)
-    * upvotes (Number of upvotes for recipes)
+    * upvotes (Number of upvotes for the recipe)
     * upvoted_by_users (List of usernames who upvoted the recipe)
     * fav_by_users (List of usernames who favourited the recipe)
 
-###### Users
+##### Users
 
     Users collection includes following fields:
     
@@ -52,21 +55,21 @@ of each field is given below:
     * upvoted_recipes (List of recipe id's and title upvoted by user)
     * fav_recipes (List of recipe id's and title favourited by user)
   
-###### Dishes
+##### Dishes
 
     Dishes collection includes following fields:
     
     * _id (ID of the dish type)
     * dish_type (Type of dish e.g. Starter)
     
-###### Cuisines
+##### Cuisines
 
     Cuisines collection includes following fields:
     
     * _id (ID of the cuisine name)
     * cuisine_name (Cuisine name e.g. English)
 
-###### Allergens
+##### Allergens
 
     Allergens collection includes following fields:
     
@@ -83,148 +86,178 @@ is quite different to the design in wireframe.
 
 [Materializecss](http://archives.materializecss.com/0.100.2/) framework version 0.100.2 was used to design the website. 
 
-###### Register/Login Page
-The [tabs](http://archives.materializecss.com/0.100.2/tabs.html) structure of materializecss was used to design sign in
-and sign up forms. Placeholders are used for each input field.
+[Font awesome icons](https://fontawesome.com/icons) was used for some icons that were not available in materializecss icons.
 
-For good user experience, users are not forced to register to visit the website. They can explore the website as a guest user. 
-As a guest user, they have access to view recipes but do not have the privilege to upvote a recipe or add their own recipe until 
-they become a registered user.
+##### Register/Login Page
+Materailizecss [tabs](http://archives.materializecss.com/0.100.2/tabs.html) structure was used for sign in and sign up forms. 
 
-###### Navigation
+For good user experience, following features were taken into consideration:
+* placeholders are used for each input field
+* users are not forced to register and can explore the website as a guest user
+* only registered users have the privilege to upvote a recipe or add their own recipe 
 
+##### Navigation
 Materializecss [Navbar](http://archives.materializecss.com/0.100.2/navbar.html#right) is used for navigation.
-For good user experience:
-* [Mobile Collapse Button](http://archives.materializecss.com/0.100.2/navbar.html#mobile-collapse) for mobile view
-* [Dropdown Menu](http://archives.materializecss.com/0.100.2/navbar.html#navbar-dropdown) used for categories for filtering all recipes based on that category
-* [Search bar](http://archives.materializecss.com/0.100.2/navbar.html#search-docs) used for search by keywords
-* *Welcome, username* is displayedfor registered users.
-* On clicking, *Welcome, username* registered user has option to go to *My recipes*, *Favourite recipes* and *Logout*
-* Sign in and Sign up is displayed for guest users.
-* Clicking, on *sign in* takes the user to login page with *sign in* tab active.
-* Clicking on *sign up* takes the user to login page with *sign up* tab active
 
-###### Home Page
+For good user experience, following features were taken into consideration:
+* [mobile Collapse Button](http://archives.materializecss.com/0.100.2/navbar.html#mobile-collapse) is used for mobile view
+* [dropdown Menu](http://archives.materializecss.com/0.100.2/navbar.html#navbar-dropdown) is used for dish types, cuisines, author and allergens in navigation bar, for filtering recipes based on that category.
+* [search bar](http://archives.materializecss.com/0.100.2/navbar.html#search-docs) is added for filtering recipes using keyword(s)
+* 'welcome, *username*' is displayed for registered users.
+* on clicking 'Welcome, *username*', registered users has the option to go to *My recipes*, *Favourite recipes* or *Logout*
+* sign in and sign up is displayed for guest users.
+* clicking, on *sign in* takes the guest user to login page with *sign in* tab active.
+* clicking on *sign up* takes the guest user to login page with *sign up* tab active
+
+##### Home Page
 Home page displays all available recipes on the website.
-For good user experience following features are added:
+
+For good user experience, following features were taken into consideration:
 * [pagination](http://archives.materializecss.com/0.100.2/pagination.html) is used
-* maximum 8 recipes are displayed per page
-* range of recipes displayed from the total number is shown on each page
-* Materializecss [card](http://archives.materializecss.com/0.100.2/cards.html#reveal) are used to display recipes
-* All recipes are sorted according to number of upvotes in descending order
-* Favourite and upvote icon displayed to save the recipe as favourite recipe or upvote a recipe (for registered users only)
-* Clicking on *View the recipe* takes the user to page with detailed view of recipe.
-* Page is made responsive by allowing four recipes per row on desktop view, two per row on tablets and one per row on mobile.
+* maximum of 8 recipes are displayed per page
+* total number of recipes is displayed
+* range of recipes on the page is displayed
+* materializecss [card](http://archives.materializecss.com/0.100.2/cards.html#reveal) are used for each recipe display
+* favourite and upvote icons displayed
+* recipes are sorted in descending order of upvotes
+* page is made responsive by showing four recipes per row on desktop view, two per row on tablets and one per row on mobile.
 
-###### Add a Recipe
-For good user experience, following features are added:
-* Easy to follow format of form
-* Placeholders are used to indicate what information should be entered in the input field
-* Indicated that all fields are required
+##### Add a Recipe
+For good user experience, following features were taken into consideration:
+* easy to follow form format
+* placeholders are used for each input field
+* informed user that all fields are required
+* dynamically add or remove input field for ingredients and steps
 
-###### Edit a Recipe
-For good user experience, following features are added:
-* features in *Add a recipe* applies here as well
-* input fields are populated to display user existing information of recipe
+##### Edit a Recipe
+For good user experience, following features were taken into consideration:
+* features in 'Add a recipe' applies here as well
+* prepopulated input and select fields with existing information about recipe
 
-###### Manage Categories
-For good user experience, following features are added:
-* Display number of recipes in a category
-* Add/Edit/delete new category
-* Disallow user to add/edit/delete a recipe if it is not empty
+##### Manage Categories
+For good user experience, following features were taken into consideration:
+* display number of recipes in each category
+* add a new category
+* edit or delete an empty category only
+* page is made responsive by showing three categories per row on desktop view, two per row on tablets 
+  and one per row on mobile.
 
-###### Recipe Page
-For good user experience, following features are added:
-* Allow user to edit, delete, upvote and favourite a recipe
-* Display important recipe information e.g. ingredients, method, cook time, number of upvotes etc
-* Display to the user if they have already upvoted the recipe
-* Display to the user is they have already favourited the recipe
-* Allow user to remove the recipe from favourites by clicking icon again
-* Tooltip is used to display the icon function and status.
+##### Recipe Page
+For good user experience, following features were taken into consideration:
+* display important recipe information e.g. ingredients, method, cook time, number of upvotes etc
+* allow user to upvote and favourite a recipe
+* allow user to edit or delete their own recipe
+* display to the user if they have already upvoted the recipe
+* display to the user if they have already favourited the recipe
+* allow user to remove the recipe from favourites by clicking icon again
+* tooltip is used to display the icon function and status.
 
-#### User Stories
+##### My Recipes
+For good user experience, following features were taken into consideration:
+* allow user to see all recipes added by them
+* for design consistency, materializecss [card](http://archives.materializecss.com/0.100.2/cards.html#reveal) are used for each recipe display
 
-###### User Story 1
+##### Favourite recipes
+For good user experience, following features were taken into consideration:
+* allow user to see their favourite recipes in one place
+* for design consistency, materializecss [card](http://archives.materializecss.com/0.100.2/cards.html#reveal) are used for each recipe display
+
+## User Stories
+
+##### User Story 1
 I can visit the website as a guest user.
 
-###### User Story 2
+##### User Story 2
 I can sign up and then sign in as a registered user.
 
-###### User Story 3
+##### User Story 3
 I get an error message explaining me why I am unable to sign in or sign up.
 
-###### User Story 4
+##### User Story 4
 I am able to log out.
 
-###### User Story 5
+##### User Story 5
 I am able to add, edit or delete a recipe.
 
-###### User Story 6
-I am unable to edit or delete other user's recipes.
+##### User Story 6
+Only I can edit or delete my recipes.
 
-###### User Story 7
+##### User Story 7
 I am able to upvote other users recipes but not my own recipes.
 
-###### User Story 8
+##### User Story 8
 I am unable to upvote a recipe more than once.
 
-###### User Story 9
+##### User Story 9
 I am able to add and remove recipe from my favourite recipes.
 
-###### User Story 10
+##### User Story 10
 I am able to see all recipes added by me.
 
-###### User Story 11
-I am able to see all recipes on the website.
+##### User Story 11
+I am able to see all recipes available on the website.
 
-###### User Story 12
+##### User Story 12
 I am able to see details of a recipe.
 
-###### User Story 13
+##### User Story 13
 I am able to filter through the recipes based on some category.
 
-###### User Story 14
+##### User Story 14
 I am able to filter through the recipes based on some keywords.
 
-###### User Story 15
+##### User Story 15
 I am able to see the total number of recipes in a category.
 
-###### User Story 16
+##### User Story 16
 I am able to add new dish type or cuisine name.
 
-###### User Story 17
+##### User Story 17
 I am unable to delete or edit a non-empty dish type or cuisine name.
 
-###### User Story 18
+##### User Story 18
 I am able to use the website on my mobile or tablet.
 
 
 ## Features
 Following features are used to satisfy the needs of all users:
-* User 1 can visit the website as a guest user by just clicking CONTINUE button on login page.
-* User 2 can use Sign Up form to register and then Sign In form to sign in as a regsitered user.
-* User 3 can see the error message displayed in following scenarios:
-  * SIGN UP - entering existing username will throw an error message
-  * SIGN IN - entering incorrect username or/and password will throw an error message
-* User 4 can log out by clicking *Welcome, username* and choosing option *logout*.
-* User 5 can click on *Add a recipe* and fill in the form to add recipe. To edit or delete a recipe, user 5
-  can click on *View the recipe* on added recipe card. Then on recipe page, they can click edit or delete button
-  to edit or delete recipe.
-* No user is allowed to edit or delete someone else's recipe, which satisfy needs of User 6.
-* All users can upvote each others recipes but not their own, which satisfy needs of User 7.
-* All users can upvote a recipe once only, which satisfy needs of User 8.
-* All users can add or remove a recipe from their favourite recipes by clicking the *favourite* icon, which satisfy needs of User 9.
-* All users can go to *My recipes* and see the list of all recipes uploaded by them. This satisfy needs of User 10.
-* All users can go to home page by clicking on *Home* or *My Cookbook* and see the list of all recipes. This satisfy needs of User 11.
-* All users can click on *View the recipe* on recipe card and go to the page with recipe details. This satisfy needs of User 12.
-* All users can filter through the recipes by clicking on *Dish Types*, *Cuisines*, *Author* or *Allergens* and then selecting the category
-  that they want to base their search on. This satisfy needs of User 13.
-* All users can enter keyword(s) in search bar in the navigation to filter recipes by keywords. This satisfy needs of User 14.
-* All pages with recipe display shows the users total number of recipes, range of recipes displayed and page number (if more than one). 
-  This satisfy needs of User 15.
-* All users can add a new dish type or cuisine name. This satisfy needs of User 16.
-* All users can edit or delete an empty dish type or cuisine name. This satisfy needs of User 17.
-* Website is responsive so all users can use it on mobile and tablets. This satisfy needs of User 18.
+
+    1.  Website can be visited as a guest user by just clicking CONTINUE button on login page.
+        This satisfy the needs of user 1.
+    2.  Sign In and Sign Up forms are available on login page. This satisfy the needs of user 2.
+    3.  An error message is displayed in the following scenarios:
+        1.  Sign Up Form - entering existing username will throw an error message
+        2.  Sign In Form - entering incorrect username or/and password will throw an error message
+        This satisfy the needs of user 3.
+    4.  By clicking 'Welcome, username', users can choose option 'logout' to log out of website.
+        This satisfy the needs of user 4.
+    5.  By clicking 'Add a recipe' and then filling in the form, registered users can add a recipe. 
+        To edit or delete recipe, users can click edit or delete button on the recipe view page.
+        This satisfy the needs of user 5.
+    6.  No user is allowed to edit or delete someone else's recipe. This satisfy the needs of user 6.
+    7.  Registered users can upvote each others recipes but not their own. This satisfy the needs of 
+        user 7.
+    8.  Registered users can upvote a recipe only once. This satisfy the needs of user 8. 
+    9.  Registered users can add or remove a recipe from their favourite recipes by clicking the 
+        'favourite' icon. This satisfy the needs of user 9.
+    10. Registered users can go to 'My recipes' and see the list of all recipes uploaded by them. This 
+        satisfy the needs of user 10.
+    11. Users can go to the home page by clicking on 'Home' or 'My Cookbook' and see the list of all 
+        recipes. This satisfy the needs of user 11.
+    12. Users can click on 'View the recipe' on recipe card and go to the page with recipe details. 
+        This satisfy the needs of user 12.
+    13. Users can filter through the recipes by clicking on 'Dish Types', 'Cuisines', 'Author' or 
+        'Allergens' and then selecting the category that they want to base their search on. This satisfy 
+         the needs of user 13.
+    14. Users can enter keyword(s) in search bar in the navigation to filter recipes by keywords. 
+        This satisfy the needs of user 14.
+    15. All pages with recipe display shows the users total number of recipes, range of recipes 
+        displayed and page number (if more than one). This satisfy the needs of user 15.
+    16. Registered users can add a new dish type or cuisine name. This satisfy the needs of user 16.
+    17. Regsitered users are not allowed to edit or delete a non-empty dish type or cuisine name. 
+        This satisfy the needs of user 17.
+    18. Website is responsive so all users can use it on mobile and tablets. This satisfy the needs of 
+        user 18.
 
 ## Limitations
 Following features are highly desirable and should be added to the website:
@@ -232,6 +265,7 @@ Following features are highly desirable and should be added to the website:
 * Instead of upvotes *Five star rating* with detailed reviews.
 * *Add a recipe* form can be improved to upload a picture from computer.
 * Pictures added to website are made same size.
+* More than one picture is allowed to be added.
 * *Add a recipe* form can be improved by adding measurement units field separately.
 
 
@@ -241,10 +275,14 @@ The website is designed using following technologies:
 - HTML
 - CSS
 - JavaScript
-- Jquery
-- Font Awesome library
-- Materialize
-- Pencil
+- [Python](https://www.python.org/)
+- [Flask](http://flask.pocoo.org/)
+- [Mongodb](https://mlab.com)
+- [Jquery](https://jquery.com/download/)
+- [Font Awesome library](https://fontawesome.com/icons)
+- [Pencil](https://pencil.evolus.vn/)
+- [Materializecss 0.100.2](http://archives.materializecss.com/0.100.2/)  
+
 
 ## Testing
 All tests were carried out manually. Testing process was as follows:
@@ -392,16 +430,64 @@ All tests were carried out manually. Testing process was as follows:
 * Click on *Delete* icon and verify that recipe is deleted and user is redirected to
   *My Recipes* page.
 
-##### Dev Tools
-##### HTML and CSS validator
-##### Cross Browser Testing
-###### Accessibility / Screen Reader Application Testing
-## Deployment
-## Credits
-#### Content
+##### Responsiveness Testing:
+Dev Tools, iphone X and iPad were used to test the appearance of website on mobile/tablet screen size.  Following features were verified:
+* A *Menu* icon appears on the left corner and all menu items disappear.
+* On clicking *Menu* icon, side navigation slides in with all menu items.
+* In login page, container widths change responsively.
+* Materializecss cards for displaying recipes, cuisine names and dish types rearrange responsively.
+* Images changes responsively.
 
+##### HTML and CSS validator
+[HTML](https://validator.w3.org/) and [CSS validators](https://jigsaw.w3.org/css-validator/) were used to validate the code. 
+- HTML validator raised warning to add heading to *Home* section. The warning is ignored as the section does not require a main heading.
+- CSS validator raised numerous warnings for codes in the external libraries used in this project. These warnings are ignored!
+- CSS validator raised numerous 'unknown vendor extension' warnings on code in CSS stylesheet style.css. Prefixes are required for box-shadow, flex and linear-gradient properties to work in old browsers. Hence these warnings are ignored too!
+
+##### Cross Browser Testing
+- [CanIuse.com](https://caniuse.com/)
+    - CanIuse.com website was used to check browser support for CSS codes and use correct prefixes, where required.
+
+- The website was tested to function as expected on following browsers:
+  - Chrome
+  - Firefox
+  - IE 
+  - Edge 
+  - Safari
+  - Samsung A3 internet browser
+
+###### Accessibility / Screen Reader Application Testing
+Wherever possible following things were taken into consideration to make website as accessible as possible:
+* aria-hidden = "true" used for icons
+* label used for form fields
+* alt attribute used in all images
+* aria-label was used for button icons
+
+## Deployment
+##### Content
+- All recipes used in this site are obtained from [allrecipes](http://allrecipes.co.uk/).
+
+##### Media
+- All recipe images used in this site are obtained from [allrecipes](http://allrecipes.co.uk/).
+
+##### Code by others
+- Bug found in materializecss **disabled** class. The class was used to disable left and right chevron in pagination but 
+  only changed colour to grey and was still clickable. Code found [here](https://github.com/Dogfalo/materialize/issues/3835)  
+  solved the issue by setting pointer-events to none.
+- Styling headings with lines before and after were taken from [stackoverflow](https://stackoverflow.com/questions/38212963/how-to-display-a-horizontal-line-before-and-after-a-heading-in-css)
+- [Flask docs](http://flask.pocoo.org/docs/1.0/quickstart/#sessions) was used to create login page backend code.
+- 'Add a recipe' form required dynamically adding and removing form input fields which was taken from [Youtube video](https://www.youtube.com/watch?v=jSSRMC0F6u8)
+- These three sources [flask](http://flask.pocoo.org/snippets/44/), [codementor](https://www.codementor.io/arpitbhayani/fast-and-efficient-pagination-in-mongodb-9095flbqr) and 
+  [stackoverflow](https://stackoverflow.com/questions/8676455/flask-current-page-in-request-variable) greatly helped my understanding in creating pagination.
+- When my for loops didn't work in jinja template, I found solution on [stackoverflow](https://stackoverflow.com/questions/34877236/for-loop-not-working-in-jinja-flask)
+- How to convert strings to integers when passed into jinja template? I found solution on [stackoverflow](https://stackoverflow.com/questions/38857366/integer-gets-converted-to-string-when-passed-into-jinja-template)
+- I wanted to redirect users back to same page after clicking upvote or favourite button icon. I found solution on [stackoverflow](https://stackoverflow.com/questions/14277067/redirect-back-in-flask?noredirect=1&lq=1)
 
 #### Acknowledgements
- 
+- I would like to thank my tutor Antonija Simic for all her help and support during the development of this project.   
+- I would also like to thank other code institute students for sharing their projects which was extremely useful in designing this website. 
+
+
+
 
 
