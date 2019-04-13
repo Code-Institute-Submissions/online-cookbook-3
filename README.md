@@ -465,10 +465,10 @@ Following features were verified:
 * Recipe page rearranges images and texts responsively for different screen sizes.
 
 ##### HTML and CSS validator
-[HTML](https://validator.w3.org/) and [CSS validators](https://jigsaw.w3.org/css-validator/) were used to validate the code. 
-- HTML validator raised warning to add heading to *Home* section. The warning is ignored as the section does not require a main heading.
-- CSS validator raised numerous warnings for codes in the external libraries used in this project. These warnings are ignored!
-- CSS validator raised numerous 'unknown vendor extension' warnings on code in CSS stylesheet style.css. Prefixes are required for box-shadow, flex and linear-gradient properties to work in old browsers. Hence these warnings are ignored too!
+[W3 Validator](https://validator.w3.org/) and [CSS validators](https://jigsaw.w3.org/css-validator/) were used to validate the code. 
+- HTML validator raised no issue or warnings.
+- CSS validator raised warnings for 'unknown vendor extension' in CSS stylesheet. 
+  Prefixes are required for box-shadow to work in old browsers. Hence these warnings are ignored!
 
 ##### Cross Browser Testing
 - [CanIuse.com](https://caniuse.com/)
