@@ -1,5 +1,5 @@
 # Online Cookbook
-This website is my third Milestone project in Full Stack web developer course run by [Code Institute](https://codeinstitute.net/). 
+This [website](https://my-online-cookbook.herokuapp.com/) is my third Milestone project in Full Stack web developer course run by [Code Institute](https://codeinstitute.net/). 
 
 It is designed to serve as an online recipe book for the users where they can view, favourite and upvote recipes. Moreover, they can
 add, edit and delete their own recipes.
@@ -487,9 +487,37 @@ Wherever possible following things were taken into consideration to make website
 * aria-hidden = "true" used for icons
 * label used for form fields
 * alt attribute used in all images
-* aria-label was used for button icons
 
 ## Deployment
+The application was deployed using [Heroku](https://www.heroku.com/).
+
+Following steps were taken to deploy the website:
+1. Created an account in Heroku
+2. Created a new app in Heroku with name **my-online-cookbook**
+3. Connected to heroku by
+    1. using command **heroku login** and then entering heroku credentials (email and password)
+4. Created a remote master branch in herokuapp by entering the following command:
+    1. heroku git:remote -a my-online-cookbook
+5. Created a requirement.txt file: 
+    1. using command sudo pip3 freeze --local > requirements.txt 
+    2. saved it to local git repository
+6. Created a procfile:
+    1. using command echo web: python app.py > Procfile
+    2. saved it to local git repository
+7. Pushed local git repository to heroku by entering the following command:
+    1. git push heroku master
+8. Following command was used to run our application:
+    1. heroku ps:scale web=1
+9. In heroku app, inside the settings, clicked **Config Vars**, and set IP, PORT and environment variable MONGO_URI.
+10. Clicked 'Open app' and the website was up and running.
+
+Heroku app **my-online-cookbook** was created in the beginning of this project but the code was not
+pushed to heroku due to some connection issues which was later resolved. 
+The local repository was pushed to heroku master when the application was fully completed.
+No changes were made to the application other than the following after the final push:
+1. Jinja2==2.10 was changed to Jinja2==2.10.1 in requirements.txt file
+2. README.md file updated
+
 ##### Content
 - All recipes used in this site are obtained from [allrecipes](http://allrecipes.co.uk/).
 
@@ -502,7 +530,7 @@ Wherever possible following things were taken into consideration to make website
   solved the issue by setting pointer-events to none.
 - Styling headings with lines before and after were taken from [stackoverflow](https://stackoverflow.com/questions/38212963/how-to-display-a-horizontal-line-before-and-after-a-heading-in-css)
 - [Flask docs](http://flask.pocoo.org/docs/1.0/quickstart/#sessions) was used to create login page backend code.
-- 'Add a recipe' form required dynamically adding and removing form input fields which was taken from [Youtube video](https://www.youtube.com/watch?v=jSSRMC0F6u8)
+- 'Add a recipe' form required dynamically adding and removing input fields, which was taken from [Youtube video](https://www.youtube.com/watch?v=jSSRMC0F6u8)
 - These three sources [flask](http://flask.pocoo.org/snippets/44/), [codementor](https://www.codementor.io/arpitbhayani/fast-and-efficient-pagination-in-mongodb-9095flbqr) and 
   [stackoverflow](https://stackoverflow.com/questions/8676455/flask-current-page-in-request-variable) greatly helped my understanding in creating pagination.
 - When my for loops didn't work in jinja template, I found solution on [stackoverflow](https://stackoverflow.com/questions/34877236/for-loop-not-working-in-jinja-flask)
@@ -510,7 +538,8 @@ Wherever possible following things were taken into consideration to make website
 - I wanted to redirect users back to same page after clicking upvote or favourite button icon. I found solution on [stackoverflow](https://stackoverflow.com/questions/14277067/redirect-back-in-flask?noredirect=1&lq=1)
 
 #### Acknowledgements
-- I would like to thank my tutor Antonija Simic for all her help and support during the development of this project.   
+- I would like to thank my tutor Antonija Simic for all her help and support during the development of this project. 
+  In particular, for helping me with setting environment variable for MONGO_URI.
 - I would also like to thank other code institute students for sharing their projects which was extremely useful in designing this website. 
 
 
