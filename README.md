@@ -331,13 +331,14 @@ All tests were carried out manually. Testing process was as follows:
 * Click on *Favourite recipes* and verify that all recipes saved as favourite by
   user appears on *Favourite recipes* webpage. (Registered user only)
 * Click on *Logout* and verify that session ends and login page appears.(Registered user only)
-* Click on *Login* and verify that login page appears.(Guest user only)
+* Click on *Sign in* and verify that login page appears with sign in tab active.
+* Click on *Sign up* and verify that login page appears with sign up tab active.
 * Click on *Dish Types*, *Cuisines*, *Authors* or *Allergens* and verify that 
   dropdown menu shows all available dish types, cuisine names, author names and 
   14 main allergens respectively.
 
 ###### All Recipes
-* Verify that page loads with a display of all recipes available on the website.
+* Verify that home page loads with a display of all recipes available on the website.
 * Verify that all recipes are sorted in the descending order of upvotes.
 
 ###### Filtered Recipes
@@ -353,7 +354,7 @@ All tests were carried out manually. Testing process was as follows:
   words in title, ingredients, cuisine name, dish type or author name will appear.
 * Verify that all search results are sorted in the descending order of upvotes.
 
-###### Pagination
+###### Pagination/Search result summary
 * Go to home page and verify that maximum 8 recipes are displayed per page.
 * Carry out any search (using dropdown menu or search field) and verify that 
   maximum 8 recipes are displayed per page for all searches.
@@ -361,8 +362,7 @@ All tests were carried out manually. Testing process was as follows:
   total on the leftmost side of pagination.
 * As a result of search or otherwise, verify that the page always display correct 
   recipes range on the leftmost side of pagination.
-* Verify that previous and next arrow of pagination only appears when page number
-  is greater than one.
+* Verify that pagination only appears when page number is greater than one.
 * Click on previous or next arrow and verify that page display recipes in the 
   previous and next page respectively.
 * Click on previous arrow when first page is active and verify that it is disabled.
@@ -371,26 +371,31 @@ All tests were carried out manually. Testing process was as follows:
 * Click on any page number and verify that active page is shown by pink background.
 
 ###### Recipe cards
-* Verify that all images are responsive.
-* Click on *three vertical dots* and verify that *short recipe description* slides
-  up.
+* Verify that all images are responsive
+* Verify that for guest users only *upvote* icons are displayed on recipe cards
+* Verify that for registered users both *upvote* and *favourite* icons are displayed on recipe card
+* Hover on *thumbs up* icon and verify that tooltip appears stating 'Upvote this recipe'
+  if the recipe is not already upvoted. (Registered user only)
+* Hover on *thumbs up* icon and verify that tooltip appears stating 'Already upvoted'
+  if the recipe is already upvoted. (Registered user only)
+* Hover on *favourite* icon and verify that tooltip appears stating 'Add to favourites'
+  if the recipe is not already in *My favourite recipes*. (Registered user only)
+* Hover on *favourite* icon and verify that tooltip appears stating 'Remove from favourites'
+  if the recipe is already in *My favourite recipes*. (Registered user only)
+* Verify that *favourite* icon label is *Add* if recipe is not in *My favourite recipes*.
+* Verify that *favourite* icon label changes to *Remove* if recipe is in *My favourite recipes*.
+* Click on *favourite* icon and verify that if the recipe is not in *My favourite recipes*,
+  then it is added and vice versa. 
+* Click on *View this Recipe* and verify that webpage with all recipe details appear.
+* Click on *three vertical dots* and verify that *short recipe description* slides  up.
 * Click on *thumbs up* icon and verify that upvotes number is increased only when user:
     * is registered,
     * is not the author of the recipe, and
     * has not already upvoted.
-* Hover on *heart* icon and verify that tooltip appears stating 'Add to favourites'
-  if the recipe is not already in *My favourite recipes*. (Registered user only)
-* Hover on *heart* icon and verify that tooltip appears stating 'Added to favourites'
-  if the recipe is already in *My favourite recipes*. (Registered user only)
-* Click on *heart icon* and verify that if the recipe is not in *My favourite recipes*,
-  then it is added and vice versa. 
-* Verify that *heart icon* status is *save* if recipe is not in *My favourite recipes*.
-* Verify that *heart icon* status changes to *saved* if recipe is in *My favourite recipes*.
-* Click on *View this Recipe* and verify that webpage with all recipe details appear.
 
 
 ##### Add Recipe Page (Registered users only)
-* Click on **Save recipe** button with all or some incomplete fields and verify that 
+* Click on 'Save recipe' button with all or some incomplete fields and verify that 
   an error message (next to the first incomplete field) appears stating, 'Please 
   fill in this field'. Form does not get submitted unless all input fields are filled.
 * Click on *add* icon and verify that an input field for ingredient or method step
@@ -399,44 +404,65 @@ All tests were carried out manually. Testing process was as follows:
 * Verify that at least one ingredient or method step is required to submit the form.
 * Enter image in a format other than url and verify that the form is not submitted
   unless correct url format is entered.
-* Click on **Save recipe** button and verify that user is redirected to home page.
-
-##### Manage Categories (Registered users only)
-###### All Cuisines/ All Dish Types 
-* Click on *Edit* icon and verify that the respective edit page (*Edit Cuisine* or 
-  *Edit Dish Type* ) form appears with the saved value in the input field.
-* Try editing the saved cuisine name or dish type that has at least one recipe 
-  linked to it, click *save changes* and verify that *error* message will appear 
-  stating 'Oops, there is an error! Sorry this category name cannot be edited. A 
-  category name can only be edited if it contains no recipe.'
-* Try editing the Cuisine with no recipe linked to it, click *save changes* and 
-  verify that it is successfully edited.
-* Click *Delete* icon and verify that if at least one recipe is linked to it, 
-  an *error* message will appear stating 'Oops, there is an error! Sorry this 
-  category name cannot be deleted. A category name can only be deleted if it 
-  contains no recipe.'
-* Click *Delete* icon and verify that if at no recipe is linked to it and verify 
-  that it is successfully deleted.
+* When all the fields are filled in, click on 'Save recipe' button and verify that 
+  * user is redirected to *My recipes* page and
+  * new recipe is added to the page
 
 ##### Recipe Details Page 
 * Click on 'View this Recipe' button on any recipe card (either on home page or 
-  any other webpage with recipe cards) and verify that *Edit* and *Delete* icon 
-  only appears if user is the author of recipe. 
-* Click on *Edit* icon and verify that *Edit recipe* form page appears. Verify 
-  that all input fields are filled with the previously saved values.
-* Click on *Save changes* and verify that (if all tests detailed above in 
-  **Add Recipe Page** are satisfied) then recipe is successfully changed and user
-  is redirected to *My Recipes* page.
-* Click on *Delete* icon and verify that recipe is deleted and user is redirected to
-  *My Recipes* page.
+  any other webpage with recipe cards) and verify that recipe page opens with recipe details
+  in it.
+* Verify that *Edit* and *Delete* icon only appears if user is the author of recipe. 
+* Verify that *Favourite* icon only appears if the user is registered.
+* Click on *Edit* icon and verify that *Edit recipe* form page appears. 
+  * Verify that all input fields are prepopulated with the previously saved values.
+  * Verify that all the tests mentioned in *Add Recipe Page* section pass here too.
+  * Click on *Save changes* and verify that 
+    * user is redirected to *My Recipes* page
+    * recipe is successfully changed
+* Click on *Delete* icon and verify that 
+    * user is redirected to *My Recipes* page
+    * recipe is deleted from *My recipes* page and from the website
+* Verify that *favourite* and *upvote* icon pass the tests mentioned in *Recipe cards* section
+
+##### Manage Categories (Registered users only)
+###### All Cuisines/ All Dish Types 
+* Verify that all cuisines (or dish types) are listed with total number of recipes for that
+  category in bracket (e.g. Soup(4) means 'Dish type soup have four recipes')
+* Verify that *Edit* and *Delete* icons only appear next to an empty category.
+* Click on *Edit* icon and verify that the respective edit page (*Edit Cuisine* or 
+  *Edit Dish Type* ) form appears with the saved value in the input field.
+* Edit the cuisine name (or dish type), click *save changes* and verify that user is redirected to 
+  all cuisines (or all dishes) page with changes saved.
+* Click on *Delete* icon and verify that cuisine name or dish type is successfully deleted.
+* Click on *Add Cuisine* (or *Add Dish*) and verify that user is redirected to *Add Cuisine* (or 
+  *Add dish type*) page.
+* Try adding an existing cuisine name (or dish type) in the input field for *New Cuisine* (or *New dish type*), click
+  *Save cuisine* (or *Save dish type*) and verify that error message is displayed 'Oops, there is an error! 
+  Sorry this category name already exists. Please try a new category name.' 
+* Try adding a new cuisine name (or dish type), click *Save cuisine* (or *Save dish type*) and verify that user
+  is redirected to all cuisines (or all dish types) page where the new cuisine (or new dish type) is displayed.
+
+##### Welcome, username (Registered users only)
+###### My recipes 
+* Verify that all recipes displayed on *My recipes* page are current users recipes.
+
+###### Favourite recipes 
+* Verify that all recipes displayed on *Favourite recipes* page are the ones favourited by 
+  the current user.
+
+###### Logout 
+* Click *Logout* and verify that current user session is cleared and user is redirected to login page.
 
 ##### Responsiveness Testing:
-Dev Tools, iphone X and iPad were used to test the appearance of website on mobile/tablet screen size.  Following features were verified:
+Dev Tools, iphone X and iPad were used to test the appearance of website on mobile/tablet screen size.  
+Following features were verified:
 * A *Menu* icon appears on the left corner and all menu items disappear.
 * On clicking *Menu* icon, side navigation slides in with all menu items.
-* In login page, container widths change responsively.
-* Materializecss cards for displaying recipes, cuisine names and dish types rearrange responsively.
-* Images changes responsively.
+* In login page, container widths change responsively for different screen sizes.
+* Materializecss cards for displaying recipes, cuisine names and dish types rearranges responsively for different screen sizes.
+* Images changes responsively for different screen sizes.
+* Recipe page rearranges images and texts responsively for different screen sizes.
 
 ##### HTML and CSS validator
 [HTML](https://validator.w3.org/) and [CSS validators](https://jigsaw.w3.org/css-validator/) were used to validate the code. 

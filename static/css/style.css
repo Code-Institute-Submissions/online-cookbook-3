@@ -1,7 +1,5 @@
 /*------------------------------------------------------------- -Google Fonts */
-
 @import url('https://fonts.googleapis.com/css?family=Aladin|Exo');
-
 /*------------------------------------------------------------- Reusable code */
 /*----- Headings */
 .heading {
@@ -52,7 +50,6 @@
     font-size: 18px;
     word-spacing: 2px;
 }
-
 /*---------------------------------------------------------------- index.html */
 .tabs-spacing {
     margin-bottom: 40px;
@@ -60,6 +57,45 @@
 .container-spacing {
     margin-top: 70px;
     margin-bottom: 70px;
+}
+/*------------------------------------------------------------------- Header */
+nav {
+    background-color: black;
+}
+nav .brand-logo {
+    font-size: 25px;
+    word-spacing: 2px;
+    letter-spacing: 1px;
+    padding-left: 10px;
+    font-family: 'Aladin', cursive;
+}
+.nav-item {
+    text-transform: uppercase;
+    word-spacing: 2px;
+    letter-spacing: 1px;
+    padding: 0 35px;
+    color: #eceff1;
+}
+.fas {
+    font-size: 16px;
+}
+.navbar-fixed { 
+    z-index: 9999; /* To fix side navbar overlay problem - used solution found on */
+                   /* "https://github.com/Dogfalo/materialize/issues/4046" */
+} 
+.filters {
+    background-color: white;
+}
+#search {
+    background-color: #f6f6f6;
+}
+.search-icon {
+    color: lightgrey !important;
+    transform: translateY(-15%);
+}
+.btn-nav{
+    padding: 0 0.5rem;  /* to fit search buttons and search bar on one row */
+    color: #ec576B;
 }
 /*---------------------------------------------------------------- home.html */
 .results-display {
@@ -102,7 +138,6 @@
 .recipe-form {
     margin-top: 100px;
 }
-
 /*----------------------------------------------------------------------------*/
 .fas {
     padding-right: 5px;
@@ -116,54 +151,13 @@
 .capitalize {
     text-transform: capitalize;
 }
-
 /*----------------------------------------------------------------Materialize */
 .disabled {
-    pointer-events: none !important; /* Bug fixed in materialize css class disabled which still worked on click. source: https://github.com/Dogfalo/materialize/issues/3835 */
+    pointer-events: none !important; 
+    /* Bug fixed in materialize css class disabled which still worked on click.*/
+    /* source: https://github.com/Dogfalo/materialize/issues/3835 */
 }
-
-
-
-/*------------------------------------------------------------------- Header */
-nav {
-    background-color: black;
-}
-nav .brand-logo {
-    font-size: 25px;
-    word-spacing: 2px;
-    letter-spacing: 1px;
-    padding-left: 10px;
-    font-family: 'Aladin', cursive;
-}
-.nav-item {
-    text-transform: uppercase;
-    word-spacing: 2px;
-    letter-spacing: 1px;
-    padding: 0 35px;
-    color: #eceff1;
-}
-.fas {
-    font-size: 16px;
-}
-.navbar-fixed { 
-    z-index: 9999; /* To fix side navbar overlay problem - used solution found on "https://github.com/Dogfalo/materialize/issues/4046" */
-} 
-.filters {
-    background-color: white;
-}
-#search {
-    background-color: #f6f6f6;
-}
-.search-icon {
-    color: lightgrey !important;
-    transform: translateY(-15%);
-}
-.btn-nav{
-    padding: 0 0.5rem;  /* to fit search buttons and search bar on one row */
-    color: #ec576B;
-}
-
-/*----------------------------------------------------------------  Recipe */
+/*-------------------------------------------------------------------  Recipe */
 .icons {
     font-size: 25px;
 }

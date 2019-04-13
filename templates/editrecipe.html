@@ -1,15 +1,20 @@
 {% extends 'base.html' %}{% block content %}
+
 <!-- Heading -->
 <h5 class="center heading heading-spacing">Edit Recipe</h5>
+
 <!-- Recipe form container -->
 <div class="container">
     <div class="section">
-    <!-- Instructions -->
+        
+        <!-- Instructions -->
         <p class="left">Edit recipe below.<br>
             <span class="small-text red-text text-darken-4">All fields are required.</span>
         </p>
+        
         <!-- Recipe form -->
         <form action="{{url_for('update_recipe', recipe_id =recipe._id)}}" method="POST" class="recipe-form">
+            
             <!-- Title -->
             <div class="row">
                 <div class="input-field col s12">
@@ -17,6 +22,7 @@
                     <label for="recipe_title">Title</label>
                 </div>
             </div>
+            
             <!-- Short description -->
             <div class="row">
                 <div class="input-field col s12">
@@ -24,6 +30,7 @@
                     <label for="recipe_short_description">Short Description</label>
                 </div>
             </div>
+            
             <!-- Image -->
             <div class="row">
                 <div class="input-field col s12">
@@ -31,6 +38,7 @@
                     <label for="recipe_image_url">Image URL</label>
                 </div>
             </div>
+            
             <!-- Cuisines -->
             <div class="row">
                 <div class="input-field col s12">
@@ -48,6 +56,7 @@
                     <label for="cuisine_name">Cuisine</label>
                 </div>
             </div>
+            
             <!-- Dishes -->
             <div class="row">
                 <div class="input-field col s12">
@@ -65,6 +74,7 @@
                     <label for="dish_type">Dish Type</label>
                 </div>
             </div>
+            
             <!-- Allergens -->
             <div class="row">
                 <div class="input-field col s12">
@@ -82,30 +92,37 @@
                     <label for="allergen_name">Allergens</label>
                 </div>
             </div>
+            
             <div class="row">
-            <!-- Prep Time -->
+                
+                <!-- Prep Time -->
                 <div class="input-field col s6">
                     <input placeholder="in minutes" id="recipe_prep_time" name="recipe_prep_time" type="text" class="validate" value="{{recipe.recipe_prep_time}}" required>
                     <label for="recipe_prep_time">Prep. Time (mins/hrs)</label>
                 </div>
-            <!-- Cook Time -->
+                
+                <!-- Cook Time -->
                 <div class="input-field col s6">
                     <input placeholder="in minutes" id="recipe_cook_time" name="recipe_cook_time" type="text" class="validate" value="{{recipe.recipe_cook_time}}" required>
                     <label for="recipe_cook_time">Cook Time (mins/hrs)</label>
                 </div>
             </div>
+            
             <div class="row">
-            <!-- Total Time -->
+                
+                <!-- Total Time -->
                 <div class="input-field col s6">
                     <input placeholder="in minutes" id="total_time" name="total_time" type="text" class="validate" value="{{recipe.total_time}}" required>
                     <label for="total_time">Total Time (mins/hrs)</label>
                 </div>
+                
                 <!-- Servings -->
                 <div class="input-field col s6">
                     <input placeholder="5" id="recipe_serves" name="recipe_serves" type="text" class="validate" value="{{recipe.recipe_serves}}" required>
                     <label for="recipe_serves">Servings</label>
                 </div>
             </div>
+            
             <!-- Ingredients -->
             <div class="row">
                 <div class="col s12 flow-text">Ingredients</div>
@@ -125,8 +142,8 @@
                     {% else %}
                     <div class="row new-ingredient"> 
                         <div class="input-field col s10 m11">
-                            <input type="text" name="ingred" class="validate" value="{{item}}" required>
-                            <label>Ingredient(s)</label>
+                            <input type="text" name="ingred" id="recipe_ingredients" class="validate" value="{{item}}" required>
+                            <label for="recipe_ingredients">Ingredient(s)</label>
                         </div>
                         <div class="col s2 m1">
                             <a class="btn-floating waves-effect waves-light red" id="delete_ingredient"><i class="material-icons">delete</i></a>
@@ -135,6 +152,7 @@
                     {% endif %}
                 {% endfor %}
             </div>
+            
             <!-- Method -->
             <div class="row">
                 <div class="col s12 flow-text">Method</div>

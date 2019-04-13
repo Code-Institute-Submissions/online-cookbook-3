@@ -1,6 +1,8 @@
 {% extends 'base.html' %}{% block content %}
+
 <!-- Heading -->
 <h5 class="heading center heading-spacing">Add Dish Type</h5>
+
 <!-- Alert messages -->
 {% if new_dish == False %}
     <div class="container center">
@@ -8,14 +10,15 @@
         <p>Sorry this category name already exists. Please try a new category name.</p>
     </div>
 {% endif %}
+
 <!-- Add form container -->
 <div class="container container-width container-spacing">
     <div class="row">
         <form action="{{url_for('insert_dish')}}" method="POST" class="col s12">
             <div class="row">
                 <div class="input-field col s12">
-                <input placeholder="Enter dish type" name="dish_type" type="text" class="validate" required>
-                <label>New Dish</label>
+                <input placeholder="Enter dish type" id="dish_type" name="dish_type" type="text" class="validate" required>
+                <label for="dish_type">New Dish</label>
                 </div>
             </div>
             <div class="row">
